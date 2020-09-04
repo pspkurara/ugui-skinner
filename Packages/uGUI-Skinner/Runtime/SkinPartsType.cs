@@ -18,6 +18,8 @@ namespace Pspkurara.UI.Skinner
 		OutlineColor = 7,
 		BaseMeshEffectEnable = 8,
 		GraphicEnable = 9,
+		
+		TransformScale = 13,
 	}
 
 }

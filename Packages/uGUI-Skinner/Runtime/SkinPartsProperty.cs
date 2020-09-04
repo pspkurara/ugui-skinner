@@ -82,6 +82,11 @@ namespace Pspkurara.UI.Skinner
 		/// </summary>
 		[SerializeField] private List<int> m_IntValues = null;
 
+		/// <summary>
+		/// Vector4を保存
+		/// </summary>
+		[SerializeField] private List<Vector4> m_Vector4Values = null;
+
 		#endregion
 
 		#region プロパティ
@@ -106,6 +111,11 @@ namespace Pspkurara.UI.Skinner
 		/// </summary>
 		public List<int> intValues { get { return m_IntValues; } }
 
+		/// <summary>
+		/// Vector4
+		/// </summary>
+		public List<Vector4> vector4Values { get { return m_Vector4Values; } }
+
 		#endregion
 
 		#region コンストラクタ
@@ -119,6 +129,7 @@ namespace Pspkurara.UI.Skinner
 			m_ColorValues = new List<Color>();
 			m_FloatValues = new List<float>();
 			m_IntValues = new List<int>();
+			m_Vector4Values = new List<Vector4>();
 		}
 
 		/// <summary>
@@ -131,6 +142,7 @@ namespace Pspkurara.UI.Skinner
 			m_ColorValues.AddRange(@base.m_ColorValues);
 			m_FloatValues.AddRange(@base.m_FloatValues);
 			m_IntValues.AddRange(@base.m_IntValues);
+			m_Vector4Values.AddRange(@base.m_Vector4Values);
 		}
 
 		#endregion

@@ -11,6 +11,7 @@ namespace Pspkurara.UI.Skinner
 		public const int Integer = 0;
 		public const float Float = 1f;
 		public const bool Boolean = true;
+		public static readonly Vector4 Vector4 = Vector4.zero;
 
 	}
 

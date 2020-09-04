@@ -32,6 +32,7 @@ namespace Pspkurara.UI.Skinner
 			{ (int)SkinPartsType.OutlineColor,			GetAttribute(typeof(OutlineColor)) },
 			{ (int)SkinPartsType.BaseMeshEffectEnable,	GetAttribute(typeof(BaseMeshEffectEnable)) },
 			{ (int)SkinPartsType.GraphicEnable,			GetAttribute(typeof(GraphicEnable)) },
+			{ (int)SkinPartsType.TransformScale,        GetAttribute(typeof(TransformScale)) },
 		};
 
 		#endregion

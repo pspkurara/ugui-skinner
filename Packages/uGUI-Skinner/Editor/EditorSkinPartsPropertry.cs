@@ -56,6 +56,11 @@ namespace Pspkurara.UI.Skinner
 		public SerializedProperty intValues { get; private set; }
 
 		/// <summary>
+		/// <see cref="SerializedProperty.vector4Value"/>のデータパック
+		/// </summary>
+		public SerializedProperty vector4Values { get; private set; }
+
+		/// <summary>
 		/// 値をプロパティにマップする
 		/// </summary>
 		/// <param name="property">親となるオブジェクト</param>
@@ -65,6 +70,7 @@ namespace Pspkurara.UI.Skinner
 			colorValues = property.FindPropertyRelative("m_ColorValues");
 			floatValues = property.FindPropertyRelative("m_FloatValues");
 			intValues = property.FindPropertyRelative("m_IntValues");
+			vector4Values = property.FindPropertyRelative("m_Vector4Values");
 		}
 
 	}

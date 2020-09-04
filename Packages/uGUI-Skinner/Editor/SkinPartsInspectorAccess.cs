@@ -29,6 +29,7 @@ namespace Pspkurara.UI.Skinner
 			{ typeof(OutlineColor),			CreateInstance<OutlineColorInspector>()			},
 			{ typeof(BaseMeshEffectEnable), CreateInstance<BaseMeshEffectEnableInspector>() },
 			{ typeof(GraphicEnable),        CreateInstance<GraphicEnableInspector>()		},
+			{ typeof(TransformScale),       CreateInstance<TransformScaleInspector>()       },
 		};
 
 		#endregion

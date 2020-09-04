@@ -21,6 +21,7 @@ namespace Pspkurara.UI.Skinner
 		public static readonly GUIContent Graphic = new GUIContent("Graphic");
 		public static readonly GUIContent Material = new GUIContent("Material");
 		public static readonly GUIContent Enabled = new GUIContent("Enabled");
+		public static readonly GUIContent LocalScale = new GUIContent("Local Scale");
 
 	}
 

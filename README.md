@@ -1,11 +1,9 @@
 # ugui-skinner
 It is a library that can easily switch the display pattern of UGUI.
 
-<br><br><br><br>
-
 ## License
 
-* [MIT](https://github.com/pspkurara/ugui-skinner/blob/master/LICENSE)
+* [MIT](https://github.com/pspkurara/ugui-skinner/blob/master/packages/ugui-skinner/LICENSE.md)
 
 ## Author
 

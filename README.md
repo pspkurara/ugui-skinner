@@ -3,7 +3,7 @@ It is a library that can easily switch the display pattern of UGUI.
 
 ## License
 
-* [MIT](https://github.com/pspkurara/ugui-skinner/blob/master/packages/ugui-skinner/LICENSE.md)
+* [MIT](https://github.com/pspkurara/ugui-skinner/blob/master/Packages/uGUI-Skinner/LICENSE.md)
 
 ## Author
 

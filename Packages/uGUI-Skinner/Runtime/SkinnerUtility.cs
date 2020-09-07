@@ -74,6 +74,16 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
+		/// Vector4リストを指定数に合わせて正規化する
+		/// </summary>
+		/// <param name="resetList">初期化対象</param>
+		/// <param name="count">設定したい要素数</param>
+		public static void ResetVector4(List<Vector4> resetList, int count = 0)
+		{
+			ResetList(resetList, count, Vector4.zero);
+		}
+
+		/// <summary>
 		/// リストを指定数に合わせて正規化する
 		/// </summary>
 		/// <typeparam name="T">リストの種類</typeparam>

@@ -4,6 +4,7 @@ using UnityEditor;
 namespace Pspkurara.UI.Skinner
 {
 
+	[SkinPartsInspector(typeof(CanvasGroupAlpha))]
 	internal sealed class CanvasGroupAlphaInspector : SkinPartsOnArrayInspector<CanvasGroup>
 	{
 

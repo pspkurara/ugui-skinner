@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -17,24 +19,21 @@ namespace Pspkurara.UI.Skinner
 		/// スキンパーツの型とインスペクターを紐付ける一覧
 		/// スキンパーツが増えたら随時追加すること
 		/// </summary>
-		private static readonly Dictionary<Type, ISkinPartsInspector> m_SkinPartsInspectors = new Dictionary<Type, ISkinPartsInspector>()
-		{
-			{ typeof(ObjectSetActives),		CreateInstance<ObjectSetActivesInspector>()		},
-			{ typeof(GraphicColor),			CreateInstance<GraphicColorInspector>()			},
-			{ typeof(CanvasGroupAlpha),		CreateInstance<CanvasGroupAlphaInspector>()		},
-			{ typeof(ImageSprite),			CreateInstance<ImageSpriteInspector>()			},
-			{ typeof(RawImageTexture),		CreateInstance<RawImageTextureInspector>()		},
-			{ typeof(GraphicMaterial),		CreateInstance<GraphicMaterialInspector>()		},
-			{ typeof(ShadowColor),			CreateInstance<ShadowColorInspector>()			},
-			{ typeof(OutlineColor),			CreateInstance<OutlineColorInspector>()			},
-			{ typeof(BaseMeshEffectEnable), CreateInstance<BaseMeshEffectEnableInspector>() },
-			{ typeof(GraphicEnable),        CreateInstance<GraphicEnableInspector>()		},
-			{ typeof(TransformScale),       CreateInstance<TransformScaleInspector>()       },
-		};
+		private static readonly Dictionary<Type, ISkinPartsInspector> m_SkinPartsInspectors = CreateSkinPartsInspectorList();
 
 		#endregion
 
 		#region メソッド
+
+		/// <summary>
+		/// 該当属性を持つスキンパーツインスペクタークラスを全取得してリストアップ
+		/// </summary>
+		private static Dictionary<Type, ISkinPartsInspector> CreateSkinPartsInspectorList()
+		{
+			return typeof(SkinPartsInspectorAccess).Assembly.GetTypes()
+				.Where(t => t.GetCustomAttribute<SkinPartsInspectorAttribute>() != null)
+				.ToDictionary(t => t.GetCustomAttribute<SkinPartsInspectorAttribute>().RootType, t => (ISkinPartsInspector)Activator.CreateInstance(t));
+		}
 
 		/// <summary>
 		/// スキンパーツの型に応じたインスペクターを取得する
@@ -44,14 +43,6 @@ namespace Pspkurara.UI.Skinner
 		public static ISkinPartsInspector GetSkinInspector(Type rootType)
 		{
 			return m_SkinPartsInspectors[rootType];
-		}
-
-		/// <summary>
-		/// スキンパーツインスペクターを生成して返す
-		/// </summary>
-		private static ISkinPartsInspector CreateInstance<T>() where T : ISkinPartsInspector
-		{
-			return (ISkinPartsInspector)Activator.CreateInstance(typeof(T));
 		}
 
 		#endregion

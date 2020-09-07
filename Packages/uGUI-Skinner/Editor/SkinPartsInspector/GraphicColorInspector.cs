@@ -4,6 +4,7 @@ using UnityEditor;
 namespace Pspkurara.UI.Skinner
 {
 
+	[SkinPartsInspector(typeof(GraphicColor))]
 	internal sealed class GraphicColorInspector : SkinPartsOnArrayInspector<GameObject>
 	{
 

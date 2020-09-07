@@ -20,24 +20,22 @@ namespace Pspkurara.UI.Skinner
 		/// スキンパーツのIDとクラスを紐付ける一覧
 		/// スキンパーツが増えたら随時追加すること
 		/// </summary>
-		private static readonly Dictionary<int, SkinPartsAttribute> m_SkinParts = new Dictionary<int, SkinPartsAttribute>()
-		{
-			{ (int)SkinPartsType.ObjectsSetActives,		GetAttribute(typeof(ObjectSetActives)) },
-			{ (int)SkinPartsType.GraphicColor,			GetAttribute(typeof(GraphicColor)) },
-			{ (int)SkinPartsType.CanvasGroupAlpha,		GetAttribute(typeof(CanvasGroupAlpha)) },
-			{ (int)SkinPartsType.ImageSprite,			GetAttribute(typeof(ImageSprite)) },
-			{ (int)SkinPartsType.RawImageTexture,		GetAttribute(typeof(RawImageTexture)) },
-			{ (int)SkinPartsType.GraphicMaterial,		GetAttribute(typeof(GraphicMaterial)) },
-			{ (int)SkinPartsType.ShadowColor,			GetAttribute(typeof(ShadowColor)) },
-			{ (int)SkinPartsType.OutlineColor,			GetAttribute(typeof(OutlineColor)) },
-			{ (int)SkinPartsType.BaseMeshEffectEnable,	GetAttribute(typeof(BaseMeshEffectEnable)) },
-			{ (int)SkinPartsType.GraphicEnable,			GetAttribute(typeof(GraphicEnable)) },
-			{ (int)SkinPartsType.TransformScale,        GetAttribute(typeof(TransformScale)) },
-		};
+		private static readonly Dictionary<int, SkinPartsAttribute> m_SkinParts = CreateSkinPartsList();
 
 		#endregion
 
 		#region メソッド
+
+		/// <summary>
+		/// 該当属性を持つスキンパーツクラスを全取得してリストアップ
+		/// </summary>
+		private static Dictionary<int, SkinPartsAttribute> CreateSkinPartsList()
+		{
+			return typeof(SkinPartsAccess).Assembly.GetTypes()
+				.Where(t => t.GetCustomAttribute<SkinPartsAttribute>() != null)
+				.Select(t => t.GetCustomAttribute<SkinPartsAttribute>())
+				.ToDictionary(a => a.Id, a => a);
+		}
 
 		/// <summary>
 		/// スキンパーツIDを元にスキンロジックを生成し返す
@@ -55,7 +53,7 @@ namespace Pspkurara.UI.Skinner
 		/// <returns>スキンパーツID</returns>
 		public static int[] GetAllSkinPartsIds()
 		{
-			return m_SkinParts.Select(d => d.Key).ToArray();
+			return m_SkinParts.Select(d => d.Key).OrderBy(id => id).ToArray();
 		}
 
 		/// <summary>

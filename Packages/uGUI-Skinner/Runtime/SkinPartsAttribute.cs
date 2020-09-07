@@ -3,7 +3,8 @@ using System;
 namespace Pspkurara.UI.Skinner
 {
 
-	public class SkinPartsAttribute : Attribute
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	public sealed class SkinPartsAttribute : Attribute
 	{
 
 		public SkinPartsAttribute(int id, Type rootType, Type logicType)

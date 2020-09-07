@@ -5,6 +5,7 @@ using UnityEngine.UI;
 namespace Pspkurara.UI.Skinner
 {
 
+	[SkinPartsInspector(typeof(ShadowColor))]
 	internal sealed class ShadowColorInspector : SkinPartsOnArrayInspector<Shadow>
 	{
 

@@ -183,16 +183,23 @@ namespace Pspkurara.UI.Skinner
 				{
 					removeArray = true;
 				}
-				if (arrayObj.objectReferenceValue == null || !arrayObj.objectReferenceValue is T)
+				else
 				{
-					removeArray = i >= minArraySize;
+					cleanupCheckedObjects.Add(arrayObj.objectReferenceValue);
 				}
-				cleanupCheckedObjects.Add(arrayObj.objectReferenceValue);
+
+				if (arrayObj.objectReferenceValue == null)
+				{
+					removeArray = true;
+				}
+				if (!(arrayObj.objectReferenceValue is T))
+				{
+					removeArray = true;
+				}
 				if (removeArray)
 				{
 					arrayObj.objectReferenceValue = null;
 					prop.DeleteArrayElementAtIndex(i);
-					continue;
 				}
 			}
 			int listCount = prop.arraySize;

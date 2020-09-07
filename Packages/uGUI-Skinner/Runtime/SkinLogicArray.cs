@@ -38,7 +38,13 @@ namespace Pspkurara.UI.Skinner
 			int objectCount = objects.Count;
 			for (int i = 0; i < objectCount; i++)
 			{
-				if (objects[i]) OnApplyValue(objects[i]);
+				if (objects[i])
+				{
+#if UNITY_EDITOR
+
+#endif
+					OnApplyValue(objects[i]);
+				}
 			}
 		}
 

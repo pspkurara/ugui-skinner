@@ -9,7 +9,7 @@
   "name": "pspkurara.ugui-skinner",
   "repository": "https://github.com/pspkurara/ugui-skinner.git",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "library",
   "dependencies": {
     "com.unity.modules.ui": "1.0.0"

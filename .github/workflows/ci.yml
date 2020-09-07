@@ -62,7 +62,7 @@ jobs:
         README: README.md 
         README_META: README.md.meta 
         README_COPY: rdm.copy 
-        README_META_COPY: rdm.copy 
+        README_META_COPY: rdmmt.copy 
     - name: Create upm git tag
       if: steps.semantic.outputs.new_release_published == 'true'
       run: |

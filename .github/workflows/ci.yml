@@ -51,8 +51,8 @@ jobs:
         PKG_ROOT: Packages/uGUI-Skinner
         CHANGELOG: CHANGELOG.md 
         CHANGELOG_META: CHANGELOG.md.meta 
-        CHANGELOG_COPY: ${{CHANGELOG}}.copy 
-        CHANGELOG_META_COPY: ${{CHANGELOG_META}}.copy 
+        CHANGELOG_COPY: cnglg.copy 
+        CHANGELOG_META_COPY: cnglgm.copy 
     - name: Create upm git tag
       if: steps.semantic.outputs.new_release_published == 'true'
       run: |

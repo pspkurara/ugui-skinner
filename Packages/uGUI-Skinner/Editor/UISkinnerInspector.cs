@@ -41,6 +41,20 @@ namespace Pspkurara.UI
 
 		#endregion
 
+		#region プロパティ
+
+		/// <summary>
+		/// スキンスタイルの総数
+		/// </summary>
+		private int skinLength { get { return skinnerObject.arraySize; } }
+
+		/// <summary>
+		/// 現在選択しているスキンスタイルの番号
+		/// </summary>
+		private int currentStyleIndex { get { return currentStyle.intValue; } set { currentStyle.intValue = value; } }
+
+		#endregion
+
 		#region メソッド
 
 		private void OnEnable()
@@ -62,7 +76,7 @@ namespace Pspkurara.UI
 
 			serializedObject.Update();
 
-			int edittedCurrentStyle = currentStyle.intValue;
+			int edittedCurrentStyle = currentStyleIndex;
 			GUILayout.Label(EditorConst.CurrentSelectStyleTitle);
 			GUILayout.BeginHorizontal();
 			{
@@ -83,13 +97,11 @@ namespace Pspkurara.UI
 
 			SkinnerEditorUtility.DrawLine();
 
-			if (currentStyle.intValue != edittedCurrentStyle)
+			if (currentStyleIndex != edittedCurrentStyle)
 			{
-				foreach (Object t in serializedObject.targetObjects)
-				{
-					UISkinner skinnerObj = t as UISkinner;
-					skinnerObj.SetSkin(Mathf.Clamp(edittedCurrentStyle, 0, skinnerObj.Length - 1));
-				}
+				if (edittedCurrentStyle < 0 || edittedCurrentStyle >= skinnerObject.arraySize) return;
+				currentStyleIndex = edittedCurrentStyle;
+				ApplySkin();
 			}
 
 			for (int skinnerObjectIndex = 0; skinnerObjectIndex < skinnerObject.arraySize; skinnerObjectIndex++)
@@ -128,7 +140,15 @@ namespace Pspkurara.UI
 
 						EditorGUI.indentLevel++;
 
+						EditorGUI.BeginChangeCheck();
 						inspector.DrawInspector(skinnerPartsProperty);
+						if (EditorGUI.EndChangeCheck())
+						{
+							if (skinnerObjectIndex == currentStyle.intValue)
+							{
+								ApplySkin();
+							}
+						}
 
 						EditorGUI.indentLevel--;
 
@@ -150,6 +170,23 @@ namespace Pspkurara.UI
 
 				if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemoveSkinButtonTitle, () => {
 					skinnerObject.DeleteArrayElementAtIndex(skinnerObjectIndex);
+					if (currentStyleIndex >= skinLength)
+					{
+						// スキンがゼロの場合
+						if (skinLength == 0)
+						{
+							// 規定値としてゼロを入れておく
+							currentStyleIndex = 0;
+						}
+						// 設定された番号をスキンの数が下回った場合
+						else
+						{
+							// とりあえずサイズより小さくしておく
+							currentStyleIndex = skinnerObject.arraySize - 1;
+							// 反映
+							ApplySkin();
+						}
+					}
 					serializedObject.ApplyModifiedProperties();
 				})) return;
 				EditorGUILayout.EndHorizontal();
@@ -183,6 +220,18 @@ namespace Pspkurara.UI
 
 		}
 
+		/// <summary>
+		/// 現在のスキンを反映する
+		/// </summary>
+		private void ApplySkin()
+		{
+			foreach (Object t in serializedObject.targetObjects)
+			{
+				UISkinner skinnerObj = t as UISkinner;
+				skinnerObj.SetSkin(Mathf.Clamp(currentStyleIndex, 0, skinLength - 1));
+			}
+		}
+		
 		private void Cleanup()
 		{
 			for (int skinnerObjectIndex = 0; skinnerObjectIndex < skinnerObject.arraySize; skinnerObjectIndex++)

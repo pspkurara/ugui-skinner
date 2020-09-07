@@ -52,7 +52,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="image">設定したいImage</param>
 		/// <param name="sprite">ImageのSprite</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(Image image, Sprite sprite)
+		public static SkinParts CreateSkinParts(Image image, Sprite sprite)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetObjectReference(parts.property.objectReferenceValues, ObjectLength);

@@ -45,7 +45,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="gameObjects">設定したいGameObject</param>
 		/// <param name="isActive">GameObjectのactiveSelf</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(IEnumerable<GameObject> gameObjects, bool isActive)
+		public static SkinParts CreateSkinParts(IEnumerable<GameObject> gameObjects, bool isActive)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetBoolean(parts.property.boolValues, BoolLength);

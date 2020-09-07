@@ -52,7 +52,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="rawImage">設定したいRawImage</param>
 		/// <param name="texture2D">RawImageのTexture</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(RawImage rawImage, Texture2D texture2D)
+		public static SkinParts CreateSkinParts(RawImage rawImage, Texture2D texture2D)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetObjectReference(parts.property.objectReferenceValues, ObjectLength);

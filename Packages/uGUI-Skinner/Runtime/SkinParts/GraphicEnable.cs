@@ -49,7 +49,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="outlines">設定したいGraphic</param>
 		/// <param name="color">Graphicのenabled</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(IEnumerable<Graphic> graphics, bool enabled)
+		public static SkinParts CreateSkinParts(IEnumerable<Graphic> graphics, bool enabled)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetBoolean(parts.property.boolValues, BoolLength);

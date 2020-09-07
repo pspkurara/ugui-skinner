@@ -48,7 +48,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="canvasGroups">設定したいCanvasGroup</param>
 		/// <param name="alpha">CanvasGroupのアルファ</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(IEnumerable<CanvasGroup> canvasGroups, float alpha)
+		public static SkinParts CreateSkinParts(IEnumerable<CanvasGroup> canvasGroups, float alpha)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetFloat(parts.property.floatValues, FloatLength);

@@ -52,7 +52,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="graphic">設定したいGraphic</param>
 		/// <param name="material">GraphicのMaterial</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(Graphic graphic, Material material)
+		public static SkinParts CreateSkinParts(Graphic graphic, Material material)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetObjectReference(parts.property.objectReferenceValues, ObjectLength);

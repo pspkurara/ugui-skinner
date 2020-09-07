@@ -48,7 +48,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="transforms">設定したいTransform</param>
 		/// <param name="localScale">TransformのlocalScale</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(IEnumerable<Transform> transforms, Vector3 localScale)
+		public static SkinParts CreateSkinParts(IEnumerable<Transform> transforms, Vector3 localScale)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetColor(parts.property.colorValues, VectorLength);

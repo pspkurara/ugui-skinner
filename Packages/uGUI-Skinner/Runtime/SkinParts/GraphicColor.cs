@@ -50,7 +50,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="graphics">設定したいGraphic</param>
 		/// <param name="color">Graphicの色</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(IEnumerable<Graphic> graphics, Color color)
+		public static SkinParts CreateSkinParts(IEnumerable<Graphic> graphics, Color color)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetColor(parts.property.colorValues, ColorLength);

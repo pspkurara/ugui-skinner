@@ -49,7 +49,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="shadows">設定したいShadow</param>
 		/// <param name="color">ShadowのeffectColor</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(IEnumerable<Shadow> shadows, Color color)
+		public static SkinParts CreateSkinParts(IEnumerable<Shadow> shadows, Color color)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetColor(parts.property.colorValues, ColorLength);

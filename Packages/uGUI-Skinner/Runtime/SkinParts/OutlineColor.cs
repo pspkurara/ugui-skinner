@@ -49,7 +49,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="outlines">設定したいOutline</param>
 		/// <param name="color">OutlineのeffectColor</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinnerParts(IEnumerable<Outline> outlines, Color color)
+		public static SkinParts CreateSkinParts(IEnumerable<Outline> outlines, Color color)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetColor(parts.property.colorValues, ColorLength);

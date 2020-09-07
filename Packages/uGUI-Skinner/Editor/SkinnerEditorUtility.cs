@@ -171,6 +171,39 @@ namespace Pspkurara.UI.Skinner
 			}
 		}
 
+		public static void CleanObjectReferenceArrayWithFlexibleSize<T>(SerializedProperty prop, int minArraySize = 1, T defaultValue = null) where T : Object
+		{
+			HashSet<Object> cleanupCheckedObjects = new HashSet<Object>();
+			int currentArraySize = prop.arraySize;
+			for (int i = currentArraySize - 1; i >= 0; i--)
+			{
+				var arrayObj = prop.GetArrayElementAtIndex(i);
+				bool removeArray = false;
+				if (cleanupCheckedObjects.Contains(arrayObj.objectReferenceValue))
+				{
+					removeArray = true;
+				}
+				if (arrayObj.objectReferenceValue == null || !arrayObj.objectReferenceValue is T)
+				{
+					removeArray = i >= minArraySize;
+				}
+				cleanupCheckedObjects.Add(arrayObj.objectReferenceValue);
+				if (removeArray)
+				{
+					arrayObj.objectReferenceValue = null;
+					prop.DeleteArrayElementAtIndex(i);
+					continue;
+				}
+			}
+			int listCount = prop.arraySize;
+			for (int i = listCount; i < minArraySize; i++)
+			{
+				prop.InsertArrayElementAtIndex(prop.arraySize);
+				var arrayObj = prop.GetArrayElementAtIndex(i);
+				FieldClean(arrayObj, defaultValue);
+			}
+		}
+
 		public static void CleanObject<T>(SerializedProperty prop, int index, T defaultValue = null) where T : Object
 		{
 			if (prop.GetArrayElementAtIndex(index).objectReferenceValue is T) return;

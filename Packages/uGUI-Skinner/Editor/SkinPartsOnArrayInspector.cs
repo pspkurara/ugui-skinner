@@ -22,7 +22,7 @@ namespace Pspkurara.UI.Skinner
 
 		public void CleanupFields(EditorSkinPartsPropertry property)
 		{
-			SkinnerEditorUtility.CleanArray<T>(property.objectReferenceValues, DefaultArrayLength);
+			SkinnerEditorUtility.CleanObjectReferenceArrayWithFlexibleSize<T>(property.objectReferenceValues, DefaultArrayLength);
 			CleanupFieldsOtherThanObjectReference(property);
 		}
 

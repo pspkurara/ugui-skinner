@@ -40,9 +40,7 @@ namespace Pspkurara.UI.Skinner
 			{
 				if (objects[i])
 				{
-#if UNITY_EDITOR
-
-#endif
+					SkinnerRuntimeEditorUtility.RecordObject(objects[i]);
 					OnApplyValue(objects[i]);
 				}
 			}

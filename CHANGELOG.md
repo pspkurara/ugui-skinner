@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/pspkurara/ugui-skinner/compare/v1.2.0...v1.2.1) (2020-09-07)
+
+
+### Bug Fixes
+
+* Add New Skin Object -> Add New Skin Style ([b532a41](https://github.com/pspkurara/ugui-skinner/commit/b532a418d50884cb232aa3b864e67990d47ebb7c))
+* GraphicColorのインスペクター オブジェクトフィールドのタイプが間違っていたので修正 ([d9f353d](https://github.com/pspkurara/ugui-skinner/commit/d9f353daec58530dd0e6ce8d6d92ef55ef2872de))
+
 # [1.2.0](https://github.com/pspkurara/ugui-skinner/compare/v1.1.3...v1.2.0) (2020-09-07)
 
 

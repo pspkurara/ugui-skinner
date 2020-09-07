@@ -4,6 +4,7 @@ using UnityEditor;
 namespace Pspkurara.UI.Skinner
 {
 
+	[SkinPartsInspector(typeof(ObjectSetActives))]
 	internal sealed class ObjectSetActivesInspector : SkinPartsOnArrayInspector<GameObject>
 	{
 

@@ -4,6 +4,7 @@ using UnityEditor;
 namespace Pspkurara.UI.Skinner
 {
 
+	[SkinPartsInspector(typeof(TransformScale))]
 	internal sealed class TransformScaleInspector : SkinPartsOnArrayInspector<Transform>
 	{
 

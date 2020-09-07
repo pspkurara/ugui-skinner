@@ -5,6 +5,7 @@ using UnityEngine.UI;
 namespace Pspkurara.UI.Skinner
 {
 
+	[SkinPartsInspector(typeof(ImageSprite))]
 	public sealed class ImageSpriteInspector : ISkinPartsInspector
 	{
 		public void CleanupFields(EditorSkinPartsPropertry property)

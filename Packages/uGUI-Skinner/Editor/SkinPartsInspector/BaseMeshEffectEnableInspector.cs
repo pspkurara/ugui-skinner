@@ -1,10 +1,10 @@
-using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 
 namespace Pspkurara.UI.Skinner
 {
 
+	[SkinPartsInspector(typeof(BaseMeshEffectEnable))]
 	internal sealed class BaseMeshEffectEnableInspector : SkinPartsOnArrayInspector<BaseMeshEffect>
 	{
 

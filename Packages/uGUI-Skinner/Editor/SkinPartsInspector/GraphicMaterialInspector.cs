@@ -5,6 +5,7 @@ using UnityEngine.UI;
 namespace Pspkurara.UI.Skinner
 {
 
+	[SkinPartsInspector(typeof(GraphicMaterial))]
 	public sealed class GraphicMaterialInspector : ISkinPartsInspector
 	{
 		public void CleanupFields(EditorSkinPartsPropertry property)

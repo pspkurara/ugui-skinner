@@ -71,7 +71,7 @@ namespace Pspkurara.UI
 					edittedCurrentStyle--;
 				}
 				GUILayout.FlexibleSpace();
-				m_CurrentSelectStyleTitle.text = edittedCurrentStyle.ToString();
+				m_CurrentSelectStyleTitle.text = currentStyle.hasMultipleDifferentValues ? EditorConst.CurrentSkinHasMultipleDifferentValue : edittedCurrentStyle.ToString();
 				GUILayout.Label(m_CurrentSelectStyleTitle);
 				GUILayout.FlexibleSpace();
 				if (GUILayout.Button(EditorConst.RightSkinSelectArrow, EditorConst.SkinSelectArrowMaxWidth))

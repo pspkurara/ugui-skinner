@@ -18,6 +18,8 @@ namespace Pspkurara.UI.Skinner
 
 		public static readonly GUIContent CurrentSelectStyleTitle = new GUIContent("Current Select Style");
 
+		public const string CurrentSkinHasMultipleDifferentValue = "-";
+
 		public const string SkinFoldTitle = "Skin {0}";
 		public const string SkinFoldTitleHasStyleKey = "Skin {0} [{1}]";
 

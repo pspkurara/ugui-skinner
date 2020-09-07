@@ -1,11 +1,11 @@
-using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
 
 namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(GraphicColor))]
-	internal sealed class GraphicColorInspector : SkinPartsOnArrayInspector<GameObject>
+	internal sealed class GraphicColorInspector : SkinPartsOnArrayInspector<Graphic>
 	{
 
 		protected override void CleanupFieldsOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)

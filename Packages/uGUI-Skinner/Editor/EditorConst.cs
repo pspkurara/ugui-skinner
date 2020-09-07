@@ -23,7 +23,7 @@ namespace Pspkurara.UI.Skinner
 		public const string SkinFoldTitle = "Skin {0}";
 		public const string SkinFoldTitleHasStyleKey = "Skin {0} [{1}]";
 
-		public static readonly GUIContent AddSkinButtonTitle = new GUIContent("Add New Skin Object");
+		public static readonly GUIContent AddSkinButtonTitle = new GUIContent("Add New Skin Style");
 		public static readonly GUIContent AddPartsButtonTitle = new GUIContent("Add New Skin Parts");
 		public static readonly GUIContent RemoveSkinButtonTitle = new GUIContent("Remove Skin");
 		public static readonly GUIContent RemovePartsButtonTitle = new GUIContent("Remove Parts");

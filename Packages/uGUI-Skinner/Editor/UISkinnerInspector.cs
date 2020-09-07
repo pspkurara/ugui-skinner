@@ -88,7 +88,7 @@ namespace Pspkurara.UI
 				foreach (Object t in serializedObject.targetObjects)
 				{
 					UISkinner skinnerObj = t as UISkinner;
-					skinnerObj.SetSkins(Mathf.Clamp(edittedCurrentStyle, 0, skinnerObj.Length - 1));
+					skinnerObj.SetSkin(Mathf.Clamp(edittedCurrentStyle, 0, skinnerObj.Length - 1));
 				}
 			}
 

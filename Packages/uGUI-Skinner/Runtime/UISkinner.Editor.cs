@@ -22,7 +22,7 @@ namespace Pspkurara.UI
 			{
 				cObject.OnValidate();
 			}
-			SetSkins(styleIndex);
+			SetSkin(styleIndex);
 		}
 
 	}

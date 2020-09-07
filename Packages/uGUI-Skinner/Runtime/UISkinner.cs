@@ -17,7 +17,7 @@ namespace Pspkurara.UI
 
 		public int styleIndex { get { return m_StyleIndex; } }
 		
-		public void SetSkins(int styleIndex)
+		public void SetSkin(int styleIndex)
 		{
 			m_StyleIndex = Mathf.Clamp(styleIndex, 0, Length);
 			if (m_Styles.Count <= 0) return;
@@ -27,7 +27,7 @@ namespace Pspkurara.UI
 		public void SetSkin(string styleKey)
 		{
 			int index = m_Styles.FindIndex(s => s.styleKey == styleKey);
-			if (index != -1) SetSkins(index);
+			if (index != -1) SetSkin(index);
 		}
 
 		public int Length {

@@ -38,7 +38,11 @@ namespace Pspkurara.UI.Skinner
 			int objectCount = objects.Count;
 			for (int i = 0; i < objectCount; i++)
 			{
-				if (objects[i]) OnApplyValue(objects[i]);
+				if (objects[i])
+				{
+					SkinnerRuntimeEditorUtility.RecordObject(objects[i]);
+					OnApplyValue(objects[i]);
+				}
 			}
 		}
 

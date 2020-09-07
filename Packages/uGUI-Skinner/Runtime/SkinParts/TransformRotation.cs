@@ -5,8 +5,8 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.TransformScale, typeof(TransformScale), typeof(Logic))]
-	public static class TransformScale
+	[SkinParts(SkinPartsType.TransformRotation, typeof(TransformRotation), typeof(Logic))]
+	public static class TransformRotation
 	{
 
 		public const int VectorIndex = 0;
@@ -21,7 +21,7 @@ namespace Pspkurara.UI.Skinner
 			/// <summary>
 			/// TransformのLocalScale
 			/// </summary>
-			private Vector3 activeScale;
+			private Quaternion activeRotation;
 
 			/// <summary>
 			/// 値をオブジェクトに反映させる
@@ -31,13 +31,13 @@ namespace Pspkurara.UI.Skinner
 			{
 				//値がないなら何もしない
 				if (property.vector4Values.Count < VectorLength) return;
-				activeScale = property.vector4Values[VectorIndex];
+				activeRotation = Quaternion.Euler(property.vector4Values[VectorIndex]);
 				base.SetValues(property);
 			}
 
 			protected override void OnApplyValue(Transform obj)
 			{
-				obj.localScale = activeScale;
+				obj.localRotation = activeRotation;
 			}
 
 		}
@@ -46,14 +46,14 @@ namespace Pspkurara.UI.Skinner
 		/// 対象のスキンパーツを生成
 		/// </summary>
 		/// <param name="transforms">設定したいTransform</param>
-		/// <param name="localScale">TransformのlocalScale</param>
+		/// <param name="localRotation">TransformのlocalRotation</param>
 		/// <returns>生成したスキンパーツ</returns>
-		public static SkinParts CreateSkinParts(IEnumerable<Transform> transforms, Vector3 localScale)
+		public static SkinParts CreateSkinParts(IEnumerable<Transform> transforms, Quaternion localRotation)
 		{
 			var parts = new SkinParts();
 			SkinnerUtility.ResetVector4(parts.property.vector4Values, VectorLength);
 			parts.property.objectReferenceValues.AddRange(transforms.Cast<Object>());
-			parts.property.vector4Values[VectorIndex] = localScale;
+			parts.property.vector4Values[VectorIndex] = localRotation.eulerAngles;
 			return parts;
 		}
 	}

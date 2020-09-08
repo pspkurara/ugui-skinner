@@ -3,7 +3,7 @@
 It is a library that can easily switch the display pattern of UGUI.<br>
 Switch the style by script from index and string.
 
-[![](https://img.shields.io/npm/v/pspkurara.ugui-skinner?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/pspkurara.ugui-skinner/)
+[![](https://img.shields.io/npm/v/com.pspkurara.ugui-skinner?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.pspkurara.ugui-skinner/)
 [![](https://img.shields.io/github/v/release/pspkurara/ugui-skinner)](https://github.com/pspkurara/ugui-skinner/releases/)
 [![](https://img.shields.io/github/watchers/pspkurara/ugui-skinner?style=social)](https://github.com/pspkurara/ugui-skinner/subscription)
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +18,8 @@ namespace Pspkurara.UI.Skinner
 		internal sealed class Logic : ISkinLogic
 		{
 
-			private RawImage _rawImage = null;
-			private Texture2D _texture2D = null;
+			private RawImage rawImage = null;
+			private Texture2D texture2D = null;
 
 			/// <summary>
 			/// 値をオブジェクトに反映させる
@@ -30,18 +29,18 @@ namespace Pspkurara.UI.Skinner
 			{
 				//値がないなら何もしない
 				if (property.objectReferenceValues.Count < ObjectLength) return;
-				if (!_rawImage)
+				if (!rawImage)
 				{
-					_rawImage = property.objectReferenceValues[RawImageIndex] as RawImage;
+					rawImage = property.objectReferenceValues[RawImageIndex] as RawImage;
 					//空か型違いのため処理終了
-					if (!_rawImage) return;
+					if (!rawImage) return;
 				}
-				if (!_texture2D)
+				if (!texture2D)
 				{
-					_texture2D = property.objectReferenceValues[Texture2DIndex] as Texture2D;
+					texture2D = property.objectReferenceValues[Texture2DIndex] as Texture2D;
 				}
-				_rawImage.texture = _texture2D;
-				SkinnerUtility.ReloadGameObject(_rawImage);
+				rawImage.texture = texture2D;
+				SkinnerUtility.ReloadGameObject(rawImage);
 			}
 
 		}

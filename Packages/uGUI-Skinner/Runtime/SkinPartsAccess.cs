@@ -16,9 +16,13 @@ namespace Pspkurara.UI.Skinner
 
 		/// <summary>
 		/// スキンパーツのIDとクラスを紐付ける一覧
-		/// スキンパーツが増えたら随時追加すること
 		/// </summary>
 		private static readonly Dictionary<int, SkinPartsAttribute> m_SkinParts = CreateSkinPartsList();
+
+		/// <summary>
+		/// スキンパーツIDがおかしいときに返すダミー処理
+		/// </summary>
+		private static readonly DoNothingLogic m_DoNothingLogic = new DoNothingLogic();
 
 		#endregion
 
@@ -42,6 +46,11 @@ namespace Pspkurara.UI.Skinner
 		/// <returns>スキンロジック</returns>
 		public static ISkinLogic CreateSkinLogicInstance(int id)
 		{
+			// 正しくないものがきたら空処理を返しておく
+			if (!IsCorrectSkinPartsId(id))
+			{
+				return m_DoNothingLogic;
+			}
 			return (ISkinLogic)Activator.CreateInstance(m_SkinParts[id].LogicType);
 		}
 
@@ -62,6 +71,18 @@ namespace Pspkurara.UI.Skinner
 		public static Type GetSkinPartsRootType(int id)
 		{
 			return m_SkinParts[id].RootType;
+		}
+
+		/// <summary>
+		/// スキンパーツIDが正しいか取得する
+		/// </summary>
+		/// <param name="id">スキンパーツID</param>
+		/// <returns>
+		/// IDに一致するスキンパーツが存在する場合は真
+		/// </returns>
+		public static bool IsCorrectSkinPartsId(int id)
+		{
+			return m_SkinParts.ContainsKey(id);
 		}
 
 		#endregion

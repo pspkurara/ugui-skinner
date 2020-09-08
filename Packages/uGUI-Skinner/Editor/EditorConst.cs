@@ -39,6 +39,13 @@ namespace Pspkurara.UI.Skinner
 
 		public const string FieldNumberTitle = "No.{0}";
 
+		public const string MissingSkinPartsTypeMessage = "Skin Parts Type \" {0} \" is incorrect.\nPlease delete this Skin or correct the value.";
+		public const MessageType MissingSkinPartsTypeMessageType = MessageType.Warning;
+
+		public const string MissingSkinPartsInspectorTypeMessage = "Inspector for \" {0} \" not found.\nPlease check if it is registered correctly";
+		public const MessageType MissingSkinPartsInspectorTypeMessageType = MessageType.Warning;
+
+
 		public static readonly GUILayoutOption SkinSelectArrowMaxWidth = GUILayout.MaxWidth(50);
 		public static readonly GUILayoutOption SkinAddOrRemoveButtonMaxWidth = GUILayout.MaxWidth(150);
 

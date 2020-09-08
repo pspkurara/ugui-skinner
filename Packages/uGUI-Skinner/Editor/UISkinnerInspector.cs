@@ -1,5 +1,6 @@
 using Pspkurara.UI.Skinner;
 using System.Linq;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -129,23 +130,46 @@ namespace Pspkurara.UI
 						SerializedProperty skinPartsElementProperty = skinPartsProperty.GetArrayElementAtIndex(skinPartsIndex);
 						SerializedProperty skinPartsTypeProperty = skinPartsElementProperty.FindPropertyRelative(FieldName.Type);
 						int skinPartsType = skinPartsTypeProperty.intValue;
+
 						skinPartsTypeProperty.intValue = EditorGUILayout.IntPopup(skinPartsType, m_SkinnerPartsDisplayNames, m_SkinnerPartsOptionValues);
-
-						m_SkinPartsProperty.MapProperties(skinPartsElementProperty.FindPropertyRelative(FieldName.Property));
-
-						var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
-						var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
 
 						EditorGUI.indentLevel++;
 
-						EditorGUI.BeginChangeCheck();
-						inspector.DrawInspector(m_SkinPartsProperty);
-						if (EditorGUI.EndChangeCheck())
+						// タイプの登録を確認
+						if (SkinPartsAccess.IsCorrectSkinPartsId(skinPartsType))
 						{
-							if (skinStylesIndex == m_StyleIndex.intValue)
+							var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
+
+							// インスペクターの登録を確認
+							if (SkinPartsInspectorAccess.IsRegistedInspector(rootType))
 							{
-								ApplySkin();
+								var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
+
+								m_SkinPartsProperty.MapProperties(skinPartsElementProperty.FindPropertyRelative(FieldName.Property));
+
+								EditorGUI.BeginChangeCheck();
+								inspector.DrawInspector(m_SkinPartsProperty);
+								if (EditorGUI.EndChangeCheck())
+								{
+									if (skinStylesIndex == m_StyleIndex.intValue)
+									{
+										ApplySkin();
+									}
+								}
+
 							}
+							else
+							{
+								// 該当インスペクターが存在しない場合は何もしない
+								var skinPartsTypeName = SkinnerEditorUtility.GetEditorName(rootType.Name);
+								EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsInspectorTypeMessage, skinPartsTypeName), EditorConst.MissingSkinPartsInspectorTypeMessageType);
+							}
+
+						}
+						else
+						{
+							// 該当IDが存在しない場合は警告を出す
+							EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsTypeMessage, skinPartsType), EditorConst.MissingSkinPartsTypeMessageType);
 						}
 
 						EditorGUI.indentLevel--;
@@ -247,8 +271,21 @@ namespace Pspkurara.UI
 					SerializedProperty partsProp = skinPartsProperty.GetArrayElementAtIndex(skinPartsIndex);
 					SerializedProperty skinPartsTypeProperty = partsProp.FindPropertyRelative(FieldName.Type);
 					int skinPartsType = skinPartsTypeProperty.intValue;
+					
+					// 該当IDが存在しない場合は何もしない
+					if (!SkinPartsAccess.IsCorrectSkinPartsId(skinPartsType))
+					{
+						continue;
+					}
 
 					var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
+
+					// 該当インスペクターが存在しない場合は何もしない
+					if (!SkinPartsInspectorAccess.IsRegistedInspector(rootType))
+					{
+						continue;
+					}
+
 					var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
 
 					m_SkinPartsProperty.MapProperties(partsProp.FindPropertyRelative(FieldName.Property));

@@ -45,6 +45,18 @@ namespace Pspkurara.UI.Skinner
 			return m_SkinPartsInspectors[rootType];
 		}
 
+		/// <summary>
+		/// スキンパーツインスペクターが正しく登録されているか取得する
+		/// </summary>
+		/// <param name="id">スキンパーツタイプ</param>
+		/// <returns>
+		/// タイプに一致するスキンパーツが存在する場合は真
+		/// </returns>
+		public static bool IsRegistedInspector(Type rootType)
+		{
+			return m_SkinPartsInspectors.ContainsKey(rootType);
+		}
+
 		#endregion
 
 	}

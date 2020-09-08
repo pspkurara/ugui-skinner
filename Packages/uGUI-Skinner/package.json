@@ -6,10 +6,10 @@
   "keywords": [
     ""
   ],
-  "name": "pspkurara.ugui-skinner",
+  "name": "com.pspkurara.ugui-skinner",
   "repository": "https://github.com/pspkurara/ugui-skinner.git",
   "license": "MIT",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "type": "library",
   "dependencies": {
     "com.unity.modules.ui": "1.0.0"

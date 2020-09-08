@@ -7,7 +7,7 @@ namespace Pspkurara.UI.Skinner
 	public static class EditorConst
 	{
 
-		public static readonly GUIStyle NormalFoldoutStyle = EditorStyles.foldout;
+		public static readonly GUIStyle NormalFoldoutStyle = CreateNormalFoldoutStyle();
 		public static readonly GUIStyle HighLightFoldoutStyle = EditorStyles.foldoutPreDrop;
 		public static readonly Color AddButtonColor = Color.cyan;
 		public static readonly Color RemoveButtonColor = new Color(1, 0.7f, 0.78f);
@@ -45,6 +45,14 @@ namespace Pspkurara.UI.Skinner
 		public static readonly GUILayoutOption ComponentIndexFieldMaxWidth = GUILayout.MaxWidth(50);
 
 		public static readonly GUILayoutOption[] LineBoxStyle = new GUILayoutOption[] { GUILayout.Height(1), GUILayout.ExpandWidth(true) };
+
+
+		private static GUIStyle CreateNormalFoldoutStyle()
+		{
+			var guiStyle = new GUIStyle(EditorStyles.foldout);
+			guiStyle.margin = EditorStyles.foldoutPreDrop.margin;
+			return guiStyle;
+		}
 
 	}
 

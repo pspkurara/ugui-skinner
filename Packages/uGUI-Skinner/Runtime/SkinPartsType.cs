@@ -21,6 +21,8 @@ namespace Pspkurara.UI.Skinner
 
 		TransformRotation = 12,
 		TransformScale = 13,
+
+		AnimationSample = 20,
 	}
 
 }

@@ -19,7 +19,9 @@ namespace Pspkurara.UI.Skinner
 		[System.Diagnostics.Conditional("UNITY_EDITOR")]
 		public static void RecordObject(Object @object)
 		{
+			#if UNITY_EDITOR
 			Undo.RecordObject(@object, "SkinnerPartsEdit");
+			#endif
 		}
 
 	}

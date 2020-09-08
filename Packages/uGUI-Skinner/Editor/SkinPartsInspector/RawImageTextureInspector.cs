@@ -6,7 +6,7 @@ namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(RawImageTexture))]
-	public sealed class RawImageTextureInspector : ISkinPartsInspector
+	internal sealed class RawImageTextureInspector : ISkinPartsInspector
 	{
 
 		public void CleanupFields(EditorSkinPartsPropertry property)

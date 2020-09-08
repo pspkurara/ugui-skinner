@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/pspkurara/ugui-skinner/compare/v1.2.4...v1.2.5) (2020-09-08)
+
+
+### Bug Fixes
+
+* uGUIモジュール追加 ([74768b2](https://github.com/pspkurara/ugui-skinner/commit/74768b2373c4197e86c00b044d323eef8e0e4414))
+
 ## [1.2.4](https://github.com/pspkurara/ugui-skinner/compare/v1.2.3...v1.2.4) (2020-09-08)
 
 

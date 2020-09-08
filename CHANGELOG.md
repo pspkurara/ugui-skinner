@@ -1,3 +1,11 @@
+## [1.2.4](https://github.com/pspkurara/ugui-skinner/compare/v1.2.3...v1.2.4) (2020-09-08)
+
+
+### Bug Fixes
+
+* .Editorのasmdefをエディターのみにする ([ca50138](https://github.com/pspkurara/ugui-skinner/commit/ca50138f15c24b4e81c09e51583fc3ac791b53e5))
+* プリプロセッサで囲わないと動かない可能性がある ([5ad836d](https://github.com/pspkurara/ugui-skinner/commit/5ad836d71ba8a03b4be6f4bf87c4d838e9313e45))
+
 ## [1.2.3](https://github.com/pspkurara/ugui-skinner/compare/v1.2.2...v1.2.3) (2020-09-08)
 
 

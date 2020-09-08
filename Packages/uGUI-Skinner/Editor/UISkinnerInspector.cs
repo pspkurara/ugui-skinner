@@ -15,8 +15,6 @@ namespace Pspkurara.UI
 	internal partial class UISkinnerInspector : Editor
 	{
 
-		const string FOLDOUT_EDITOR_PREFS_KEY = "COMPONENT_SKINNER_FOLDOUT_";
-
 		public static class FieldName
 		{
 			public const string StyleIndex = "m_StyleIndex";
@@ -107,8 +105,9 @@ namespace Pspkurara.UI
 			for (int skinStylesIndex = 0; skinStylesIndex < m_SkinStyles.arraySize; skinStylesIndex++)
 			{
 
-				SerializedProperty objProp = m_SkinStyles.GetArrayElementAtIndex(skinStylesIndex).FindPropertyRelative(FieldName.Parts);
-				SerializedProperty styleKey = m_SkinStyles.GetArrayElementAtIndex(skinStylesIndex).FindPropertyRelative(FieldName.StyleKey);
+				var skinStyleElementProperty = m_SkinStyles.GetArrayElementAtIndex(skinStylesIndex);
+				var objProp = skinStyleElementProperty.FindPropertyRelative(FieldName.Parts);
+				var styleKey = skinStyleElementProperty.FindPropertyRelative(FieldName.StyleKey);
 
 				GUIStyle style = (edittedCurrentStyle == skinStylesIndex) ? EditorConst.HighLightFoldoutStyle : EditorConst.NormalFoldoutStyle;
 
@@ -116,10 +115,9 @@ namespace Pspkurara.UI
 
 				EditorGUILayout.BeginHorizontal();
 				m_SkinFoldoutTitle.text = hasStyleKey ? string.Format(EditorConst.SkinFoldTitleHasStyleKey, skinStylesIndex, styleKey.stringValue) : string.Format(EditorConst.SkinFoldTitle, skinStylesIndex);
-				bool foldOut = EditorGUILayout.Foldout(GetFoldOut(skinStylesIndex), m_SkinFoldoutTitle, style);
-				SetFoldOut(skinStylesIndex, foldOut);
+				skinStyleElementProperty.isExpanded = EditorGUILayout.Foldout(skinStyleElementProperty.isExpanded, m_SkinFoldoutTitle, style);
 
-				if (GetFoldOut(skinStylesIndex))
+				if (skinStyleElementProperty.isExpanded)
 				{
 					EditorGUILayout.EndHorizontal();
 
@@ -191,7 +189,7 @@ namespace Pspkurara.UI
 				})) return;
 				EditorGUILayout.EndHorizontal();
 
-				if (foldOut)
+				if (skinStyleElementProperty.isExpanded)
 				{
 					EditorGUILayout.Space();
 					SkinnerEditorUtility.DrawLine();
@@ -204,6 +202,13 @@ namespace Pspkurara.UI
 
 			if (SkinnerEditorUtility.DrawAddButton(EditorConst.AddSkinButtonTitle, () => {
 				m_SkinStyles.InsertArrayElementAtIndex(m_SkinStyles.arraySize);
+				var addedStyle = m_SkinStyles.GetArrayElementAtIndex(m_SkinStyles.arraySize - 1);
+				bool expanded = true;
+				if (m_SkinStyles.arraySize > 1)
+				{
+					expanded = m_SkinStyles.GetArrayElementAtIndex(m_SkinStyles.arraySize - 2).isExpanded;
+				}
+				m_SkinStyles.GetArrayElementAtIndex(m_SkinStyles.arraySize - 1).isExpanded = expanded;
 				serializedObject.ApplyModifiedProperties();
 			})) return;
 
@@ -253,25 +258,6 @@ namespace Pspkurara.UI
 				}
 			}
 		}
-
-		#region EditorPrefs
-
-		private static string GetFoldoutKey(int foldOutIndex)
-		{
-			return FOLDOUT_EDITOR_PREFS_KEY + foldOutIndex;
-		}
-
-		private static bool GetFoldOut(int foldOutIndex)
-		{
-			return EditorPrefs.GetBool(GetFoldoutKey(foldOutIndex), true);
-		}
-
-		private static void SetFoldOut(int foldOutIndex, bool value)
-		{
-			EditorPrefs.SetBool(GetFoldoutKey(foldOutIndex), value);
-		}
-
-		#endregion
 
 		#endregion
 

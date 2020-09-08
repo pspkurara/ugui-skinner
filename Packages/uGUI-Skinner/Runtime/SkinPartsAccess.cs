@@ -66,17 +66,6 @@ namespace Pspkurara.UI.Skinner
 			return m_SkinParts[id].RootType;
 		}
 
-		/// <summary>
-		/// <see cref="SkinPartsAttribute"/>属性を取得する
-		/// </summary>
-		/// <param name="rootType">親クラスの型</param>
-		/// <returns>属性</returns>
-		private static SkinPartsAttribute GetAttribute(Type rootType)
-		{
-			var attribute = rootType.GetCustomAttribute<SkinPartsAttribute>();
-			return attribute;
-		}
-
 		#endregion
 
 	}

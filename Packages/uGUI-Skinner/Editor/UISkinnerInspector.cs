@@ -106,7 +106,7 @@ namespace Pspkurara.UI
 			{
 
 				var skinStyleElementProperty = m_SkinStyles.GetArrayElementAtIndex(skinStylesIndex);
-				var objProp = skinStyleElementProperty.FindPropertyRelative(FieldName.Parts);
+				var skinPartsProperty = skinStyleElementProperty.FindPropertyRelative(FieldName.Parts);
 				var styleKey = skinStyleElementProperty.FindPropertyRelative(FieldName.StyleKey);
 
 				GUIStyle style = (edittedCurrentStyle == skinStylesIndex) ? EditorConst.HighLightFoldoutStyle : EditorConst.NormalFoldoutStyle;
@@ -123,17 +123,17 @@ namespace Pspkurara.UI
 
 					EditorGUILayout.PropertyField(styleKey, EditorConst.SkinnerStyleKeyFieldTitle);
 
-					for (int skinPartsIndex = 0; skinPartsIndex < objProp.arraySize; skinPartsIndex++)
+					for (int skinPartsIndex = 0; skinPartsIndex < skinPartsProperty.arraySize; skinPartsIndex++)
 					{
 
-						SerializedProperty partsProp = objProp.GetArrayElementAtIndex(skinPartsIndex);
-						SerializedProperty uiSkinnedPartsTypeProperty = partsProp.FindPropertyRelative(FieldName.Type);
-						int uiSkinnerPartsType = uiSkinnedPartsTypeProperty.intValue;
-						uiSkinnedPartsTypeProperty.intValue = EditorGUILayout.IntPopup(uiSkinnerPartsType, m_SkinnerPartsDisplayNames, m_SkinnerPartsOptionValues);
+						SerializedProperty skinPartsElementProperty = skinPartsProperty.GetArrayElementAtIndex(skinPartsIndex);
+						SerializedProperty skinPartsTypeProperty = skinPartsElementProperty.FindPropertyRelative(FieldName.Type);
+						int skinPartsType = skinPartsTypeProperty.intValue;
+						skinPartsTypeProperty.intValue = EditorGUILayout.IntPopup(skinPartsType, m_SkinnerPartsDisplayNames, m_SkinnerPartsOptionValues);
 
-						m_SkinPartsProperty.MapProperties(partsProp.FindPropertyRelative(FieldName.Property));
+						m_SkinPartsProperty.MapProperties(skinPartsElementProperty.FindPropertyRelative(FieldName.Property));
 
-						var rootType = SkinPartsAccess.GetSkinPartsRootType(uiSkinnerPartsType);
+						var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
 						var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
 
 						EditorGUI.indentLevel++;
@@ -151,7 +151,7 @@ namespace Pspkurara.UI
 						EditorGUI.indentLevel--;
 
 						if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemovePartsButtonTitle, () => {
-							objProp.DeleteArrayElementAtIndex(skinPartsIndex);
+							skinPartsProperty.DeleteArrayElementAtIndex(skinPartsIndex);
 							serializedObject.ApplyModifiedProperties();
 						})) return;
 					}
@@ -159,7 +159,7 @@ namespace Pspkurara.UI
 					EditorGUILayout.Space();
 					EditorGUILayout.BeginHorizontal();
 					if (SkinnerEditorUtility.DrawAddButton(EditorConst.AddPartsButtonTitle, () => {
-						objProp.InsertArrayElementAtIndex(objProp.arraySize);
+						skinPartsProperty.InsertArrayElementAtIndex(skinPartsProperty.arraySize);
 						serializedObject.ApplyModifiedProperties();
 					})) return;
 
@@ -232,8 +232,8 @@ namespace Pspkurara.UI
 		{
 			foreach (Object t in serializedObject.targetObjects)
 			{
-				UISkinner skinnerObj = t as UISkinner;
-				skinnerObj.SetSkin(Mathf.Clamp(currentStyleIndex, 0, skinLength - 1));
+				UISkinner skinner = t as UISkinner;
+				skinner.SetSkin(Mathf.Clamp(currentStyleIndex, 0, skinLength - 1));
 			}
 		}
 		
@@ -241,14 +241,14 @@ namespace Pspkurara.UI
 		{
 			for (int skinStylesIndex = 0; skinStylesIndex < m_SkinStyles.arraySize; skinStylesIndex++)
 			{
-				SerializedProperty objProp = m_SkinStyles.GetArrayElementAtIndex(skinStylesIndex).FindPropertyRelative(FieldName.Parts);
-				for (int skinPartsIndex = 0; skinPartsIndex < objProp.arraySize; skinPartsIndex++)
+				SerializedProperty skinPartsProperty = m_SkinStyles.GetArrayElementAtIndex(skinStylesIndex).FindPropertyRelative(FieldName.Parts);
+				for (int skinPartsIndex = 0; skinPartsIndex < skinPartsProperty.arraySize; skinPartsIndex++)
 				{
-					SerializedProperty partsProp = objProp.GetArrayElementAtIndex(skinPartsIndex);
-					SerializedProperty uiSkinnedPartsTypeProperty = partsProp.FindPropertyRelative(FieldName.Type);
-					int uiSkinnerPartsType = uiSkinnedPartsTypeProperty.intValue;
+					SerializedProperty partsProp = skinPartsProperty.GetArrayElementAtIndex(skinPartsIndex);
+					SerializedProperty skinPartsTypeProperty = partsProp.FindPropertyRelative(FieldName.Type);
+					int skinPartsType = skinPartsTypeProperty.intValue;
 
-					var rootType = SkinPartsAccess.GetSkinPartsRootType(uiSkinnerPartsType);
+					var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
 					var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
 
 					m_SkinPartsProperty.MapProperties(partsProp.FindPropertyRelative(FieldName.Property));

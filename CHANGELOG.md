@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/pspkurara/ugui-skinner/compare/v1.2.2...v1.2.3) (2020-09-08)
+
+
+### Bug Fixes
+
+* エディタのFoldoutの位置が切り替えるたびにずれる問題を修正 ([4d4a9a6](https://github.com/pspkurara/ugui-skinner/commit/4d4a9a67915cb35c2e6ecf03e6bc9f5c51180674))
+
 ## [1.2.2](https://github.com/pspkurara/ugui-skinner/compare/v1.2.1...v1.2.2) (2020-09-08)
 
 

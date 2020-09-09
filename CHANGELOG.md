@@ -1,3 +1,21 @@
+# [1.3.0](https://github.com/pspkurara/ugui-skinner/compare/v1.2.5...v1.3.0) (2020-09-09)
+
+
+### Bug Fixes
+
+* Foldout の状態保存を EditorPrefs から SerializedProperty.isExpanded に切り替え ([17de2e8](https://github.com/pspkurara/ugui-skinner/commit/17de2e813cc472f2f8c64acf504cb029e776d19d))
+* Unity2019用に必要モジュール追加 ([fb43b1d](https://github.com/pspkurara/ugui-skinner/commit/fb43b1dea818bff2700525fddbec2a41a07b736c))
+* インスペクターのFoldoutでラベルクリックでもドロップダウンが開くように修正 ([4a12766](https://github.com/pspkurara/ugui-skinner/commit/4a12766a6ce0f63527d29d41c360f11f698d809b))
+* インスペクターのアクセス修飾子を統一 ([adc8bc6](https://github.com/pspkurara/ugui-skinner/commit/adc8bc6c76af595bb3392dcf98bc3156721e4079))
+* 開発用Unityバージョンを2019.4.9f1に変更 ([c67d694](https://github.com/pspkurara/ugui-skinner/commit/c67d69457834346acae813e8a1c3d2a84ac89113))
+
+
+### Features
+
+* AnimationSampleを追加 ([36469f0](https://github.com/pspkurara/ugui-skinner/commit/36469f0e50741f3fd2dac689932e70410984cbbc))
+* ScriptableObjectで挙動を追加できるScriptableLogicを追加 ([3f333a9](https://github.com/pspkurara/ugui-skinner/commit/3f333a908e418a999b43a2d1db5320088112e5c0))
+* スキンパーツIDが不正なときのエラー処理を追加 ([3e07484](https://github.com/pspkurara/ugui-skinner/commit/3e07484c4153e5f41b0f1c78f4cb4e3152454a14))
+
 ## [1.2.5](https://github.com/pspkurara/ugui-skinner/compare/v1.2.4...v1.2.5) (2020-09-08)
 
 

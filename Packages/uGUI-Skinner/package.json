@@ -13,7 +13,8 @@
   "type": "library",
   "dependencies": {
     "com.unity.ugui": "1.0.0",
-    "com.unity.modules.ui": "1.0.0"
+    "com.unity.modules.ui": "1.0.0",
+    "com.unity.modules.animation": "1.0.0"
   },
   "unity": "2017.1"
 }

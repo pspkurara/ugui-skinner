@@ -20,6 +20,11 @@ namespace Pspkurara.UI.Skinner
 		private List<UserLogicVariable> m_Variables = null;
 
 		/// <summary>
+		/// ユーザー変数のIDとインデックスマップ
+		/// </summary>
+		private Dictionary<int, int> m_VariableIdMap = null;
+
+		/// <summary>
 		/// ユーザー変数の設定データ
 		/// </summary>
 		public List<UserLogicVariable> variables {
@@ -48,6 +53,25 @@ namespace Pspkurara.UI.Skinner
 		public abstract void SetValues(SkinPartsPropertry property);
 
 		/// <summary>
+		/// 変数IDを元にフィールド配列インデックス取得する
+		/// </summary>
+		/// <param name="variableId">変数ID</param>
+		/// <returns></returns>
+		protected int GetValueIndex(int variableId)
+		{
+			if (m_VariableIdMap == null)
+			{
+				m_VariableIdMap = SkinnerUtility.CreateVariableIdToIndexDictionary(variables);
+			}
+			if (m_VariableIdMap.ContainsKey(variableId))
+			{
+				return m_VariableIdMap[variableId];
+			}
+			// 見つからないときはとりあえず-1を返しておく
+			return -1;
+		}
+
+		/// <summary>
 		/// 変数の値の制限を行う
 		/// 必要に応じてオーバーライドして使う
 		/// </summary>
@@ -62,6 +86,12 @@ namespace Pspkurara.UI.Skinner
 	/// </summary>
 	public sealed class UserLogicVariable
 	{
+
+		/// <summary>
+		/// 変数ID
+		/// 指定しておくと<see cref="UserLogic.GetValueIndex(int)"/>でインデックスが取得できるようになる
+		/// </summary>
+		public int ? VariableId = null;
 
 		/// <summary>
 		/// 変数の型

@@ -1,3 +1,4 @@
+#define SKIP_LOGIC_CACHE
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -192,6 +193,12 @@ namespace Pspkurara.UI.Skinner
 		{
 			if (!userLogic) return false;
 
+			#if SKIP_LOGIC_CACHE
+			
+			currentUserLogic = userLogic;
+
+			#else
+
 			// ここでキャッシュしてクリエイトを抑制
 			if (currentUserLogic == userLogic)
 			{
@@ -206,6 +213,8 @@ namespace Pspkurara.UI.Skinner
 				this.userLogicVariableDisplayDatas = m_CachedVariableDisplayDatas[userLogicType];
 			}
 
+			# endif
+
 			var userLogicVariableDisplayDatas = new List<UserLogicVariableDisplayData>();
 			objectReferenceArrayCount = 0;
 			boolArrayCount = 0;
@@ -218,37 +227,37 @@ namespace Pspkurara.UI.Skinner
 			{
 				bool isUnCorrect = false;
 				var data = new UserLogicVariableDisplayData();
-				if (v.FieldType == typeof(Object) || v.FieldType.IsSubclassOf(typeof(Object)))
+				if (SkinnerSystemType.IsObject(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.ObjectReference;
 					data.FieldIndex = objectReferenceArrayCount;
 					objectReferenceArrayCount++;
 				}
-				else if (v.FieldType == typeof(bool))
+				else if (SkinnerSystemType.IsBoolean(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Boolean;
 					data.FieldIndex = boolArrayCount;
 					boolArrayCount++;
 				}
-				else if (v.FieldType == typeof(Color) || v.FieldType == typeof(Color32))
+				else if (SkinnerSystemType.IsColor(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Color;
 					data.FieldIndex = colorArrayCount;
 					colorArrayCount++;
 				}
-				else if (v.FieldType == typeof(float))
+				else if (SkinnerSystemType.IsFloat(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Float;
 					data.FieldIndex = floatArrayCount;
 					floatArrayCount++;
 				}
-				else if (v.FieldType == typeof(int))
+				else if (SkinnerSystemType.IsInteger(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Integer;
 					data.FieldIndex = intArrayCount;
 					intArrayCount++;
 				}
-				else if (v.FieldType.IsEnum)
+				else if (SkinnerSystemType.IsEnum(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Enum;
 					data.PopupDisplayName = v.FieldType.GetEnumNames().Select(n => new GUIContent(n)).ToArray();
@@ -256,31 +265,31 @@ namespace Pspkurara.UI.Skinner
 					data.FieldIndex = intArrayCount;
 					intArrayCount++;
 				}
-				else if (v.FieldType == typeof(Vector2))
+				else if (SkinnerSystemType.IsVector2(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Vector2;
 					data.FieldIndex = vector4ArrayCount;
 					vector4ArrayCount++;
 				}
-				else if (v.FieldType == typeof(Vector3))
+				else if (SkinnerSystemType.IsVector3(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Vector3;
 					data.FieldIndex = vector4ArrayCount;
 					vector4ArrayCount++;
 				}
-				else if (v.FieldType == typeof(Vector4))
+				else if (SkinnerSystemType.IsVector4(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Vector4;
 					data.FieldIndex = vector4ArrayCount;
 					vector4ArrayCount++;
 				}
-				else if (v.FieldType == typeof(char))
+				else if (SkinnerSystemType.IsChar(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Character;
 					data.FieldIndex = stringArrayCount;
 					stringArrayCount++;
 				}
-				else if (v.FieldType == typeof(string))
+				else if (SkinnerSystemType.IsString(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.String;
 					data.FieldIndex = stringArrayCount;
@@ -297,8 +306,24 @@ namespace Pspkurara.UI.Skinner
 					userLogicVariableDisplayDatas.Add(data);
 				}
 			}
+
+			#if SKIP_LOGIC_CACHE
+			
+			var userLogicType = userLogic.GetType();
+			if (m_CachedVariableDisplayDatas.ContainsKey(userLogicType))
+			{
+				m_CachedVariableDisplayDatas[userLogicType].Clear();
+				m_CachedVariableDisplayDatas[userLogicType].AddRange(userLogicVariableDisplayDatas);
+			}
+
+			#else
+
 			m_CachedVariableDisplayDatas.Add(userLogicType, userLogicVariableDisplayDatas);
+
+			#endif
+
 			this.userLogicVariableDisplayDatas = userLogicVariableDisplayDatas;
+
 			return true;
 		}
 

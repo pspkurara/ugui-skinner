@@ -100,6 +100,62 @@ namespace Pspkurara.UI.Skinner
 			resetList.RemoveRange(count, resetList.Count);
 		}
 
+		/// <summary>
+		/// ユーザー変数設定データを元に<see cref="SkinPartsPropertry"/>の各値のインデックスを返す
+		/// </summary>
+		/// <param name="variables">ユーザー変数</param>
+		/// <returns>変数IDをキーとしたインデックスのマップ</returns>
+		internal static Dictionary<int, int> CreateVariableIdToIndexDictionary(IEnumerable<UserLogicVariable> variables)
+		{
+			var dic = new Dictionary<int, int>();
+			int objectReferenceCount = 0;
+			int intCount = 0;
+			int floatCount = 0;
+			int boolCount = 0;
+			int colorCount = 0;
+			int vector4Count = 0;
+			int stringCount = 0;
+			foreach (var v in variables)
+			{
+				if (SkinnerSystemType.IsObjectReferenceValue(v.FieldType))
+				{
+					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, objectReferenceCount);
+					objectReferenceCount++;
+				}
+				else if (SkinnerSystemType.IsColorValue(v.FieldType))
+				{
+					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, colorCount);
+					colorCount++;
+				}
+				else if (SkinnerSystemType.IsBoolValue(v.FieldType))
+				{
+					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, boolCount);
+					boolCount++;
+				}
+				else if (SkinnerSystemType.IsIntValue(v.FieldType))
+				{
+					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, intCount);
+					intCount++;
+				}
+				else if (SkinnerSystemType.IsFloatValue(v.FieldType))
+				{
+					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, floatCount);
+					floatCount++;
+				}
+				else if (SkinnerSystemType.IsVector4Value(v.FieldType))
+				{
+					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, vector4Count);
+					vector4Count++;
+				}
+				else if (SkinnerSystemType.IsStringValue(v.FieldType))
+				{
+					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, stringCount);
+					stringCount++;
+				}
+			}
+			return dic;
+		}
+
 	}
 
 }

@@ -42,7 +42,20 @@ namespace Pspkurara.UI.Skinner
 			switch (arrayObj.propertyType)
 			{
 				case SerializedPropertyType.Color:
-					arrayObj.colorValue = hasDefaultValue ? (Color)defaultValue : SkinDefaultValue.Color;
+					Color convertedColor = SkinDefaultValue.Color;
+					if (hasDefaultValue)
+					{
+						var type = defaultValue.GetType();
+						if (type == typeof(Color))
+						{
+							convertedColor = (Color)defaultValue;
+						}
+						if (type == typeof(Color32))
+						{
+							convertedColor = (Color)(Color32)defaultValue;
+						}
+					}
+					arrayObj.colorValue = convertedColor;
 					break;
 				case SerializedPropertyType.Float:
 					arrayObj.floatValue = hasDefaultValue ? (float)defaultValue : SkinDefaultValue.Float;
@@ -55,6 +68,7 @@ namespace Pspkurara.UI.Skinner
 					break;
 				case SerializedPropertyType.Vector4:
 					Vector4 convertedVector4 = SkinDefaultValue.Vector4;
+					if (hasDefaultValue)
 					{
 						var type = defaultValue.GetType();
 						if (type == typeof(Vector2))
@@ -70,10 +84,11 @@ namespace Pspkurara.UI.Skinner
 							convertedVector4 = (Vector4)defaultValue;
 						}
 					}
-					arrayObj.vector4Value = hasDefaultValue ? convertedVector4 : SkinDefaultValue.Vector4;
+					arrayObj.vector4Value = convertedVector4;
 					break;
 				case SerializedPropertyType.String:
 					string convertedString = SkinDefaultValue.String;
+					if (hasDefaultValue)
 					{
 						var type = defaultValue.GetType();
 						if (type == typeof(char))
@@ -85,7 +100,7 @@ namespace Pspkurara.UI.Skinner
 							convertedString = (string)defaultValue;
 						}
 					}
-					arrayObj.stringValue = hasDefaultValue ? convertedString : SkinDefaultValue.String;
+					arrayObj.stringValue = convertedString;
 					break;
 				case SerializedPropertyType.ObjectReference:
 					arrayObj.objectReferenceValue = hasDefaultValue ? (Object)defaultValue : SkinDefaultValue.Object;

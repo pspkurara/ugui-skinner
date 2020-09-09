@@ -1,4 +1,4 @@
-#define SKIP_LOGIC_CACHE
+// #define SKIP_LOGIC_CACHE
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;

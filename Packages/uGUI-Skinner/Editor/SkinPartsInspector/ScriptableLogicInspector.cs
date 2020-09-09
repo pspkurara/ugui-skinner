@@ -179,7 +179,12 @@ namespace Pspkurara.UI.Skinner
 				}
 
 				SkinnerEditorUtility.MapRuntimePropertyFromEditorProperty(validateProperty, property);
+				var logic = validateProperty.objectReferenceValues[ScriptableLogic.LogicIndex] as UserLogic;
+				validateProperty.objectReferenceValues.Remove(logic);
+				UserLogicExtension.SetActiveUserLogic(logic);
 				userLogic.ValidateProperty(validateProperty);
+				UserLogicExtension.ReleaseActiveUserLogic();
+				validateProperty.objectReferenceValues.Insert(ScriptableLogic.LogicIndex, logic);
 				SkinnerEditorUtility.MapRuntimePropertyFromEditorProperty(property, validateProperty);
 			}
 		}

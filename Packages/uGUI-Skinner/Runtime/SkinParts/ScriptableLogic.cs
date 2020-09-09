@@ -42,7 +42,9 @@ namespace Pspkurara.UI.Skinner
 					ignoredLogicProperty = new SkinPartsPropertry(property);
 					ignoredLogicProperty.objectReferenceValues.Remove(userLogic);
 				}
+				UserLogicExtension.SetActiveUserLogic(userLogic);
 				userLogic.SetValues(ignoredLogicProperty);
+				UserLogicExtension.ReleaseActiveUserLogic();
 			}
 
 		}

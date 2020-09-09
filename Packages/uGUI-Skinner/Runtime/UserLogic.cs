@@ -11,7 +11,7 @@ namespace Pspkurara.UI.Skinner
 	/// アセット化して保存していないと設定ができない
 	/// </summary>
 	/// <seealso cref="ScriptableLogic"/>
-	public abstract class UserLogic : ScriptableObject
+	public abstract class UserLogic : ScriptableObject, IUserLogicExtension
 	{
 
 		/// <summary>
@@ -53,11 +53,22 @@ namespace Pspkurara.UI.Skinner
 		public abstract void SetValues(SkinPartsPropertry property);
 
 		/// <summary>
+		/// 変数の値の制限を行う
+		/// 必要に応じてオーバーライドして使う
+		/// </summary>
+		/// <param name="property">property</param>
+		[System.Diagnostics.Conditional("UNITY_EDITOR")]
+		public virtual void ValidateProperty(SkinPartsPropertry property) { }
+
+		#region 内部的に呼び出す
+
+		/// <summary>
 		/// 変数IDを元にフィールド配列インデックス取得する
 		/// </summary>
 		/// <param name="variableId">変数ID</param>
-		/// <returns></returns>
-		protected int GetValueIndex(int variableId)
+		/// <param name="valueIndex">変数番号</param>
+		/// <returns>変数IDが見つかった場合は真</returns>
+		bool IUserLogicExtension.TryGetValueIndex(int variableId, out int valueIndex)
 		{
 			if (m_VariableIdMap == null)
 			{
@@ -65,19 +76,15 @@ namespace Pspkurara.UI.Skinner
 			}
 			if (m_VariableIdMap.ContainsKey(variableId))
 			{
-				return m_VariableIdMap[variableId];
+				valueIndex = m_VariableIdMap[variableId];
+				return true;
 			}
-			// 見つからないときはとりあえず-1を返しておく
-			return -1;
+			// 見つからないときはとりあえず0を返しておく
+			valueIndex = 0;
+			return false;
 		}
 
-		/// <summary>
-		/// 変数の値の制限を行う
-		/// 必要に応じてオーバーライドして使う
-		/// </summary>
-		/// <param name="property">property</param>
-		[System.Diagnostics.Conditional("UNITY_EDITOR")]
-		public virtual void ValidateProperty(SkinPartsPropertry property) { }
+		#endregion
 
 	}
 
@@ -89,7 +96,7 @@ namespace Pspkurara.UI.Skinner
 
 		/// <summary>
 		/// 変数ID
-		/// 指定しておくと<see cref="UserLogic.GetValueIndex(int)"/>でインデックスが取得できるようになる
+		/// 指定しておくと<see cref="UserLogicExtension"/>の関数から値を取得できるようになる
 		/// </summary>
 		public int ? VariableId = null;
 

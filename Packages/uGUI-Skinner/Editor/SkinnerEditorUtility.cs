@@ -42,7 +42,20 @@ namespace Pspkurara.UI.Skinner
 			switch (arrayObj.propertyType)
 			{
 				case SerializedPropertyType.Color:
-					arrayObj.colorValue = hasDefaultValue ? (Color)defaultValue : SkinDefaultValue.Color;
+					Color convertedColor = SkinDefaultValue.Color;
+					if (hasDefaultValue)
+					{
+						var type = defaultValue.GetType();
+						if (type == typeof(Color))
+						{
+							convertedColor = (Color)defaultValue;
+						}
+						if (type == typeof(Color32))
+						{
+							convertedColor = (Color)(Color32)defaultValue;
+						}
+					}
+					arrayObj.colorValue = convertedColor;
 					break;
 				case SerializedPropertyType.Float:
 					arrayObj.floatValue = hasDefaultValue ? (float)defaultValue : SkinDefaultValue.Float;
@@ -55,6 +68,7 @@ namespace Pspkurara.UI.Skinner
 					break;
 				case SerializedPropertyType.Vector4:
 					Vector4 convertedVector4 = SkinDefaultValue.Vector4;
+					if (hasDefaultValue)
 					{
 						var type = defaultValue.GetType();
 						if (type == typeof(Vector2))
@@ -70,10 +84,11 @@ namespace Pspkurara.UI.Skinner
 							convertedVector4 = (Vector4)defaultValue;
 						}
 					}
-					arrayObj.vector4Value = hasDefaultValue ? convertedVector4 : SkinDefaultValue.Vector4;
+					arrayObj.vector4Value = convertedVector4;
 					break;
 				case SerializedPropertyType.String:
 					string convertedString = SkinDefaultValue.String;
+					if (hasDefaultValue)
 					{
 						var type = defaultValue.GetType();
 						if (type == typeof(char))
@@ -85,7 +100,7 @@ namespace Pspkurara.UI.Skinner
 							convertedString = (string)defaultValue;
 						}
 					}
-					arrayObj.stringValue = hasDefaultValue ? convertedString : SkinDefaultValue.String;
+					arrayObj.stringValue = convertedString;
 					break;
 				case SerializedPropertyType.ObjectReference:
 					arrayObj.objectReferenceValue = hasDefaultValue ? (Object)defaultValue : SkinDefaultValue.Object;
@@ -165,6 +180,11 @@ namespace Pspkurara.UI.Skinner
 				var arrayObj = prop.GetArrayElementAtIndex(i);
 				FieldClean(arrayObj, defaultValue);
 			}
+			StripArray<T>(prop, arraySize, defaultValue);
+		}
+
+		public static void StripArray<T>(SerializedProperty prop, int arraySize = 0, object defaultValue = null) where T : Object
+		{
 			int currentArraySize = prop.arraySize;
 			for (int i = currentArraySize - 1; i >= 0; i--)
 			{
@@ -183,6 +203,12 @@ namespace Pspkurara.UI.Skinner
 					prop.DeleteArrayElementAtIndex(i);
 					continue;
 				}
+			}
+			currentArraySize = prop.arraySize;
+			for (int i = currentArraySize; i < arraySize; i++)
+			{
+				prop.InsertArrayElementAtIndex(i);
+				FieldClean(prop.GetArrayElementAtIndex(i), defaultValue);
 			}
 		}
 
@@ -228,7 +254,10 @@ namespace Pspkurara.UI.Skinner
 
 		public static void CleanObject(SerializedProperty prop, Type objectType, int index, Object defaultValue = null)
 		{
-			if (prop.GetArrayElementAtIndex(index).objectReferenceValue.GetType() == objectType) return;
+			var objectReference = prop.GetArrayElementAtIndex(index).objectReferenceValue;
+			if (objectReference != null &&(
+				objectReference.GetType() == objectType ||
+				objectType.IsSubclassOf(objectReference.GetType()))) return;
 			prop.GetArrayElementAtIndex(index).objectReferenceValue = defaultValue ? defaultValue : SkinDefaultValue.Object;
 		}
 

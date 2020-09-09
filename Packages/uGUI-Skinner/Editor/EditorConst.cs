@@ -45,6 +45,7 @@ namespace Pspkurara.UI.Skinner
 		public const string MissingSkinPartsInspectorTypeMessage = "Inspector for \" {0} \" not found.\nPlease check if it is registered correctly";
 		public const MessageType MissingSkinPartsInspectorTypeMessageType = MessageType.Warning;
 
+		public static readonly GUIContent UserLogicSampleTitle = new GUIContent("Skin Parts Inspector Sample");
 
 		public static readonly GUILayoutOption SkinSelectArrowMaxWidth = GUILayout.MaxWidth(50);
 		public static readonly GUILayoutOption SkinAddOrRemoveButtonMaxWidth = GUILayout.MaxWidth(150);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Type = System.Type;
 
@@ -11,13 +12,18 @@ namespace Pspkurara.UI.Skinner
 	/// アセット化して保存していないと設定ができない
 	/// </summary>
 	/// <seealso cref="ScriptableLogic"/>
-	public abstract class UserLogic : ScriptableObject
+	public abstract class UserLogic : ScriptableObject, IUserLogicExtension
 	{
 
 		/// <summary>
 		/// ユーザー変数の設定データ
 		/// </summary>
 		private List<UserLogicVariable> m_Variables = null;
+
+		/// <summary>
+		/// ユーザー変数のIDとインデックスマップ
+		/// </summary>
+		private Dictionary<int, int> m_VariableIdMap = null;
 
 		/// <summary>
 		/// ユーザー変数の設定データ
@@ -55,6 +61,32 @@ namespace Pspkurara.UI.Skinner
 		[System.Diagnostics.Conditional("UNITY_EDITOR")]
 		public virtual void ValidateProperty(SkinPartsPropertry property) { }
 
+		#region 内部的に呼び出す
+
+		/// <summary>
+		/// 変数IDを元にフィールド配列インデックス取得する
+		/// </summary>
+		/// <param name="variableId">変数ID</param>
+		/// <param name="valueIndex">変数番号</param>
+		/// <returns>変数IDが見つかった場合は真</returns>
+		bool IUserLogicExtension.TryGetValueIndex(int variableId, out int valueIndex)
+		{
+			if (m_VariableIdMap == null)
+			{
+				m_VariableIdMap = SkinnerUtility.CreateVariableIdToIndexDictionary(variables);
+			}
+			if (m_VariableIdMap.ContainsKey(variableId))
+			{
+				valueIndex = m_VariableIdMap[variableId];
+				return true;
+			}
+			// 見つからないときはとりあえず0を返しておく
+			valueIndex = 0;
+			return false;
+		}
+
+		#endregion
+
 	}
 
 	/// <summary>
@@ -62,6 +94,11 @@ namespace Pspkurara.UI.Skinner
 	/// </summary>
 	public sealed class UserLogicVariable
 	{
+
+		/// <summary>
+		/// 変数ID
+		/// </summary>
+		internal int VariableId { get { return RuntimeHelpers.GetHashCode(this); } }
 
 		/// <summary>
 		/// 変数の型

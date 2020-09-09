@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Type = System.Type;
 
@@ -96,9 +97,8 @@ namespace Pspkurara.UI.Skinner
 
 		/// <summary>
 		/// 変数ID
-		/// 指定しておくと<see cref="UserLogicExtension"/>の関数から値を取得できるようになる
 		/// </summary>
-		public int ? VariableId = null;
+		internal int VariableId { get { return RuntimeHelpers.GetHashCode(this); } }
 
 		/// <summary>
 		/// 変数の型

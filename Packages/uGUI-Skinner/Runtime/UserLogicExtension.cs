@@ -60,11 +60,11 @@ namespace Pspkurara.UI.Skinner
 		/// <see cref="SkinPartsPropertry.objectReferenceValues">を型変換して取得する
 		/// </summary>
 		/// <typeparam name="T">変換する型</typeparam>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static T GetObjectReference<T>(this SkinPartsPropertry property, int variableId) where T : Object
+		/// <param name="variable">ユーザー変数</param>
+		public static T GetObjectReference<T>(this SkinPartsPropertry property, UserLogicVariable variable) where T : Object
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				return property.objectReferenceValues[valueIndex] as T;
 			}
@@ -74,11 +74,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.boolValues">を取得する
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static bool GetBool(this SkinPartsPropertry property, int variableId)
+		/// <param name="variable">ユーザー変数</param>
+		public static bool GetBool(this SkinPartsPropertry property, UserLogicVariable variable)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				return property.boolValues[valueIndex];
 			}
@@ -88,11 +88,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.intValues">を取得する
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static int GetInt(this SkinPartsPropertry property, int variableId)
+		/// <param name="variable">ユーザー変数</param>
+		public static int GetInt(this SkinPartsPropertry property, UserLogicVariable variable)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				return property.intValues[valueIndex];
 			}
@@ -102,11 +102,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.floatValues">を取得する
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static float GetFloat(this SkinPartsPropertry property, int variableId)
+		/// <param name="variable">ユーザー変数</param>
+		public static float GetFloat(this SkinPartsPropertry property, UserLogicVariable variable)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				return property.floatValues[valueIndex];
 			}
@@ -116,11 +116,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.colorValues">を取得する
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static Color GetColor(this SkinPartsPropertry property, int variableId)
+		/// <param name="variable">ユーザー変数</param>
+		public static Color GetColor(this SkinPartsPropertry property, UserLogicVariable variable)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				return property.colorValues[valueIndex];
 			}
@@ -130,11 +130,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.vector4Values">を取得する
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static Vector4 GetVector4(this SkinPartsPropertry property, int variableId)
+		/// <param name="variable">ユーザー変数</param>
+		public static Vector4 GetVector4(this SkinPartsPropertry property, UserLogicVariable variable)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				return property.vector4Values[valueIndex];
 			}
@@ -144,11 +144,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.stringValues">を取得する
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static string GetString(this SkinPartsPropertry property, int variableId)
+		/// <param name="variable">ユーザー変数</param>
+		public static string GetString(this SkinPartsPropertry property, UserLogicVariable variable)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				return property.stringValues[valueIndex];
 			}
@@ -163,11 +163,11 @@ namespace Pspkurara.UI.Skinner
 		/// <see cref="SkinPartsPropertry.objectReferenceValues">に値をセットする
 		/// </summary>
 		/// <typeparam name="T">変換する型</typeparam>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static void SetObjectReference(this SkinPartsPropertry property, int variableId, Object value)
+		/// <param name="variable">ユーザー変数</param>
+		public static void SetObjectReference(this SkinPartsPropertry property, UserLogicVariable variable, Object value)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				property.objectReferenceValues[valueIndex] = value;
 			}
@@ -176,11 +176,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.boolValues">に値をセットする
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static void SetBool(this SkinPartsPropertry property, int variableId, bool value)
+		/// <param name="variable">ユーザー変数</param>
+		public static void SetBool(this SkinPartsPropertry property, UserLogicVariable variable, bool value)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				property.boolValues[valueIndex] = value;
 			}
@@ -189,11 +189,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.intValues">に値をセットする
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static void SetInt(this SkinPartsPropertry property, int variableId, int value)
+		/// <param name="variable">ユーザー変数</param>
+		public static void SetInt(this SkinPartsPropertry property, UserLogicVariable variable, int value)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				property.intValues[valueIndex] = value;
 			}
@@ -202,11 +202,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.floatValues">に値をセットする
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static void SetFloat(this SkinPartsPropertry property, int variableId, float value)
+		/// <param name="variable">ユーザー変数</param>
+		public static void SetFloat(this SkinPartsPropertry property, UserLogicVariable variable, float value)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				property.floatValues[valueIndex] = value;
 			}
@@ -215,11 +215,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.colorValues">に値をセットする
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static void SetColor(this SkinPartsPropertry property, int variableId, Color value)
+		/// <param name="variable">ユーザー変数</param>
+		public static void SetColor(this SkinPartsPropertry property, UserLogicVariable variable, Color value)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				property.colorValues[valueIndex] = value;
 			}
@@ -228,11 +228,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.vector4Values">に値をセットする
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static void SetVector4(this SkinPartsPropertry property, int variableId, Vector4 value)
+		/// <param name="variable">ユーザー変数</param>
+		public static void SetVector4(this SkinPartsPropertry property, UserLogicVariable variable, Vector4 value)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				property.vector4Values[valueIndex] = value;
 			}
@@ -241,11 +241,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference.stringValues">に値をセットする
 		/// </summary>
-		/// <param name="variableId">ユーザー変数ID</param>
-		public static void SetString(this SkinPartsPropertry property, int variableId, string value)
+		/// <param name="variable">ユーザー変数</param>
+		public static void SetString(this SkinPartsPropertry property, UserLogicVariable variable, string value)
 		{
 			int valueIndex;
-			if (m_ActiveUserLogic.TryGetValueIndex(variableId, out valueIndex))
+			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
 			{
 				property.stringValues[valueIndex] = value;
 			}

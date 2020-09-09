@@ -119,37 +119,37 @@ namespace Pspkurara.UI.Skinner
 			{
 				if (SkinnerSystemType.IsObjectReferenceValue(v.FieldType))
 				{
-					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, objectReferenceCount);
+					dic.Add(v.VariableId, objectReferenceCount);
 					objectReferenceCount++;
 				}
 				else if (SkinnerSystemType.IsColorValue(v.FieldType))
 				{
-					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, colorCount);
+					dic.Add(v.VariableId, colorCount);
 					colorCount++;
 				}
 				else if (SkinnerSystemType.IsBoolValue(v.FieldType))
 				{
-					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, boolCount);
+					dic.Add(v.VariableId, boolCount);
 					boolCount++;
 				}
 				else if (SkinnerSystemType.IsIntValue(v.FieldType))
 				{
-					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, intCount);
+					dic.Add(v.VariableId, intCount);
 					intCount++;
 				}
 				else if (SkinnerSystemType.IsFloatValue(v.FieldType))
 				{
-					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, floatCount);
+					dic.Add(v.VariableId, floatCount);
 					floatCount++;
 				}
 				else if (SkinnerSystemType.IsVector4Value(v.FieldType))
 				{
-					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, vector4Count);
+					dic.Add(v.VariableId, vector4Count);
 					vector4Count++;
 				}
 				else if (SkinnerSystemType.IsStringValue(v.FieldType))
 				{
-					if (v.VariableId.HasValue) dic.Add(v.VariableId.Value, stringCount);
+					dic.Add(v.VariableId, stringCount);
 					stringCount++;
 				}
 			}

@@ -45,11 +45,14 @@ namespace Pspkurara.UI.Skinner
 			bool isCorrect = CreateDisplayData(userLogic);
 			if (isCorrect)
 			{
-				SkinnerEditorUtility.CleanArray(property.objectReferenceValues, objectReferenceArrayCount);
+				SkinnerEditorUtility.StripArray<Object>(property.objectReferenceValues, objectReferenceArrayCount + ScriptableLogic.RequiredObjectLength);
+				int objectReferenceCount = 0;
 				for (int i = 0; i < userLogicVariableDisplayDatas.Count; i++)
 				{
 					var v = userLogicVariableDisplayDatas[i];
-					SkinnerEditorUtility.CleanObject(property.objectReferenceValues, v.VariableData.FieldType, i + ScriptableLogic.RequiredObjectLength);
+					if (!SkinnerSystemType.IsObjectReferenceValue(v.VariableData.FieldType)) continue;
+					SkinnerEditorUtility.CleanObject(property.objectReferenceValues, v.VariableData.FieldType, objectReferenceCount + ScriptableLogic.RequiredObjectLength);
+					objectReferenceCount++;
 				}
 				SkinnerEditorUtility.CleanArray(property.boolValues, boolArrayCount);
 				SkinnerEditorUtility.CleanArray(property.colorValues, colorArrayCount);
@@ -57,6 +60,16 @@ namespace Pspkurara.UI.Skinner
 				SkinnerEditorUtility.CleanArray(property.intValues, intArrayCount);
 				SkinnerEditorUtility.CleanArray(property.vector4Values, vector4ArrayCount);
 				SkinnerEditorUtility.CleanArray(property.stringValues, stringArrayCount);
+			}
+			else
+			{
+				SkinnerEditorUtility.CleanArray<UserLogic>(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength);
+				SkinnerEditorUtility.CleanArray(property.boolValues);
+				SkinnerEditorUtility.CleanArray(property.colorValues);
+				SkinnerEditorUtility.CleanArray(property.floatValues);
+				SkinnerEditorUtility.CleanArray(property.intValues);
+				SkinnerEditorUtility.CleanArray(property.vector4Values);
+				SkinnerEditorUtility.CleanArray(property.stringValues);
 			}
 		}
 

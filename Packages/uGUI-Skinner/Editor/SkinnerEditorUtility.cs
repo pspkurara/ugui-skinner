@@ -180,6 +180,11 @@ namespace Pspkurara.UI.Skinner
 				var arrayObj = prop.GetArrayElementAtIndex(i);
 				FieldClean(arrayObj, defaultValue);
 			}
+			StripArray<T>(prop, arraySize, defaultValue);
+		}
+
+		public static void StripArray<T>(SerializedProperty prop, int arraySize = 0, object defaultValue = null) where T : Object
+		{
 			int currentArraySize = prop.arraySize;
 			for (int i = currentArraySize - 1; i >= 0; i--)
 			{
@@ -243,7 +248,10 @@ namespace Pspkurara.UI.Skinner
 
 		public static void CleanObject(SerializedProperty prop, Type objectType, int index, Object defaultValue = null)
 		{
-			if (prop.GetArrayElementAtIndex(index).objectReferenceValue.GetType() == objectType) return;
+			var objectReference = prop.GetArrayElementAtIndex(index).objectReferenceValue;
+			if (objectReference != null &&(
+				objectReference.GetType() == objectType ||
+				objectType.IsSubclassOf(objectReference.GetType()))) return;
 			prop.GetArrayElementAtIndex(index).objectReferenceValue = defaultValue ? defaultValue : SkinDefaultValue.Object;
 		}
 

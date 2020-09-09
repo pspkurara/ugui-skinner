@@ -204,6 +204,12 @@ namespace Pspkurara.UI.Skinner
 					continue;
 				}
 			}
+			currentArraySize = prop.arraySize;
+			for (int i = currentArraySize; i < arraySize; i++)
+			{
+				prop.InsertArrayElementAtIndex(i);
+				FieldClean(prop.GetArrayElementAtIndex(i), defaultValue);
+			}
 		}
 
 		public static void CleanObjectReferenceArrayWithFlexibleSize<T>(SerializedProperty prop, int minArraySize = 1, T defaultValue = null) where T : Object

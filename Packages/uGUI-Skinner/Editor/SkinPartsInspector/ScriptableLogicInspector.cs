@@ -12,7 +12,7 @@ namespace Pspkurara.UI.Skinner
 	internal sealed class ScriptableLogicInspector : ISkinPartsInspector
 	{
 
-		private sealed class UserLogicVariableDisplayData
+		internal sealed class UserLogicVariableDisplayData
 		{
 
 			public GUIContent DisplayName;
@@ -24,7 +24,20 @@ namespace Pspkurara.UI.Skinner
 
 		}
 
-		private static Dictionary<Type, List<UserLogicVariableDisplayData>> m_CachedVariableDisplayDatas = new Dictionary<Type, List<UserLogicVariableDisplayData>>();
+		private sealed class UserLogicVariableRootData
+		{
+			public int objectReferenceArrayCount;
+			public int boolArrayCount;
+			public int colorArrayCount;
+			public int floatArrayCount;
+			public int intArrayCount;
+			public int vector4ArrayCount;
+			public int stringArrayCount;
+
+			public List<UserLogicVariableDisplayData> VariableDisplayDatas;
+		}
+
+		private static Dictionary<Type, UserLogicVariableRootData> m_CachedVariableDisplayDatas = new Dictionary<Type, UserLogicVariableRootData>();
 
 		private List<UserLogicVariableDisplayData> userLogicVariableDisplayDatas = new List<UserLogicVariableDisplayData>();
 		private UserLogic currentUserLogic;
@@ -75,6 +88,7 @@ namespace Pspkurara.UI.Skinner
 
 		public void DrawInspector(EditorSkinPartsPropertry property)
 		{
+			var p = property.objectReferenceValues.GetArrayElementAtIndex(ScriptableLogic.LogicIndex);
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength, false);
 
 			var logicProperty = property.objectReferenceValues.GetArrayElementAtIndex(ScriptableLogic.LogicIndex);
@@ -228,12 +242,21 @@ namespace Pspkurara.UI.Skinner
 			var userLogicType = userLogic.GetType();
 			if (m_CachedVariableDisplayDatas.ContainsKey(userLogicType))
 			{
-				this.userLogicVariableDisplayDatas = m_CachedVariableDisplayDatas[userLogicType];
+				var data = m_CachedVariableDisplayDatas[userLogicType];
+				userLogicVariableDisplayDatas = data.VariableDisplayDatas;
+				objectReferenceArrayCount = data.objectReferenceArrayCount;
+				boolArrayCount = data.boolArrayCount;
+				colorArrayCount = data.colorArrayCount;
+				floatArrayCount = data.floatArrayCount;
+				intArrayCount = data.intArrayCount;
+				vector4ArrayCount = data.vector4ArrayCount;
+				stringArrayCount = data.stringArrayCount;
+				return true;
 			}
 
 			# endif
 
-			var userLogicVariableDisplayDatas = new List<UserLogicVariableDisplayData>();
+			userLogicVariableDisplayDatas = new List<UserLogicVariableDisplayData>();
 			objectReferenceArrayCount = 0;
 			boolArrayCount = 0;
 			colorArrayCount = 0;
@@ -332,22 +355,21 @@ namespace Pspkurara.UI.Skinner
 				}
 			}
 
-			#if SKIP_LOGIC_CACHE
-			
-			var userLogicType = userLogic.GetType();
-			if (m_CachedVariableDisplayDatas.ContainsKey(userLogicType))
+			#if !SKIP_LOGIC_CACHE
+
+			m_CachedVariableDisplayDatas.Add(userLogicType, new UserLogicVariableRootData()
 			{
-				m_CachedVariableDisplayDatas[userLogicType].Clear();
-				m_CachedVariableDisplayDatas[userLogicType].AddRange(userLogicVariableDisplayDatas);
-			}
-
-			#else
-
-			m_CachedVariableDisplayDatas.Add(userLogicType, userLogicVariableDisplayDatas);
+				VariableDisplayDatas = userLogicVariableDisplayDatas,
+				objectReferenceArrayCount = objectReferenceArrayCount,
+				boolArrayCount = boolArrayCount,
+				colorArrayCount = colorArrayCount,
+				floatArrayCount = floatArrayCount,
+				intArrayCount = intArrayCount,
+				vector4ArrayCount = vector4ArrayCount,
+				stringArrayCount = stringArrayCount,
+			});
 
 			#endif
-
-			this.userLogicVariableDisplayDatas = userLogicVariableDisplayDatas;
 
 			return true;
 		}

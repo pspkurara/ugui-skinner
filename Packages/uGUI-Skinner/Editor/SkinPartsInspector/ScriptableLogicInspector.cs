@@ -88,7 +88,6 @@ namespace Pspkurara.UI.Skinner
 
 		public void DrawInspector(EditorSkinPartsPropertry property)
 		{
-			var p = property.objectReferenceValues.GetArrayElementAtIndex(ScriptableLogic.LogicIndex);
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength, false);
 
 			var logicProperty = property.objectReferenceValues.GetArrayElementAtIndex(ScriptableLogic.LogicIndex);
@@ -97,7 +96,15 @@ namespace Pspkurara.UI.Skinner
 			{
 				EditorGUI.showMixedValue = true;
 			}
+			var preSelectLogic = logicProperty.objectReferenceValue as UserLogic;
 			logicProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.Logic, logicProperty.objectReferenceValue, typeof(UserLogic), false);
+			// このタイミングで参照対象が変わるとエラーが起こる
+			if (preSelectLogic != logicProperty.objectReferenceValue)
+			{
+				// クリーンアップしてインスペクターは次に描画させる
+				CleanupFields(property);
+				return;
+			}
 			EditorGUI.showMixedValue = showMixedValue;
 
 			if (logicProperty.hasMultipleDifferentValues) return;

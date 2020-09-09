@@ -15,6 +15,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.CleanArray(property.floatValues, CanvasGroupAlpha.FloatLength);
 			SkinnerEditorUtility.CleanArray(property.intValues);
 			SkinnerEditorUtility.CleanArray(property.vector4Values);
+			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}
 
 		protected override void ResetArrayOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)

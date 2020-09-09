@@ -12,6 +12,7 @@ namespace Pspkurara.UI.Skinner
 		public const float Float = 1f;
 		public const bool Boolean = true;
 		public static readonly Vector4 Vector4 = Vector4.zero;
+		public static readonly string String = string.Empty;
 
 	}
 

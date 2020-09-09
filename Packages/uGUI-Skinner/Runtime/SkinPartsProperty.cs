@@ -97,6 +97,11 @@ namespace Pspkurara.UI.Skinner
 		/// </summary>
 		[SerializeField] private List<Vector4> m_Vector4Values = new List<Vector4>();
 
+		/// <summary>
+		/// 文字列を保存
+		/// </summary>
+		[SerializeField] private List<string> m_StringValues = new List<string>();
+
 		#endregion
 
 		#region プロパティ
@@ -126,6 +131,11 @@ namespace Pspkurara.UI.Skinner
 		/// </summary>
 		public List<Vector4> vector4Values { get { return m_Vector4Values; } }
 
+		/// <summary>
+		/// 文字列
+		/// </summary>
+		public List<string> stringValues { get { return m_StringValues; } }
+
 		#endregion
 
 		#region コンストラクタ
@@ -146,6 +156,7 @@ namespace Pspkurara.UI.Skinner
 			m_FloatValues.AddRange(@base.m_FloatValues);
 			m_IntValues.AddRange(@base.m_IntValues);
 			m_Vector4Values.AddRange(@base.m_Vector4Values);
+			m_StringValues.AddRange(@base.m_StringValues);
 		}
 
 		#endregion
@@ -162,6 +173,7 @@ namespace Pspkurara.UI.Skinner
 			m_FloatValues.Clear();
 			m_IntValues.Clear();
 			m_Vector4Values.Clear();
+			m_StringValues.Clear();
 		}
 
 		#endregion

@@ -116,7 +116,7 @@ namespace Pspkurara.UI
 
 				EditorGUILayout.BeginHorizontal();
 				m_SkinFoldoutTitle.text = hasStyleKey ? string.Format(EditorConst.SkinFoldTitleHasStyleKey, skinStylesIndex, styleKey.stringValue) : string.Format(EditorConst.SkinFoldTitle, skinStylesIndex);
-				skinStyleElementProperty.isExpanded = EditorGUILayout.Foldout(skinStyleElementProperty.isExpanded, m_SkinFoldoutTitle, style);
+				skinStyleElementProperty.isExpanded = EditorGUILayout.Foldout(skinStyleElementProperty.isExpanded, m_SkinFoldoutTitle, true, style);
 
 				if (skinStyleElementProperty.isExpanded)
 				{

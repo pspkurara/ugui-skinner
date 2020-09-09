@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/pspkurara/ugui-skinner/compare/v1.3.0...v1.4.0) (2020-09-09)
+
+
+### Features
+
+* 文字列保存を可能にした ([df851b8](https://github.com/pspkurara/ugui-skinner/commit/df851b85561ed97010a61c57412079b7b0521dee))
+
 # [1.3.0](https://github.com/pspkurara/ugui-skinner/compare/v1.2.5...v1.3.0) (2020-09-09)
 
 

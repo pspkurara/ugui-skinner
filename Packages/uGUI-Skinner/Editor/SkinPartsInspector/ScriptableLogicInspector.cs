@@ -33,6 +33,7 @@ namespace Pspkurara.UI.Skinner
 		private int floatArrayCount = 0;
 		private int intArrayCount = 0;
 		private int vector4ArrayCount = 0;
+		private int stringArrayCount = 0;
 		private SkinPartsPropertry validateProperty = new SkinPartsPropertry();
 
 		public void CleanupFields(EditorSkinPartsPropertry property)
@@ -54,6 +55,7 @@ namespace Pspkurara.UI.Skinner
 				SkinnerEditorUtility.CleanArray(property.floatValues, floatArrayCount);
 				SkinnerEditorUtility.CleanArray(property.intValues, intArrayCount);
 				SkinnerEditorUtility.CleanArray(property.vector4Values, vector4ArrayCount);
+				SkinnerEditorUtility.CleanArray(property.stringValues, stringArrayCount);
 			}
 		}
 
@@ -82,6 +84,7 @@ namespace Pspkurara.UI.Skinner
 				SkinnerEditorUtility.ResetArray(property.floatValues, floatArrayCount);
 				SkinnerEditorUtility.ResetArray(property.intValues, intArrayCount);
 				SkinnerEditorUtility.ResetArray(property.vector4Values, vector4ArrayCount);
+				SkinnerEditorUtility.ResetArray(property.stringValues, stringArrayCount);
 				for (int i = 0; i < userLogicVariableDisplayDatas.Count; i++)
 				{
 					var v = userLogicVariableDisplayDatas[i];
@@ -192,6 +195,7 @@ namespace Pspkurara.UI.Skinner
 			floatArrayCount = 0;
 			intArrayCount = 0;
 			vector4ArrayCount = 0;
+			stringArrayCount = 0;
 			foreach (var v in userLogic.variables)
 			{
 				bool isUnCorrect = false;
@@ -251,6 +255,18 @@ namespace Pspkurara.UI.Skinner
 					data.PropertyType = SerializedPropertyType.Vector4;
 					data.FieldIndex = vector4ArrayCount;
 					vector4ArrayCount++;
+				}
+				else if (v.FieldType == typeof(char))
+				{
+					data.PropertyType = SerializedPropertyType.Character;
+					data.FieldIndex = stringArrayCount;
+					stringArrayCount++;
+				}
+				else if (v.FieldType == typeof(string))
+				{
+					data.PropertyType = SerializedPropertyType.String;
+					data.FieldIndex = stringArrayCount;
+					stringArrayCount++;
 				}
 				else
 				{

@@ -72,6 +72,21 @@ namespace Pspkurara.UI.Skinner
 					}
 					arrayObj.vector4Value = hasDefaultValue ? convertedVector4 : SkinDefaultValue.Vector4;
 					break;
+				case SerializedPropertyType.String:
+					string convertedString = SkinDefaultValue.String;
+					{
+						var type = defaultValue.GetType();
+						if (type == typeof(char))
+						{
+							convertedString = ((char)defaultValue).ToString();
+						}
+						if (type == typeof(string))
+						{
+							convertedString = (string)defaultValue;
+						}
+					}
+					arrayObj.stringValue = hasDefaultValue ? convertedString : SkinDefaultValue.String;
+					break;
 				case SerializedPropertyType.ObjectReference:
 					arrayObj.objectReferenceValue = hasDefaultValue ? (Object)defaultValue : SkinDefaultValue.Object;
 					break;
@@ -254,6 +269,7 @@ namespace Pspkurara.UI.Skinner
 			MapRuntimeFromEditorSingleProperty(mapTarget.floatValues, mapSource.floatValues, (p) => p.floatValue);
 			MapRuntimeFromEditorSingleProperty(mapTarget.intValues, mapSource.intValues, (p) => p.intValue);
 			MapRuntimeFromEditorSingleProperty(mapTarget.vector4Values, mapSource.vector4Values, (p) => p.vector4Value);
+			MapRuntimeFromEditorSingleProperty(mapTarget.stringValues, mapSource.stringValues, (p) => p.stringValue);
 		}
 
 		/// <summary>
@@ -269,6 +285,7 @@ namespace Pspkurara.UI.Skinner
 			MapEditorFromRuntimeSingleProperty(mapTarget.floatValues, mapSource.floatValues, (v, p) => p.floatValue = v);
 			MapEditorFromRuntimeSingleProperty(mapTarget.intValues, mapSource.intValues, (v, p) => p.intValue = v);
 			MapEditorFromRuntimeSingleProperty(mapTarget.vector4Values, mapSource.vector4Values, (v, p) => p.vector4Value = v);
+			MapEditorFromRuntimeSingleProperty(mapTarget.stringValues, mapSource.stringValues, (v, p) => p.stringValue = v);
 		}
 
 		private static void MapRuntimeFromEditorSingleProperty<T>(List<T> mapTarget, SerializedProperty mapSource, Func<SerializedProperty, T> convertFunction)

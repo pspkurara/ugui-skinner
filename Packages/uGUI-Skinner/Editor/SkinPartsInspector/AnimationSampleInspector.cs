@@ -17,6 +17,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.CleanArray(property.floatValues, AnimationSample.FloatLength);
 			SkinnerEditorUtility.CleanArray(property.intValues);
 			SkinnerEditorUtility.CleanArray(property.vector4Values);
+			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}
 
 		public void DrawInspector(EditorSkinPartsPropertry property)

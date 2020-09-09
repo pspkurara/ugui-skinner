@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Reflection;
 
 namespace Pspkurara.UI.Skinner
@@ -18,9 +16,13 @@ namespace Pspkurara.UI.Skinner
 
 		/// <summary>
 		/// スキンパーツのIDとクラスを紐付ける一覧
-		/// スキンパーツが増えたら随時追加すること
 		/// </summary>
 		private static readonly Dictionary<int, SkinPartsAttribute> m_SkinParts = CreateSkinPartsList();
+
+		/// <summary>
+		/// スキンパーツIDがおかしいときに返すダミー処理
+		/// </summary>
+		private static readonly DoNothingLogic m_DoNothingLogic = new DoNothingLogic();
 
 		#endregion
 
@@ -44,6 +46,11 @@ namespace Pspkurara.UI.Skinner
 		/// <returns>スキンロジック</returns>
 		public static ISkinLogic CreateSkinLogicInstance(int id)
 		{
+			// 正しくないものがきたら空処理を返しておく
+			if (!IsCorrectSkinPartsId(id))
+			{
+				return m_DoNothingLogic;
+			}
 			return (ISkinLogic)Activator.CreateInstance(m_SkinParts[id].LogicType);
 		}
 
@@ -67,14 +74,15 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
-		/// <see cref="SkinPartsAttribute"/>属性を取得する
+		/// スキンパーツIDが正しいか取得する
 		/// </summary>
-		/// <param name="rootType">親クラスの型</param>
-		/// <returns>属性</returns>
-		private static SkinPartsAttribute GetAttribute(Type rootType)
+		/// <param name="id">スキンパーツID</param>
+		/// <returns>
+		/// IDに一致するスキンパーツが存在する場合は真
+		/// </returns>
+		public static bool IsCorrectSkinPartsId(int id)
 		{
-			var attribute = rootType.GetCustomAttribute<SkinPartsAttribute>();
-			return attribute;
+			return m_SkinParts.ContainsKey(id);
 		}
 
 		#endregion

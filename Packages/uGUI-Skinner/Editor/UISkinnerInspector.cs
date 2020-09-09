@@ -1,5 +1,6 @@
 using Pspkurara.UI.Skinner;
 using System.Linq;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -15,8 +16,6 @@ namespace Pspkurara.UI
 	internal partial class UISkinnerInspector : Editor
 	{
 
-		const string FOLDOUT_EDITOR_PREFS_KEY = "COMPONENT_SKINNER_FOLDOUT_";
-
 		public static class FieldName
 		{
 			public const string StyleIndex = "m_StyleIndex";
@@ -29,10 +28,10 @@ namespace Pspkurara.UI
 
 		#region TempField
 
-		private SerializedProperty currentStyle;
-		private SerializedProperty skinnerObject;
+		private SerializedProperty m_StyleIndex;
+		private SerializedProperty m_SkinStyles;
 
-		private EditorSkinPartsPropertry skinnerPartsProperty = null;
+		private EditorSkinPartsPropertry m_SkinPartsProperty = null;
 
 		private int[] m_SkinnerPartsOptionValues = null;
 		private GUIContent[] m_SkinnerPartsDisplayNames = null;
@@ -46,12 +45,12 @@ namespace Pspkurara.UI
 		/// <summary>
 		/// スキンスタイルの総数
 		/// </summary>
-		private int skinLength { get { return skinnerObject.arraySize; } }
+		private int skinLength { get { return m_SkinStyles.arraySize; } }
 
 		/// <summary>
 		/// 現在選択しているスキンスタイルの番号
 		/// </summary>
-		private int currentStyleIndex { get { return currentStyle.intValue; } set { currentStyle.intValue = value; } }
+		private int currentStyleIndex { get { return m_StyleIndex.intValue; } set { m_StyleIndex.intValue = value; } }
 
 		#endregion
 
@@ -65,10 +64,10 @@ namespace Pspkurara.UI
 			m_SkinFoldoutTitle = new GUIContent();
 			m_CurrentSelectStyleTitle = new GUIContent();
 
-			skinnerObject = serializedObject.FindProperty(FieldName.Styles);
-			currentStyle = serializedObject.FindProperty(FieldName.StyleIndex);
+			m_SkinStyles = serializedObject.FindProperty(FieldName.Styles);
+			m_StyleIndex = serializedObject.FindProperty(FieldName.StyleIndex);
 
-			skinnerPartsProperty = new EditorSkinPartsPropertry();
+			m_SkinPartsProperty = new EditorSkinPartsPropertry();
 		}
 
 		public override void OnInspectorGUI()
@@ -85,7 +84,7 @@ namespace Pspkurara.UI
 					edittedCurrentStyle--;
 				}
 				GUILayout.FlexibleSpace();
-				m_CurrentSelectStyleTitle.text = currentStyle.hasMultipleDifferentValues ? EditorConst.CurrentSkinHasMultipleDifferentValue : edittedCurrentStyle.ToString();
+				m_CurrentSelectStyleTitle.text = m_StyleIndex.hasMultipleDifferentValues ? EditorConst.CurrentSkinHasMultipleDifferentValue : edittedCurrentStyle.ToString();
 				GUILayout.Label(m_CurrentSelectStyleTitle);
 				GUILayout.FlexibleSpace();
 				if (GUILayout.Button(EditorConst.RightSkinSelectArrow, EditorConst.SkinSelectArrowMaxWidth))
@@ -99,61 +98,84 @@ namespace Pspkurara.UI
 
 			if (currentStyleIndex != edittedCurrentStyle)
 			{
-				if (edittedCurrentStyle < 0 || edittedCurrentStyle >= skinnerObject.arraySize) return;
+				if (edittedCurrentStyle < 0 || edittedCurrentStyle >= m_SkinStyles.arraySize) return;
 				currentStyleIndex = edittedCurrentStyle;
 				ApplySkin();
 			}
 
-			for (int skinnerObjectIndex = 0; skinnerObjectIndex < skinnerObject.arraySize; skinnerObjectIndex++)
+			for (int skinStylesIndex = 0; skinStylesIndex < m_SkinStyles.arraySize; skinStylesIndex++)
 			{
 
-				SerializedProperty objProp = skinnerObject.GetArrayElementAtIndex(skinnerObjectIndex).FindPropertyRelative(FieldName.Parts);
-				SerializedProperty styleKey = skinnerObject.GetArrayElementAtIndex(skinnerObjectIndex).FindPropertyRelative(FieldName.StyleKey);
+				var skinStyleElementProperty = m_SkinStyles.GetArrayElementAtIndex(skinStylesIndex);
+				var skinPartsProperty = skinStyleElementProperty.FindPropertyRelative(FieldName.Parts);
+				var styleKey = skinStyleElementProperty.FindPropertyRelative(FieldName.StyleKey);
 
-				GUIStyle style = (edittedCurrentStyle == skinnerObjectIndex) ? EditorConst.HighLightFoldoutStyle : EditorConst.NormalFoldoutStyle;
+				GUIStyle style = (edittedCurrentStyle == skinStylesIndex) ? EditorConst.HighLightFoldoutStyle : EditorConst.NormalFoldoutStyle;
 
 				bool hasStyleKey = !string.IsNullOrEmpty(styleKey.stringValue);
 
 				EditorGUILayout.BeginHorizontal();
-				m_SkinFoldoutTitle.text = hasStyleKey ? string.Format(EditorConst.SkinFoldTitleHasStyleKey, skinnerObjectIndex, styleKey.stringValue) : string.Format(EditorConst.SkinFoldTitle, skinnerObjectIndex);
-				bool foldOut = EditorGUILayout.Foldout(GetFoldOut(skinnerObjectIndex), m_SkinFoldoutTitle, style);
-				SetFoldOut(skinnerObjectIndex, foldOut);
+				m_SkinFoldoutTitle.text = hasStyleKey ? string.Format(EditorConst.SkinFoldTitleHasStyleKey, skinStylesIndex, styleKey.stringValue) : string.Format(EditorConst.SkinFoldTitle, skinStylesIndex);
+				skinStyleElementProperty.isExpanded = EditorGUILayout.Foldout(skinStyleElementProperty.isExpanded, m_SkinFoldoutTitle, true, style);
 
-				if (GetFoldOut(skinnerObjectIndex))
+				if (skinStyleElementProperty.isExpanded)
 				{
 					EditorGUILayout.EndHorizontal();
 
 					EditorGUILayout.PropertyField(styleKey, EditorConst.SkinnerStyleKeyFieldTitle);
 
-					for (int skinnerPartsIndex = 0; skinnerPartsIndex < objProp.arraySize; skinnerPartsIndex++)
+					for (int skinPartsIndex = 0; skinPartsIndex < skinPartsProperty.arraySize; skinPartsIndex++)
 					{
 
-						SerializedProperty partsProp = objProp.GetArrayElementAtIndex(skinnerPartsIndex);
-						SerializedProperty uiSkinnedPartsTypeProperty = partsProp.FindPropertyRelative(FieldName.Type);
-						int uiSkinnerPartsType = uiSkinnedPartsTypeProperty.intValue;
-						uiSkinnedPartsTypeProperty.intValue = EditorGUILayout.IntPopup(uiSkinnerPartsType, m_SkinnerPartsDisplayNames, m_SkinnerPartsOptionValues);
+						SerializedProperty skinPartsElementProperty = skinPartsProperty.GetArrayElementAtIndex(skinPartsIndex);
+						SerializedProperty skinPartsTypeProperty = skinPartsElementProperty.FindPropertyRelative(FieldName.Type);
+						int skinPartsType = skinPartsTypeProperty.intValue;
 
-						skinnerPartsProperty.MapProperties(partsProp.FindPropertyRelative(FieldName.Property));
-
-						var rootType = SkinPartsAccess.GetSkinPartsRootType(uiSkinnerPartsType);
-						var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
+						skinPartsTypeProperty.intValue = EditorGUILayout.IntPopup(skinPartsType, m_SkinnerPartsDisplayNames, m_SkinnerPartsOptionValues);
 
 						EditorGUI.indentLevel++;
 
-						EditorGUI.BeginChangeCheck();
-						inspector.DrawInspector(skinnerPartsProperty);
-						if (EditorGUI.EndChangeCheck())
+						// タイプの登録を確認
+						if (SkinPartsAccess.IsCorrectSkinPartsId(skinPartsType))
 						{
-							if (skinnerObjectIndex == currentStyle.intValue)
+							var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
+
+							// インスペクターの登録を確認
+							if (SkinPartsInspectorAccess.IsRegistedInspector(rootType))
 							{
-								ApplySkin();
+								var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
+
+								m_SkinPartsProperty.MapProperties(skinPartsElementProperty.FindPropertyRelative(FieldName.Property));
+
+								EditorGUI.BeginChangeCheck();
+								inspector.DrawInspector(m_SkinPartsProperty);
+								if (EditorGUI.EndChangeCheck())
+								{
+									if (skinStylesIndex == m_StyleIndex.intValue)
+									{
+										ApplySkin();
+									}
+								}
+
 							}
+							else
+							{
+								// 該当インスペクターが存在しない場合は何もしない
+								var skinPartsTypeName = SkinnerEditorUtility.GetEditorName(rootType.Name);
+								EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsInspectorTypeMessage, skinPartsTypeName), EditorConst.MissingSkinPartsInspectorTypeMessageType);
+							}
+
+						}
+						else
+						{
+							// 該当IDが存在しない場合は警告を出す
+							EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsTypeMessage, skinPartsType), EditorConst.MissingSkinPartsTypeMessageType);
 						}
 
 						EditorGUI.indentLevel--;
 
 						if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemovePartsButtonTitle, () => {
-							objProp.DeleteArrayElementAtIndex(skinnerPartsIndex);
+							skinPartsProperty.DeleteArrayElementAtIndex(skinPartsIndex);
 							serializedObject.ApplyModifiedProperties();
 						})) return;
 					}
@@ -161,7 +183,7 @@ namespace Pspkurara.UI
 					EditorGUILayout.Space();
 					EditorGUILayout.BeginHorizontal();
 					if (SkinnerEditorUtility.DrawAddButton(EditorConst.AddPartsButtonTitle, () => {
-						objProp.InsertArrayElementAtIndex(objProp.arraySize);
+						skinPartsProperty.InsertArrayElementAtIndex(skinPartsProperty.arraySize);
 						serializedObject.ApplyModifiedProperties();
 					})) return;
 
@@ -169,7 +191,7 @@ namespace Pspkurara.UI
 				}
 
 				if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemoveSkinButtonTitle, () => {
-					skinnerObject.DeleteArrayElementAtIndex(skinnerObjectIndex);
+					m_SkinStyles.DeleteArrayElementAtIndex(skinStylesIndex);
 					if (currentStyleIndex >= skinLength)
 					{
 						// スキンがゼロの場合
@@ -182,7 +204,7 @@ namespace Pspkurara.UI
 						else
 						{
 							// とりあえずサイズより小さくしておく
-							currentStyleIndex = skinnerObject.arraySize - 1;
+							currentStyleIndex = m_SkinStyles.arraySize - 1;
 							// 反映
 							ApplySkin();
 						}
@@ -191,7 +213,7 @@ namespace Pspkurara.UI
 				})) return;
 				EditorGUILayout.EndHorizontal();
 
-				if (foldOut)
+				if (skinStyleElementProperty.isExpanded)
 				{
 					EditorGUILayout.Space();
 					SkinnerEditorUtility.DrawLine();
@@ -203,7 +225,14 @@ namespace Pspkurara.UI
 			EditorGUILayout.BeginHorizontal();
 
 			if (SkinnerEditorUtility.DrawAddButton(EditorConst.AddSkinButtonTitle, () => {
-				skinnerObject.InsertArrayElementAtIndex(skinnerObject.arraySize);
+				m_SkinStyles.InsertArrayElementAtIndex(m_SkinStyles.arraySize);
+				var addedStyle = m_SkinStyles.GetArrayElementAtIndex(m_SkinStyles.arraySize - 1);
+				bool expanded = true;
+				if (m_SkinStyles.arraySize > 1)
+				{
+					expanded = m_SkinStyles.GetArrayElementAtIndex(m_SkinStyles.arraySize - 2).isExpanded;
+				}
+				m_SkinStyles.GetArrayElementAtIndex(m_SkinStyles.arraySize - 1).isExpanded = expanded;
 				serializedObject.ApplyModifiedProperties();
 			})) return;
 
@@ -227,51 +256,45 @@ namespace Pspkurara.UI
 		{
 			foreach (Object t in serializedObject.targetObjects)
 			{
-				UISkinner skinnerObj = t as UISkinner;
-				skinnerObj.SetSkin(Mathf.Clamp(currentStyleIndex, 0, skinLength - 1));
+				UISkinner skinner = t as UISkinner;
+				skinner.SetSkin(Mathf.Clamp(currentStyleIndex, 0, skinLength - 1));
 			}
 		}
 		
 		private void Cleanup()
 		{
-			for (int skinnerObjectIndex = 0; skinnerObjectIndex < skinnerObject.arraySize; skinnerObjectIndex++)
+			for (int skinStylesIndex = 0; skinStylesIndex < m_SkinStyles.arraySize; skinStylesIndex++)
 			{
-				SerializedProperty objProp = skinnerObject.GetArrayElementAtIndex(skinnerObjectIndex).FindPropertyRelative(FieldName.Parts);
-				for (int skinnerPartsIndex = 0; skinnerPartsIndex < objProp.arraySize; skinnerPartsIndex++)
+				SerializedProperty skinPartsProperty = m_SkinStyles.GetArrayElementAtIndex(skinStylesIndex).FindPropertyRelative(FieldName.Parts);
+				for (int skinPartsIndex = 0; skinPartsIndex < skinPartsProperty.arraySize; skinPartsIndex++)
 				{
-					SerializedProperty partsProp = objProp.GetArrayElementAtIndex(skinnerPartsIndex);
-					SerializedProperty uiSkinnedPartsTypeProperty = partsProp.FindPropertyRelative(FieldName.Type);
-					int uiSkinnerPartsType = uiSkinnedPartsTypeProperty.intValue;
+					SerializedProperty partsProp = skinPartsProperty.GetArrayElementAtIndex(skinPartsIndex);
+					SerializedProperty skinPartsTypeProperty = partsProp.FindPropertyRelative(FieldName.Type);
+					int skinPartsType = skinPartsTypeProperty.intValue;
+					
+					// 該当IDが存在しない場合は何もしない
+					if (!SkinPartsAccess.IsCorrectSkinPartsId(skinPartsType))
+					{
+						continue;
+					}
 
-					var rootType = SkinPartsAccess.GetSkinPartsRootType(uiSkinnerPartsType);
+					var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
+
+					// 該当インスペクターが存在しない場合は何もしない
+					if (!SkinPartsInspectorAccess.IsRegistedInspector(rootType))
+					{
+						continue;
+					}
+
 					var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
 
-					skinnerPartsProperty.MapProperties(partsProp.FindPropertyRelative(FieldName.Property));
+					m_SkinPartsProperty.MapProperties(partsProp.FindPropertyRelative(FieldName.Property));
 
-					inspector.CleanupFields(skinnerPartsProperty);
+					inspector.CleanupFields(m_SkinPartsProperty);
 
 				}
 			}
 		}
-
-		#region EditorPrefs
-
-		private static string GetFoldoutKey(int foldOutIndex)
-		{
-			return FOLDOUT_EDITOR_PREFS_KEY + foldOutIndex;
-		}
-
-		private static bool GetFoldOut(int foldOutIndex)
-		{
-			return EditorPrefs.GetBool(GetFoldoutKey(foldOutIndex), true);
-		}
-
-		private static void SetFoldOut(int foldOutIndex, bool value)
-		{
-			EditorPrefs.SetBool(GetFoldoutKey(foldOutIndex), value);
-		}
-
-		#endregion
 
 		#endregion
 

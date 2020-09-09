@@ -23,6 +23,10 @@ namespace Pspkurara.UI.Skinner
 		public static readonly GUIContent Enabled = new GUIContent("Enabled");
 		public static readonly GUIContent LocalRotation = new GUIContent("Local Rotation");
 		public static readonly GUIContent LocalScale = new GUIContent("Local Scale");
+		public static readonly GUIContent RootGameObject = new GUIContent("Root Game Object");
+		public static readonly GUIContent AnimationClip = new GUIContent("Animation Clip");
+		public static readonly GUIContent SampleTime = new GUIContent("Sample Time");
+		public static readonly GUIContent Logic = new GUIContent("Logic");
 
 	}
 

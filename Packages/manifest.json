@@ -1,8 +1,10 @@
 {
   "dependencies": {
-    "com.littlebigfun.addressable-importer": "0.4.1",
-    "com.unity.addressables": "1.1.10",
-    "com.unity.ugui": "1.0.0"
+    "com.littlebigfun.addressable-importer": "0.9.2",
+    "com.unity.addressables": "1.8.4",
+    "com.unity.ugui": "1.0.0",
+    "com.unity.modules.animation": "1.0.0",
+    "com.unity.modules.jsonserialize": "1.0.0"
   },
   "scopedRegistries": [
     {

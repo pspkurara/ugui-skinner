@@ -1,3 +1,21 @@
+# [1.5.0](https://github.com/pspkurara/ugui-skinner/compare/v1.4.0...v1.5.0) (2020-09-09)
+
+
+### Bug Fixes
+
+* ScriptableLogicのクリーンアップが正しく動作しなかった問題を修正 ([35fa527](https://github.com/pspkurara/ugui-skinner/commit/35fa527759cf0585b79736d886effb08e212411e))
+* ユーザーロジックの細かい初期化の問題修正 ([0d5c521](https://github.com/pspkurara/ugui-skinner/commit/0d5c521fa81554f1533d555a5b668861830a9439))
+* 文字列のインスペクター表示がなかったので追加 ([578fe8d](https://github.com/pspkurara/ugui-skinner/commit/578fe8d584f7b14d3e7c7948d5deff9cdf0f3c3d))
+
+
+### Features
+
+* ScriptableLogicのユーザー変数ラベルが空の場合は型の名前を出しておくように変更 ([5e66e65](https://github.com/pspkurara/ugui-skinner/commit/5e66e651392628245ead5d81e659a9538afb087b))
+* UserLogic ロジックオブジェクトのインスペクターにSkinParts上の表示サンプルが出る機能を追加 ([4cc0254](https://github.com/pspkurara/ugui-skinner/commit/4cc02549ee42b9aa9c19539c528a36b91e0acc9b))
+* UserLogic.GetValueIndexを廃止し、代わりにUserLogicExtensionに糖衣構文を追加 ([c9625b5](https://github.com/pspkurara/ugui-skinner/commit/c9625b5a2625b2cbbc1d9e851a2f21f1b74de350))
+* UserLogicのユーザー変数 そのままキーに使うように変更 ([dd5adad](https://github.com/pspkurara/ugui-skinner/commit/dd5adadafd93b8d3905ac7ffb9fe5b173bcc0a82))
+* ユーザー変数にIDを持たせてインデックスを安全に取得できるようにした ([d60e4d7](https://github.com/pspkurara/ugui-skinner/commit/d60e4d7cebed40f8a277cc7636d2173d51fcd8bc))
+
 # [1.4.0](https://github.com/pspkurara/ugui-skinner/compare/v1.3.0...v1.4.0) (2020-09-09)
 
 

@@ -155,6 +155,24 @@ namespace Pspkurara.UI.Skinner
 								element.vector4Value = EditorGUILayout.Vector4Field(v.DisplayName, element.vector4Value);
 							}
 							break;
+						case SerializedPropertyType.Character:
+							{
+								var element = property.stringValues.GetArrayElementAtIndex(v.FieldIndex);
+								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
+								var str = element.stringValue;
+								if (str.Length > 0) str = str[0].ToString();
+								var resultStr = EditorGUILayout.TextField(v.DisplayName, str);
+								if (resultStr.Length > 0) resultStr = resultStr[0].ToString();
+								element.stringValue = resultStr;
+							}
+							break;
+						case SerializedPropertyType.String:
+							{
+								var element = property.stringValues.GetArrayElementAtIndex(v.FieldIndex);
+								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
+								element.stringValue = EditorGUILayout.TextField(v.DisplayName, element.stringValue);
+							}
+							break;
 					}
 					EditorGUI.showMixedValue = showMixedValue;
 				}

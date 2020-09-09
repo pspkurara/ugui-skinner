@@ -79,6 +79,14 @@ public class SampleScript : MonoBehaviour
 ```
 
 ## Installation
+
+### Using OpenUPM
+Go to Unity's project folder on the command line and call:
+
+```
+openupm add com.pspkurara.ugui-skinner
+```
+
 ### Using Unity Package Manager (For Unity 2018.3 or later)
 Find the manifest.json file in the Packages folder of your project and edit it to look like this:
 
@@ -91,8 +99,9 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 }
 ```
 
-Requirement
-Unity 2018.3 or later
+#### Requirement
+Unity 2017.1 or later<br>
+May work in Unity5, but unofficial.
 
 ## License
 
@@ -100,7 +109,7 @@ Unity 2018.3 or later
 
 ## Author
 
-[pspkurara](https://github.com/pspkurara)
+* [pspkurara](https://github.com/pspkurara) 
 [![](https://img.shields.io/twitter/follow/pspkurara.svg?label=Follow&style=social)](https://twitter.com/intent/follow?screen_name=pspkurara) 
 
 ## See Also

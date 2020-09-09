@@ -16,7 +16,7 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="UnityEngine.Object"/>系を保存
 		/// </summary>
-		[SerializeField] private List<Object> m_ObjectReferenceValues = null;
+		[SerializeField] private List<Object> m_ObjectReferenceValues = new List<Object>();
 
 		#endregion
 
@@ -34,10 +34,7 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertry"/>を初期化して生成
 		/// </summary>
-		public SkinPartsPropertry() :base()
-		{
-			m_ObjectReferenceValues = new List<Object>();
-		}
+		public SkinPartsPropertry() : base() { }
 
 		/// <summary>
 		/// <see cref="SkinPartsPropertry"/>を初期化して生成
@@ -46,6 +43,19 @@ namespace Pspkurara.UI.Skinner
 		public SkinPartsPropertry(SkinPartsPropertry @base) :base(@base)
 		{
 			m_ObjectReferenceValues.AddRange(@base.m_ObjectReferenceValues);
+		}
+
+		#endregion
+
+		#region メソッド
+
+		/// <summary>
+		/// 中身を消去する
+		/// </summary>
+		public override void Clear()
+		{
+			base.Clear();
+			m_ObjectReferenceValues.Clear();
 		}
 
 		#endregion
@@ -65,27 +75,27 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// フラグを保存
 		/// </summary>
-		[SerializeField] private List<bool> m_BoolValues = null;
+		[SerializeField] private List<bool> m_BoolValues = new List<bool>();
 
 		/// <summary>
 		/// 色を保存
 		/// </summary>
-		[SerializeField] private List<Color> m_ColorValues = null;
+		[SerializeField] private List<Color> m_ColorValues = new List<Color>();
 
 		/// <summary>
 		/// 少数を保存
 		/// </summary>
-		[SerializeField] private List<float> m_FloatValues = null;
+		[SerializeField] private List<float> m_FloatValues = new List<float>();
 
 		/// <summary>
 		/// 整数を保存
 		/// </summary>
-		[SerializeField] private List<int> m_IntValues = null;
+		[SerializeField] private List<int> m_IntValues = new List<int>();
 
 		/// <summary>
 		/// Vector4を保存
 		/// </summary>
-		[SerializeField] private List<Vector4> m_Vector4Values = null;
+		[SerializeField] private List<Vector4> m_Vector4Values = new List<Vector4>();
 
 		#endregion
 
@@ -123,26 +133,35 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference"/>を初期化して生成
 		/// </summary>
-		public SkinPartsPropertryWithoutObjectReference()
-		{
-			m_BoolValues = new List<bool>();
-			m_ColorValues = new List<Color>();
-			m_FloatValues = new List<float>();
-			m_IntValues = new List<int>();
-			m_Vector4Values = new List<Vector4>();
-		}
+		public SkinPartsPropertryWithoutObjectReference() { }
 
 		/// <summary>
 		/// <see cref="SkinPartsPropertryWithoutObjectReference"/>を初期化して生成
 		/// </summary>
 		/// <param name="base">複製元となるオブジェクト</param>
-		public SkinPartsPropertryWithoutObjectReference(SkinPartsPropertryWithoutObjectReference @base) :this()
+		public SkinPartsPropertryWithoutObjectReference(SkinPartsPropertryWithoutObjectReference @base)
 		{
 			m_BoolValues.AddRange(@base.m_BoolValues);
 			m_ColorValues.AddRange(@base.m_ColorValues);
 			m_FloatValues.AddRange(@base.m_FloatValues);
 			m_IntValues.AddRange(@base.m_IntValues);
 			m_Vector4Values.AddRange(@base.m_Vector4Values);
+		}
+
+		#endregion
+
+		#region メソッド
+
+		/// <summary>
+		/// 中身を消去する
+		/// </summary>
+		public virtual void Clear()
+		{
+			m_BoolValues.Clear();
+			m_ColorValues.Clear();
+			m_FloatValues.Clear();
+			m_IntValues.Clear();
+			m_Vector4Values.Clear();
 		}
 
 		#endregion

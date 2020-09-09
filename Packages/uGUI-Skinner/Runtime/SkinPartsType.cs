@@ -23,6 +23,8 @@ namespace Pspkurara.UI.Skinner
 		TransformScale = 13,
 
 		AnimationSample = 20,
+
+		ScriptableLogic = 100,
 	}
 
 }

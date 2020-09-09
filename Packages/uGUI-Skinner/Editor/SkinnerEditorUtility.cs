@@ -211,6 +211,12 @@ namespace Pspkurara.UI.Skinner
 			}
 		}
 
+		public static void CleanObject(SerializedProperty prop, Type objectType, int index, Object defaultValue = null)
+		{
+			if (prop.GetArrayElementAtIndex(index).objectReferenceValue.GetType() == objectType) return;
+			prop.GetArrayElementAtIndex(index).objectReferenceValue = defaultValue ? defaultValue : SkinDefaultValue.Object;
+		}
+
 		public static void CleanObject<T>(SerializedProperty prop, int index, T defaultValue = null) where T : Object
 		{
 			if (prop.GetArrayElementAtIndex(index).objectReferenceValue is T) return;
@@ -232,6 +238,55 @@ namespace Pspkurara.UI.Skinner
 				builder.Append(" ");
 			}
 			return builder.ToString();
+		}
+
+		/// <summary>
+		/// <see cref="EditorSkinPartsPropertry">を<see cref="SkinPartsPropertry"/>にマップする
+		/// </summary>
+		/// <param name="mapTarget">マップ対象となるオブジェクト</param>
+		/// <param name="mapSource">マップ元となるオブジェクト</param>
+		public static void MapRuntimePropertyFromEditorProperty(SkinPartsPropertry mapTarget, EditorSkinPartsPropertry mapSource)
+		{
+			mapTarget.Clear();
+			MapRuntimeFromEditorSingleProperty(mapTarget.objectReferenceValues, mapSource.objectReferenceValues, (p) => p.objectReferenceValue);
+			MapRuntimeFromEditorSingleProperty(mapTarget.boolValues, mapSource.boolValues, (p) => p.boolValue);
+			MapRuntimeFromEditorSingleProperty(mapTarget.colorValues, mapSource.colorValues, (p) => p.colorValue);
+			MapRuntimeFromEditorSingleProperty(mapTarget.floatValues, mapSource.floatValues, (p) => p.floatValue);
+			MapRuntimeFromEditorSingleProperty(mapTarget.intValues, mapSource.intValues, (p) => p.intValue);
+			MapRuntimeFromEditorSingleProperty(mapTarget.vector4Values, mapSource.vector4Values, (p) => p.vector4Value);
+		}
+
+		/// <summary>
+		/// <see cref="SkinPartsPropertry">を<see cref="EditorSkinPartsPropertry"/>にマップする
+		/// </summary>
+		/// <param name="mapTarget">マップ対象となるオブジェクト</param>
+		/// <param name="mapSource">マップ元となるオブジェクト</param>
+		public static void MapRuntimePropertyFromEditorProperty(EditorSkinPartsPropertry mapTarget, SkinPartsPropertry mapSource)
+		{
+			MapEditorFromRuntimeSingleProperty(mapTarget.objectReferenceValues, mapSource.objectReferenceValues, (v, p) => p.objectReferenceValue = v);
+			MapEditorFromRuntimeSingleProperty(mapTarget.boolValues, mapSource.boolValues, (v, p) => p.boolValue = v);
+			MapEditorFromRuntimeSingleProperty(mapTarget.colorValues, mapSource.colorValues, (v, p) => p.colorValue = v);
+			MapEditorFromRuntimeSingleProperty(mapTarget.floatValues, mapSource.floatValues, (v, p) => p.floatValue = v);
+			MapEditorFromRuntimeSingleProperty(mapTarget.intValues, mapSource.intValues, (v, p) => p.intValue = v);
+			MapEditorFromRuntimeSingleProperty(mapTarget.vector4Values, mapSource.vector4Values, (v, p) => p.vector4Value = v);
+		}
+
+		private static void MapRuntimeFromEditorSingleProperty<T>(List<T> mapTarget, SerializedProperty mapSource, Func<SerializedProperty, T> convertFunction)
+		{
+			for (int i = 0; i < mapSource.arraySize; i++)
+			{
+				var element = mapSource.GetArrayElementAtIndex(i);
+				mapTarget.Add(convertFunction(element));
+			}
+		}
+
+		private static void MapEditorFromRuntimeSingleProperty<T>(SerializedProperty mapTarget, List<T> mapSource, Action<T, SerializedProperty> mapFunction)
+		{
+			for (int i = 0; i < Mathf.Min(mapTarget.arraySize, mapSource.Count); i++)
+			{
+				var element = mapTarget.GetArrayElementAtIndex(i);
+				mapFunction(mapSource[i], element);
+			}
 		}
 
 	}

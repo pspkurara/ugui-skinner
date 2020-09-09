@@ -227,7 +227,12 @@ namespace Pspkurara.UI.Skinner
 			{
 				bool isUnCorrect = false;
 				var data = new UserLogicVariableDisplayData();
-				if (SkinnerSystemType.IsObject(v.FieldType))
+				if (v.FieldType == null)
+				{
+					// 型すら指定されてない場合は何も表示させるべきではない
+					isUnCorrect = true;
+				}
+				else if (SkinnerSystemType.IsObject(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.ObjectReference;
 					data.FieldIndex = objectReferenceArrayCount;
@@ -301,7 +306,9 @@ namespace Pspkurara.UI.Skinner
 				}
 				if (!isUnCorrect)
 				{
-					data.DisplayName = new GUIContent(v.FieldDisplayName);
+					// 名前が未設定の場合は型の名前を出しておく
+					var displayName = v.FieldDisplayName == null ? SkinnerEditorUtility.GetEditorName(v.FieldType.Name) : v.FieldDisplayName;
+					data.DisplayName = new GUIContent(displayName);
 					data.VariableData = v;
 					userLogicVariableDisplayDatas.Add(data);
 				}

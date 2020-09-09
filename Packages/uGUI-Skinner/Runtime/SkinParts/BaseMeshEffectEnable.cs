@@ -6,7 +6,7 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.BaseMeshEffectEnable, typeof(BaseMeshEffectEnable), typeof(Logic))]
+	[SkinParts(SkinPartsType.BaseMeshEffectEnable, typeof(Logic))]
 	public static class BaseMeshEffectEnable
 	{
 

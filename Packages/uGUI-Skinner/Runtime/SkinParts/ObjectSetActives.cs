@@ -6,7 +6,7 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.ObjectsSetActives, typeof(ObjectSetActives), typeof(Logic))]
+	[SkinParts(SkinPartsType.ObjectsSetActives, typeof(Logic))]
 	public static class ObjectSetActives
 	{
 

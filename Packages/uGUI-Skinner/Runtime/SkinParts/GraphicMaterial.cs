@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.GraphicMaterial, typeof(GraphicMaterial), typeof(Logic))]
+	[SkinParts(SkinPartsType.GraphicMaterial, typeof(Logic))]
 	public static class GraphicMaterial
 	{
 

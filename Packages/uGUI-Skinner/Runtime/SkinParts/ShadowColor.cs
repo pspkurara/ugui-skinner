@@ -6,7 +6,7 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.ShadowColor, typeof(ShadowColor), typeof(Logic))]
+	[SkinParts(SkinPartsType.ShadowColor, typeof(Logic))]
 	public static class ShadowColor
 	{
 

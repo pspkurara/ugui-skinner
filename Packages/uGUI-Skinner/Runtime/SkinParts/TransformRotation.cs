@@ -5,7 +5,7 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.TransformRotation, typeof(TransformRotation), typeof(Logic))]
+	[SkinParts(SkinPartsType.TransformRotation, typeof(Logic))]
 	public static class TransformRotation
 	{
 

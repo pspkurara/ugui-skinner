@@ -7,7 +7,7 @@ using System;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.ScriptableLogic, typeof(ScriptableLogic), typeof(Logic))]
+	[SkinParts(SkinPartsType.ScriptableLogic, typeof(Logic))]
 	public static class ScriptableLogic
 	{
 

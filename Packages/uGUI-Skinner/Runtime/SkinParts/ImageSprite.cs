@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.ImageSprite, typeof(ImageSprite), typeof(Logic))]
+	[SkinParts(SkinPartsType.ImageSprite, typeof(Logic))]
 	public static class ImageSprite
 	{
 

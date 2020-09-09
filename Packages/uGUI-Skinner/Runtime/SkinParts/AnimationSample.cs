@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.AnimationSample, typeof(AnimationSample), typeof(Logic))]
+	[SkinParts(SkinPartsType.AnimationSample, typeof(Logic))]
 	public static class AnimationSample
 	{
 

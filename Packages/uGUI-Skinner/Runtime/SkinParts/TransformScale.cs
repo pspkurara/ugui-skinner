@@ -5,7 +5,7 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.TransformScale, typeof(TransformScale), typeof(Logic))]
+	[SkinParts(SkinPartsType.TransformScale, typeof(Logic))]
 	public static class TransformScale
 	{
 

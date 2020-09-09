@@ -6,7 +6,7 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.OutlineColor, typeof(OutlineColor), typeof(Logic))]
+	[SkinParts(SkinPartsType.OutlineColor, typeof(Logic))]
 	public static class OutlineColor
 	{
 

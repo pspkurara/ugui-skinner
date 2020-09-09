@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.GraphicColor, typeof(GraphicColor), typeof(Logic))]
+	[SkinParts(SkinPartsType.GraphicColor, typeof(Logic))]
 
 	public static class GraphicColor
 	{

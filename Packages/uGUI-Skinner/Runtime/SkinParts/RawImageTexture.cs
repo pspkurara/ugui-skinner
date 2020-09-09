@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.RawImageTexture, typeof(RawImageTexture), typeof(Logic))]
+	[SkinParts(SkinPartsType.RawImageTexture, typeof(Logic))]
 	public static class RawImageTexture
 	{
 

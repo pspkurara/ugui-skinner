@@ -6,7 +6,7 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.GraphicEnable, typeof(GraphicEnable), typeof(Logic))]
+	[SkinParts(SkinPartsType.GraphicEnable, typeof(Logic))]
 	public static class GraphicEnable
 	{
 

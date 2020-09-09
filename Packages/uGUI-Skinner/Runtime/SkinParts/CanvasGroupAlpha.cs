@@ -5,7 +5,7 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.CanvasGroupAlpha, typeof(CanvasGroupAlpha), typeof(Logic))]
+	[SkinParts(SkinPartsType.CanvasGroupAlpha, typeof(Logic))]
 	public static class CanvasGroupAlpha
 	{
 

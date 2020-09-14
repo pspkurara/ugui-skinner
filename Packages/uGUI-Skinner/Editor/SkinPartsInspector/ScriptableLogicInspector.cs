@@ -198,6 +198,7 @@ namespace Pspkurara.UI.Skinner
 								if (str.Length > 0) str = str[0].ToString();
 								var resultStr = EditorGUILayout.TextField(v.DisplayName, str);
 								if (resultStr.Length > 0) resultStr = resultStr[0].ToString();
+								else resultStr = str;
 								element.stringValue = resultStr;
 							}
 							break;

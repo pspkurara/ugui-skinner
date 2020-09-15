@@ -50,10 +50,7 @@ namespace Pspkurara.UI.Skinner
 		{
 			var dic = new Dictionary<int, int>();
 			int objectReferenceCount = 0;
-			int intCount = 0;
 			int floatCount = 0;
-			int boolCount = 0;
-			int colorCount = 0;
 			int vector4Count = 0;
 			int stringCount = 0;
 			foreach (var v in variables)
@@ -62,21 +59,6 @@ namespace Pspkurara.UI.Skinner
 				{
 					dic.Add(v.VariableId, objectReferenceCount);
 					objectReferenceCount++;
-				}
-				else if (SkinnerSystemType.IsColorValue(v.FieldType))
-				{
-					dic.Add(v.VariableId, colorCount);
-					colorCount++;
-				}
-				else if (SkinnerSystemType.IsBoolValue(v.FieldType))
-				{
-					dic.Add(v.VariableId, boolCount);
-					boolCount++;
-				}
-				else if (SkinnerSystemType.IsIntValue(v.FieldType))
-				{
-					dic.Add(v.VariableId, intCount);
-					intCount++;
 				}
 				else if (SkinnerSystemType.IsFloatValue(v.FieldType))
 				{

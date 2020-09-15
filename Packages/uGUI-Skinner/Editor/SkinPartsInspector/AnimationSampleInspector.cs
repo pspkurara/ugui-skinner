@@ -12,10 +12,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.CleanArray(property.objectReferenceValues, AnimationSample.ObjectLength);
 			SkinnerEditorUtility.CleanObject<GameObject>(property.objectReferenceValues, AnimationSample.GameObjectIndex);
 			SkinnerEditorUtility.CleanObject<AnimationClip>(property.objectReferenceValues, AnimationSample.AnimationClipIndex);
-			SkinnerEditorUtility.CleanArray(property.boolValues);
-			SkinnerEditorUtility.CleanArray(property.colorValues);
 			SkinnerEditorUtility.CleanArray(property.floatValues, AnimationSample.FloatLength);
-			SkinnerEditorUtility.CleanArray(property.intValues);
 			SkinnerEditorUtility.CleanArray(property.vector4Values);
 			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}

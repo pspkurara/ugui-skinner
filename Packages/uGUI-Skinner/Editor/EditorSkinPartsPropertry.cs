@@ -36,24 +36,9 @@ namespace Pspkurara.UI.Skinner
 	{
 
 		/// <summary>
-		/// <see cref="SerializedProperty.boolValue"/>のデータパック
-		/// </summary>
-		public SerializedProperty boolValues { get; private set; }
-
-		/// <summary>
-		/// <see cref="SerializedProperty.colorValue"/>のデータパック
-		/// </summary>
-		public SerializedProperty colorValues { get; private set; }
-
-		/// <summary>
 		/// <see cref="SerializedProperty.floatValue"/>のデータパック
 		/// </summary>
 		public SerializedProperty floatValues { get; private set; }
-
-		/// <summary>
-		/// <see cref="SerializedProperty.intValue"/>のデータパック
-		/// </summary>
-		public SerializedProperty intValues { get; private set; }
 
 		/// <summary>
 		/// <see cref="SerializedProperty.vector4Value"/>のデータパック
@@ -71,10 +56,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="property">親となるオブジェクト</param>
 		internal virtual void MapProperties(SerializedProperty property)
 		{
-			boolValues = property.FindPropertyRelative("m_BoolValues");
-			colorValues = property.FindPropertyRelative("m_ColorValues");
 			floatValues = property.FindPropertyRelative("m_FloatValues");
-			intValues = property.FindPropertyRelative("m_IntValues");
 			vector4Values = property.FindPropertyRelative("m_Vector4Values");
 			stringValues = property.FindPropertyRelative("m_StringValues");
 		}

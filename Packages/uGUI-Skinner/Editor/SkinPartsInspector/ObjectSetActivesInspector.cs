@@ -10,10 +10,7 @@ namespace Pspkurara.UI.Skinner
 
 		protected override void CleanupFieldsOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)
 		{
-			SkinnerEditorUtility.CleanArray(property.boolValues);
-			SkinnerEditorUtility.CleanArray(property.colorValues);
 			SkinnerEditorUtility.CleanArray(property.floatValues, ObjectSetActives.FloatLength, SkinDefaultValue.Boolean);
-			SkinnerEditorUtility.CleanArray(property.intValues);
 			SkinnerEditorUtility.CleanArray(property.vector4Values);
 			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}

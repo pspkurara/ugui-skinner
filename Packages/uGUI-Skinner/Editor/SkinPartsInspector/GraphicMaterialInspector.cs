@@ -13,10 +13,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.CleanArray(property.objectReferenceValues, GraphicMaterial.ObjectLength);
 			SkinnerEditorUtility.CleanObject<Graphic>(property.objectReferenceValues, GraphicMaterial.GraphicIndex);
 			SkinnerEditorUtility.CleanObject<Material>(property.objectReferenceValues, GraphicMaterial.MaterialIndex);
-			SkinnerEditorUtility.CleanArray(property.boolValues);
-			SkinnerEditorUtility.CleanArray(property.colorValues);
 			SkinnerEditorUtility.CleanArray(property.floatValues);
-			SkinnerEditorUtility.CleanArray(property.intValues);
 			SkinnerEditorUtility.CleanArray(property.vector4Values);
 			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}

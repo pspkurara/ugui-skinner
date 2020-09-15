@@ -55,8 +55,6 @@ namespace Pspkurara.UI.Skinner
 			SkinnerUtility.ResetList(parts.property.objectReferenceValues, RequiredObjectLength);
 			parts.property.objectReferenceValues[LogicIndex] = userLogic;
 			parts.property.objectReferenceValues.AddRange(property.objectReferenceValues);
-			parts.property.boolValues.AddRange(property.boolValues);
-			parts.property.intValues.AddRange(property.intValues);
 			parts.property.floatValues.AddRange(property.floatValues);
 			parts.property.vector4Values.AddRange(property.vector4Values);
 			return parts;

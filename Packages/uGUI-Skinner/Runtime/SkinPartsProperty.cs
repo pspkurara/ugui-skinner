@@ -73,24 +73,9 @@ namespace Pspkurara.UI.Skinner
 		#region 変数
 
 		/// <summary>
-		/// フラグを保存
-		/// </summary>
-		[SerializeField] private List<bool> m_BoolValues = new List<bool>();
-
-		/// <summary>
-		/// 色を保存
-		/// </summary>
-		[SerializeField] private List<Color> m_ColorValues = new List<Color>();
-
-		/// <summary>
 		/// 少数を保存
 		/// </summary>
 		[SerializeField] private List<float> m_FloatValues = new List<float>();
-
-		/// <summary>
-		/// 整数を保存
-		/// </summary>
-		[SerializeField] private List<int> m_IntValues = new List<int>();
 
 		/// <summary>
 		/// Vector4を保存
@@ -107,24 +92,9 @@ namespace Pspkurara.UI.Skinner
 		#region プロパティ
 
 		/// <summary>
-		/// フラグ
-		/// </summary>
-		public List<bool> boolValues { get { return m_BoolValues; } }
-
-		/// <summary>
-		/// 色
-		/// </summary>
-		public List<Color> colorValues { get { return m_ColorValues; } }
-
-		/// <summary>
 		/// 少数値
 		/// </summary>
 		public List<float> floatValues { get { return m_FloatValues; } }
-
-		/// <summary>
-		/// 整数値
-		/// </summary>
-		public List<int> intValues { get { return m_IntValues; } }
 
 		/// <summary>
 		/// Vector4
@@ -151,10 +121,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="base">複製元となるオブジェクト</param>
 		public SkinPartsPropertryWithoutObjectReference(SkinPartsPropertryWithoutObjectReference @base)
 		{
-			m_BoolValues.AddRange(@base.m_BoolValues);
-			m_ColorValues.AddRange(@base.m_ColorValues);
 			m_FloatValues.AddRange(@base.m_FloatValues);
-			m_IntValues.AddRange(@base.m_IntValues);
 			m_Vector4Values.AddRange(@base.m_Vector4Values);
 			m_StringValues.AddRange(@base.m_StringValues);
 		}
@@ -168,10 +135,7 @@ namespace Pspkurara.UI.Skinner
 		/// </summary>
 		public virtual void Clear()
 		{
-			m_BoolValues.Clear();
-			m_ColorValues.Clear();
 			m_FloatValues.Clear();
-			m_IntValues.Clear();
 			m_Vector4Values.Clear();
 			m_StringValues.Clear();
 		}

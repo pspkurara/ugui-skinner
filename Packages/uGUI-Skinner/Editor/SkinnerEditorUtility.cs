@@ -5,6 +5,7 @@ using System;
 using Object = UnityEngine.Object;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Linq;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -290,6 +291,18 @@ namespace Pspkurara.UI.Skinner
 				builder.Append(" ");
 			}
 			return builder.ToString();
+		}
+
+		/// <summary>
+		/// <see cref="EditorGUI.IntPopup"/>等で使う表示名や値をEnumから取得する
+		/// </summary>
+		/// <param name="enumType">Enumの型</param>
+		/// <param name="displayOptions">表示名配列</param>
+		/// <param name="optionValues">値配列</param>
+		public static void GetPopupOptionsFromEnum(Type enumType, out GUIContent[] displayOptions, out int[] optionValues)
+		{
+			displayOptions = enumType.GetEnumNames().Select(n => new GUIContent(GetEditorName(n))).ToArray();
+			optionValues = enumType.GetEnumValues().Cast<int>().ToArray();
 		}
 
 		/// <summary>

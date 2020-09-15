@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using System.Linq;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -113,8 +112,9 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="options">レイアウト設定</param>
 		public static void EnumPopup(GUIContent label, SerializedProperty property, System.Type enumType, params GUILayoutOption[] options)
 		{
-			var popupDisplayName = enumType.GetEnumNames().Select(n => new GUIContent(n)).ToArray();
-			var popupValue = enumType.GetEnumValues().Cast<int>().ToArray();
+			GUIContent[] popupDisplayName;
+			int[] popupValue;
+			SkinnerEditorUtility.GetPopupOptionsFromEnum(enumType, out popupDisplayName, out popupValue);
 			IntPopup(label, property, popupDisplayName, popupValue, options);
 		}
 

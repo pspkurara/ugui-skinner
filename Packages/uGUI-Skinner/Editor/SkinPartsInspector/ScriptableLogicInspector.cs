@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using System.Linq;
 using Type = System.Type;
 
 namespace Pspkurara.UI.Skinner
@@ -268,8 +267,7 @@ namespace Pspkurara.UI.Skinner
 				else if (SkinnerSystemType.IsEnum(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Enum;
-					data.PopupDisplayName = v.FieldType.GetEnumNames().Select(n => new GUIContent(n)).ToArray();
-					data.PopupValue = v.FieldType.GetEnumValues().Cast<int>().ToArray();
+					SkinnerEditorUtility.GetPopupOptionsFromEnum(v.FieldType, out data.PopupDisplayName, out data.PopupValue);
 					data.FieldIndex = floatArrayCount;
 					floatArrayCount++;
 				}

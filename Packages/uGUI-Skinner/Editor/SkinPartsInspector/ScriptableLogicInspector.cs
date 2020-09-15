@@ -79,13 +79,8 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength, false);
 
 			var logicProperty = property.objectReferenceValues.GetArrayElementAtIndex(ScriptableLogic.LogicIndex);
-			bool showMixedValue = EditorGUI.showMixedValue;
-			if (logicProperty.hasMultipleDifferentValues)
-			{
-				EditorGUI.showMixedValue = true;
-			}
 			var preSelectLogic = logicProperty.objectReferenceValue as UserLogic;
-			logicProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.Logic, logicProperty.objectReferenceValue, typeof(UserLogic), false);
+			SkinnerEditorGUILayout.ObjectField(SkinContent.Logic, logicProperty, typeof(UserLogic));
 			// このタイミングで参照対象が変わるとエラーが起こる
 			if (preSelectLogic != logicProperty.objectReferenceValue)
 			{
@@ -93,7 +88,6 @@ namespace Pspkurara.UI.Skinner
 				CleanupFields(property);
 				return;
 			}
-			EditorGUI.showMixedValue = showMixedValue;
 
 			if (logicProperty.hasMultipleDifferentValues) return;
 
@@ -112,90 +106,71 @@ namespace Pspkurara.UI.Skinner
 					{
 						case SerializedPropertyType.ObjectReference:
 							{
-								bool isComponent = v.VariableData.FieldType.IsSubclassOf(typeof(Component));
-								bool isGameObject = v.VariableData.FieldType == typeof(GameObject);
 								var element = property.objectReferenceValues.GetArrayElementAtIndex(v.FieldIndex + ScriptableLogic.RequiredObjectLength);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.objectReferenceValue = EditorGUILayout.ObjectField(v.DisplayName, element.objectReferenceValue, v.VariableData.FieldType, isComponent || isGameObject);
+								SkinnerEditorGUILayout.ObjectField(v.DisplayName, element, v.VariableData.FieldType);
 							}
 							break;
 						case SerializedPropertyType.Boolean:
 							{
 								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.floatValue = EditorGUILayout.Toggle(v.DisplayName, element.floatValue.ToBool()).ToFloat();
+								SkinnerEditorGUILayout.Toggle(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Color:
 							{
 								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.vector4Value = EditorGUILayout.ColorField(v.DisplayName, element.vector4Value.ToColor());
+								SkinnerEditorGUILayout.ColorField(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Float:
 							{
 								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.floatValue = EditorGUILayout.FloatField(v.DisplayName, element.floatValue);
+								SkinnerEditorGUILayout.FloatField(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Integer:
 							{
 								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.floatValue = EditorGUILayout.IntField(v.DisplayName, element.floatValue.ToInt());
+								SkinnerEditorGUILayout.IntField(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Enum:
 							{
 								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.floatValue = EditorGUILayout.IntPopup(v.DisplayName, element.floatValue.ToInt(), v.PopupDisplayName, v.PopupValue);
+								SkinnerEditorGUILayout.IntPopup(v.DisplayName, element, v.PopupDisplayName, v.PopupValue);
 							}
 							break;
 						case SerializedPropertyType.Vector2:
 							{
 								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.vector4Value = EditorGUILayout.Vector2Field(v.DisplayName, element.vector4Value);
+								SkinnerEditorGUILayout.Vector2Field(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Vector3:
 							{
 								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.vector4Value = EditorGUILayout.Vector3Field(v.DisplayName, element.vector4Value);
+								SkinnerEditorGUILayout.Vector3Field(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Vector4:
 							{
 								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.vector4Value = EditorGUILayout.Vector4Field(v.DisplayName, element.vector4Value);
+								SkinnerEditorGUILayout.Vector4Field(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Character:
 							{
 								var element = property.stringValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								var str = element.stringValue;
-								if (str.Length > 0) str = str[0].ToString();
-								var resultStr = EditorGUILayout.TextField(v.DisplayName, str);
-								if (resultStr.Length > 0) resultStr = resultStr[0].ToString();
-								else resultStr = str;
-								element.stringValue = resultStr;
+								SkinnerEditorGUILayout.CharField(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.String:
 							{
 								var element = property.stringValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.stringValue = EditorGUILayout.TextField(v.DisplayName, element.stringValue);
+								SkinnerEditorGUILayout.TextField(v.DisplayName, element);
 							}
 							break;
 					}
-					EditorGUI.showMixedValue = showMixedValue;
 				}
 
 				SkinnerEditorUtility.MapRuntimePropertyFromEditorProperty(validateProperty, property);

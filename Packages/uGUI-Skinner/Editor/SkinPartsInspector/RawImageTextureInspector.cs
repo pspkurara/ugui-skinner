@@ -24,8 +24,8 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, RawImageTexture.ObjectLength);
 			var rawImageProperty = property.objectReferenceValues.GetArrayElementAtIndex(RawImageTexture.RawImageIndex);
 			SerializedProperty textureProperty = property.objectReferenceValues.GetArrayElementAtIndex(RawImageTexture.Texture2DIndex);
-			rawImageProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.RawImage, rawImageProperty.objectReferenceValue, typeof(RawImage), true);
-			textureProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.Texture2D, textureProperty.objectReferenceValue, typeof(Texture2D), false);
+			SkinnerEditorGUILayout.ObjectField(SkinContent.RawImage, rawImageProperty, typeof(RawImage));
+			SkinnerEditorGUILayout.ObjectField(SkinContent.Texture2D, textureProperty, typeof(Texture2D));
 		}
 
 	}

@@ -23,8 +23,8 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, GraphicMaterial.ObjectLength);
 			var graphicProperty = property.objectReferenceValues.GetArrayElementAtIndex(GraphicMaterial.GraphicIndex);
 			var materialProperty = property.objectReferenceValues.GetArrayElementAtIndex(GraphicMaterial.MaterialIndex);
-			graphicProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.Graphic, graphicProperty.objectReferenceValue, typeof(Graphic), true);
-			materialProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.Material, materialProperty.objectReferenceValue, typeof(Material), false);
+			SkinnerEditorGUILayout.ObjectField(SkinContent.Graphic, graphicProperty, typeof(Graphic));
+			SkinnerEditorGUILayout.ObjectField(SkinContent.Material, materialProperty, typeof(Material));
 		}
 
 	}

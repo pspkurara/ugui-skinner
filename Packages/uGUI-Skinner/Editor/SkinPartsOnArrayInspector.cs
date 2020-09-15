@@ -39,7 +39,7 @@ namespace Pspkurara.UI.Skinner
 				EditorGUILayout.BeginHorizontal();
 				SerializedProperty gameObjectProperty = property.objectReferenceValues.GetArrayElementAtIndex(iz);
 				m_FieldNumberTitle.text = string.Format(EditorConst.FieldNumberTitle, iz);
-				gameObjectProperty.objectReferenceValue = EditorGUILayout.ObjectField(m_FieldNumberTitle, gameObjectProperty.objectReferenceValue, typeof(T), true);
+				SkinnerEditorGUILayout.ObjectField(m_FieldNumberTitle, gameObjectProperty, typeof(T));
 				if (componentInfo.isComponent && componentInfo.allowMultiplyComponent)
 				{
 					T c = gameObjectProperty.objectReferenceValue as T;

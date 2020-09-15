@@ -23,13 +23,7 @@ namespace Pspkurara.UI.Skinner
 		protected override void DrawOptionProperty(EditorSkinPartsPropertry property)
 		{
 			var vector4Property = property.vector4Values.GetArrayElementAtIndex(TransformRotation.RotationIndex);
-			bool showMixedValue = EditorGUI.showMixedValue;
-			if (vector4Property.hasMultipleDifferentValues)
-			{
-				EditorGUI.showMixedValue = true;
-			}
-			vector4Property.vector4Value = EditorGUILayout.Vector3Field(SkinContent.LocalRotation, vector4Property.vector4Value);
-			EditorGUI.showMixedValue = showMixedValue;
+			SkinnerEditorGUILayout.Vector3Field(SkinContent.LocalRotation, vector4Property);
 		}
 
 	}

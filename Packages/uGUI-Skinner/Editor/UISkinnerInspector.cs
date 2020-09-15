@@ -1,9 +1,9 @@
 using Pspkurara.UI.Skinner;
 using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System;
 
 namespace Pspkurara.UI
 {
@@ -128,58 +128,71 @@ namespace Pspkurara.UI
 					{
 
 						SerializedProperty skinPartsElementProperty = skinPartsProperty.GetArrayElementAtIndex(skinPartsIndex);
-						SerializedProperty skinPartsTypeProperty = skinPartsElementProperty.FindPropertyRelative(FieldName.Type);
-						int skinPartsType = skinPartsTypeProperty.intValue;
 
-						skinPartsTypeProperty.intValue = EditorGUILayout.IntPopup(skinPartsType, m_SkinnerPartsDisplayNames, m_SkinnerPartsOptionValues);
-
-						EditorGUI.indentLevel++;
-
-						// タイプの登録を確認
-						if (SkinPartsAccess.IsCorrectSkinPartsId(skinPartsType))
+						try
 						{
-							var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
 
-							// インスペクターの登録を確認
-							if (SkinPartsInspectorAccess.IsRegistedInspector(rootType))
+							SerializedProperty skinPartsTypeProperty = skinPartsElementProperty.FindPropertyRelative(FieldName.Type);
+							int skinPartsType = skinPartsTypeProperty.intValue;
+
+							int skinPartsTypeEditted = EditorGUILayout.IntPopup(skinPartsType, m_SkinnerPartsDisplayNames, m_SkinnerPartsOptionValues);
+							if (skinPartsTypeEditted != skinPartsType)
 							{
-								var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
+								skinPartsTypeProperty.intValue = skinPartsTypeEditted;
+								serializedObject.ApplyModifiedProperties();
+								return;
+							}
 
-								m_SkinPartsProperty.MapProperties(skinPartsElementProperty.FindPropertyRelative(FieldName.Property));
+							EditorGUI.indentLevel++;
 
-								EditorGUI.BeginChangeCheck();
-								bool showMixedValue = EditorGUI.showMixedValue;
-								inspector.DrawInspector(m_SkinPartsProperty);
-								EditorGUI.showMixedValue = showMixedValue;
-								if (EditorGUI.EndChangeCheck())
+							// タイプの登録を確認
+							if (SkinPartsAccess.IsCorrectSkinPartsId(skinPartsType))
+							{
+								var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
+
+								// インスペクターの登録を確認
+								if (SkinPartsInspectorAccess.IsRegistedInspector(rootType))
 								{
-									if (skinStylesIndex == m_StyleIndex.intValue)
+									var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
+
+									m_SkinPartsProperty.MapProperties(skinPartsElementProperty.FindPropertyRelative(FieldName.Property));
+
+									EditorGUI.BeginChangeCheck();
+									bool showMixedValue = EditorGUI.showMixedValue;
+									inspector.DrawInspector(m_SkinPartsProperty);
+									EditorGUI.showMixedValue = showMixedValue;
+									if (EditorGUI.EndChangeCheck())
 									{
-										ApplySkin();
+										if (skinStylesIndex == m_StyleIndex.intValue)
+										{
+											ApplySkin();
+										}
 									}
+
+								}
+								else
+								{
+									// 該当インスペクターが存在しない場合は何もしない
+									var skinPartsTypeName = SkinnerEditorUtility.GetEditorName(rootType.Name);
+									EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsInspectorTypeMessage, skinPartsTypeName), EditorConst.MissingSkinPartsInspectorTypeMessageType);
 								}
 
 							}
 							else
 							{
-								// 該当インスペクターが存在しない場合は何もしない
-								var skinPartsTypeName = SkinnerEditorUtility.GetEditorName(rootType.Name);
-								EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsInspectorTypeMessage, skinPartsTypeName), EditorConst.MissingSkinPartsInspectorTypeMessageType);
+								// 該当IDが存在しない場合は警告を出す
+								EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsTypeMessage, skinPartsType), EditorConst.MissingSkinPartsTypeMessageType);
 							}
 
-						}
-						else
-						{
-							// 該当IDが存在しない場合は警告を出す
-							EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsTypeMessage, skinPartsType), EditorConst.MissingSkinPartsTypeMessageType);
-						}
+							EditorGUI.indentLevel--;
 
-						EditorGUI.indentLevel--;
+							if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemovePartsButtonTitle, () => {
+								skinPartsProperty.DeleteArrayElementAtIndex(skinPartsIndex);
+								serializedObject.ApplyModifiedProperties();
+							})) return;
 
-						if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemovePartsButtonTitle, () => {
-							skinPartsProperty.DeleteArrayElementAtIndex(skinPartsIndex);
-							serializedObject.ApplyModifiedProperties();
-						})) return;
+						}
+						catch (InvalidOperationException) { }
 					}
 
 					EditorGUILayout.Space();

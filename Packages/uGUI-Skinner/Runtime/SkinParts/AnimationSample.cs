@@ -61,8 +61,8 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(GameObject rootGameObject, AnimationClip animationClip, float time)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetObjectReference(parts.property.objectReferenceValues, ObjectLength);
-			SkinnerUtility.ResetFloat(parts.property.floatValues, FloatLength);
+			SkinnerUtility.ResetList(parts.property.objectReferenceValues, ObjectLength);
+			SkinnerUtility.ResetList(parts.property.floatValues, FloatLength);
 			parts.property.objectReferenceValues[GameObjectIndex] = rootGameObject;
 			parts.property.objectReferenceValues[AnimationClipIndex] = animationClip;
 			parts.property.floatValues[TimeIndex] = time;

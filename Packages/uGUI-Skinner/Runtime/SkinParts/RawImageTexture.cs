@@ -54,7 +54,7 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(RawImage rawImage, Texture2D texture2D)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetObjectReference(parts.property.objectReferenceValues, ObjectLength);
+			SkinnerUtility.ResetList(parts.property.objectReferenceValues, ObjectLength);
 			parts.property.objectReferenceValues[RawImageIndex] = rawImage;
 			parts.property.objectReferenceValues[Texture2DIndex] = texture2D;
 			return parts;

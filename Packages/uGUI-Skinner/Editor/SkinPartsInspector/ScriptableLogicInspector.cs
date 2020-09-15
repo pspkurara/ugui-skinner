@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using System.Linq;
 using Type = System.Type;
 
 namespace Pspkurara.UI.Skinner
@@ -27,10 +26,7 @@ namespace Pspkurara.UI.Skinner
 		private sealed class UserLogicVariableRootData
 		{
 			public int objectReferenceArrayCount;
-			public int boolArrayCount;
-			public int colorArrayCount;
 			public int floatArrayCount;
-			public int intArrayCount;
 			public int vector4ArrayCount;
 			public int stringArrayCount;
 
@@ -42,10 +38,7 @@ namespace Pspkurara.UI.Skinner
 		private List<UserLogicVariableDisplayData> userLogicVariableDisplayDatas = new List<UserLogicVariableDisplayData>();
 		private UserLogic currentUserLogic;
 		private int objectReferenceArrayCount = 0;
-		private int boolArrayCount = 0;
-		private int colorArrayCount = 0;
 		private int floatArrayCount = 0;
-		private int intArrayCount = 0;
 		private int vector4ArrayCount = 0;
 		private int stringArrayCount = 0;
 		private SkinPartsPropertry validateProperty = new SkinPartsPropertry();
@@ -67,20 +60,14 @@ namespace Pspkurara.UI.Skinner
 					SkinnerEditorUtility.CleanObject(property.objectReferenceValues, v.VariableData.FieldType, objectReferenceCount + ScriptableLogic.RequiredObjectLength);
 					objectReferenceCount++;
 				}
-				SkinnerEditorUtility.CleanArray(property.boolValues, boolArrayCount);
-				SkinnerEditorUtility.CleanArray(property.colorValues, colorArrayCount);
 				SkinnerEditorUtility.CleanArray(property.floatValues, floatArrayCount);
-				SkinnerEditorUtility.CleanArray(property.intValues, intArrayCount);
 				SkinnerEditorUtility.CleanArray(property.vector4Values, vector4ArrayCount);
 				SkinnerEditorUtility.CleanArray(property.stringValues, stringArrayCount);
 			}
 			else
 			{
 				SkinnerEditorUtility.CleanArray<UserLogic>(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength);
-				SkinnerEditorUtility.CleanArray(property.boolValues);
-				SkinnerEditorUtility.CleanArray(property.colorValues);
 				SkinnerEditorUtility.CleanArray(property.floatValues);
-				SkinnerEditorUtility.CleanArray(property.intValues);
 				SkinnerEditorUtility.CleanArray(property.vector4Values);
 				SkinnerEditorUtility.CleanArray(property.stringValues);
 			}
@@ -91,13 +78,8 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength, false);
 
 			var logicProperty = property.objectReferenceValues.GetArrayElementAtIndex(ScriptableLogic.LogicIndex);
-			bool showMixedValue = EditorGUI.showMixedValue;
-			if (logicProperty.hasMultipleDifferentValues)
-			{
-				EditorGUI.showMixedValue = true;
-			}
 			var preSelectLogic = logicProperty.objectReferenceValue as UserLogic;
-			logicProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.Logic, logicProperty.objectReferenceValue, typeof(UserLogic), false);
+			SkinnerEditorGUILayout.ObjectField(SkinContent.Logic, logicProperty, typeof(UserLogic));
 			// このタイミングで参照対象が変わるとエラーが起こる
 			if (preSelectLogic != logicProperty.objectReferenceValue)
 			{
@@ -105,7 +87,6 @@ namespace Pspkurara.UI.Skinner
 				CleanupFields(property);
 				return;
 			}
-			EditorGUI.showMixedValue = showMixedValue;
 
 			if (logicProperty.hasMultipleDifferentValues) return;
 
@@ -114,10 +95,7 @@ namespace Pspkurara.UI.Skinner
 			if (isCorrect)
 			{
 				SkinnerEditorUtility.ResetArray(property.objectReferenceValues, objectReferenceArrayCount + ScriptableLogic.RequiredObjectLength, false);
-				SkinnerEditorUtility.ResetArray(property.boolValues, boolArrayCount);
-				SkinnerEditorUtility.ResetArray(property.colorValues, colorArrayCount);
 				SkinnerEditorUtility.ResetArray(property.floatValues, floatArrayCount);
-				SkinnerEditorUtility.ResetArray(property.intValues, intArrayCount);
 				SkinnerEditorUtility.ResetArray(property.vector4Values, vector4ArrayCount);
 				SkinnerEditorUtility.ResetArray(property.stringValues, stringArrayCount);
 				for (int i = 0; i < userLogicVariableDisplayDatas.Count; i++)
@@ -127,90 +105,71 @@ namespace Pspkurara.UI.Skinner
 					{
 						case SerializedPropertyType.ObjectReference:
 							{
-								bool isComponent = v.VariableData.FieldType.IsSubclassOf(typeof(Component));
-								bool isGameObject = v.VariableData.FieldType == typeof(GameObject);
 								var element = property.objectReferenceValues.GetArrayElementAtIndex(v.FieldIndex + ScriptableLogic.RequiredObjectLength);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.objectReferenceValue = EditorGUILayout.ObjectField(v.DisplayName, element.objectReferenceValue, v.VariableData.FieldType, isComponent || isGameObject);
+								SkinnerEditorGUILayout.ObjectField(v.DisplayName, element, v.VariableData.FieldType);
 							}
 							break;
 						case SerializedPropertyType.Boolean:
 							{
-								var element = property.boolValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.boolValue = EditorGUILayout.Toggle(v.DisplayName, element.boolValue);
+								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
+								SkinnerEditorGUILayout.Toggle(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Color:
 							{
-								var element = property.colorValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.colorValue = EditorGUILayout.ColorField(v.DisplayName, element.colorValue);
+								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
+								SkinnerEditorGUILayout.ColorField(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Float:
 							{
 								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.floatValue = EditorGUILayout.FloatField(v.DisplayName, element.floatValue);
+								SkinnerEditorGUILayout.FloatField(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Integer:
 							{
-								var element = property.intValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.intValue = EditorGUILayout.IntField(v.DisplayName, element.intValue);
+								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
+								SkinnerEditorGUILayout.IntField(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Enum:
 							{
-								var element = property.intValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.intValue = EditorGUILayout.IntPopup(v.DisplayName, element.intValue, v.PopupDisplayName, v.PopupValue);
+								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
+								SkinnerEditorGUILayout.IntPopup(v.DisplayName, element, v.PopupDisplayName, v.PopupValue);
 							}
 							break;
 						case SerializedPropertyType.Vector2:
 							{
 								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.vector4Value = EditorGUILayout.Vector2Field(v.DisplayName, element.vector4Value);
+								SkinnerEditorGUILayout.Vector2Field(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Vector3:
 							{
 								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.vector4Value = EditorGUILayout.Vector3Field(v.DisplayName, element.vector4Value);
+								SkinnerEditorGUILayout.Vector3Field(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Vector4:
 							{
 								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.vector4Value = EditorGUILayout.Vector4Field(v.DisplayName, element.vector4Value);
+								SkinnerEditorGUILayout.Vector4Field(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Character:
 							{
 								var element = property.stringValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								var str = element.stringValue;
-								if (str.Length > 0) str = str[0].ToString();
-								var resultStr = EditorGUILayout.TextField(v.DisplayName, str);
-								if (resultStr.Length > 0) resultStr = resultStr[0].ToString();
-								else resultStr = str;
-								element.stringValue = resultStr;
+								SkinnerEditorGUILayout.CharField(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.String:
 							{
 								var element = property.stringValues.GetArrayElementAtIndex(v.FieldIndex);
-								if (element.hasMultipleDifferentValues) EditorGUI.showMixedValue = true;
-								element.stringValue = EditorGUILayout.TextField(v.DisplayName, element.stringValue);
+								SkinnerEditorGUILayout.TextField(v.DisplayName, element);
 							}
 							break;
 					}
-					EditorGUI.showMixedValue = showMixedValue;
 				}
 
 				SkinnerEditorUtility.MapRuntimePropertyFromEditorProperty(validateProperty, property);
@@ -253,10 +212,7 @@ namespace Pspkurara.UI.Skinner
 				var data = m_CachedVariableDisplayDatas[userLogicType];
 				userLogicVariableDisplayDatas = data.VariableDisplayDatas;
 				objectReferenceArrayCount = data.objectReferenceArrayCount;
-				boolArrayCount = data.boolArrayCount;
-				colorArrayCount = data.colorArrayCount;
 				floatArrayCount = data.floatArrayCount;
-				intArrayCount = data.intArrayCount;
 				vector4ArrayCount = data.vector4ArrayCount;
 				stringArrayCount = data.stringArrayCount;
 				return true;
@@ -266,10 +222,7 @@ namespace Pspkurara.UI.Skinner
 
 			userLogicVariableDisplayDatas = new List<UserLogicVariableDisplayData>();
 			objectReferenceArrayCount = 0;
-			boolArrayCount = 0;
-			colorArrayCount = 0;
 			floatArrayCount = 0;
-			intArrayCount = 0;
 			vector4ArrayCount = 0;
 			stringArrayCount = 0;
 			foreach (var v in userLogic.variables)
@@ -290,14 +243,14 @@ namespace Pspkurara.UI.Skinner
 				else if (SkinnerSystemType.IsBoolean(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Boolean;
-					data.FieldIndex = boolArrayCount;
-					boolArrayCount++;
+					data.FieldIndex = floatArrayCount;
+					floatArrayCount++;
 				}
 				else if (SkinnerSystemType.IsColor(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Color;
-					data.FieldIndex = colorArrayCount;
-					colorArrayCount++;
+					data.FieldIndex = vector4ArrayCount;
+					vector4ArrayCount++;
 				}
 				else if (SkinnerSystemType.IsFloat(v.FieldType))
 				{
@@ -308,16 +261,15 @@ namespace Pspkurara.UI.Skinner
 				else if (SkinnerSystemType.IsInteger(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Integer;
-					data.FieldIndex = intArrayCount;
-					intArrayCount++;
+					data.FieldIndex = floatArrayCount;
+					floatArrayCount++;
 				}
 				else if (SkinnerSystemType.IsEnum(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Enum;
-					data.PopupDisplayName = v.FieldType.GetEnumNames().Select(n => new GUIContent(n)).ToArray();
-					data.PopupValue = v.FieldType.GetEnumValues().Cast<int>().ToArray();
-					data.FieldIndex = intArrayCount;
-					intArrayCount++;
+					SkinnerEditorUtility.GetPopupOptionsFromEnum(v.FieldType, out data.PopupDisplayName, out data.PopupValue);
+					data.FieldIndex = floatArrayCount;
+					floatArrayCount++;
 				}
 				else if (SkinnerSystemType.IsVector2(v.FieldType))
 				{
@@ -369,10 +321,7 @@ namespace Pspkurara.UI.Skinner
 			{
 				VariableDisplayDatas = userLogicVariableDisplayDatas,
 				objectReferenceArrayCount = objectReferenceArrayCount,
-				boolArrayCount = boolArrayCount,
-				colorArrayCount = colorArrayCount,
 				floatArrayCount = floatArrayCount,
-				intArrayCount = intArrayCount,
 				vector4ArrayCount = vector4ArrayCount,
 				stringArrayCount = stringArrayCount,
 			});

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -9,8 +9,8 @@ namespace Pspkurara.UI.Skinner
 	public static class CanvasGroupAlpha
 	{
 
-		public const int FloatIndex = 0;
-		public const int FloatLength = FloatIndex + 1;
+		public const int AlphaIndex = 0;
+		public const int FloatLength = AlphaIndex + 1;
 
 		/// <summary>
 		/// 適応ロジック
@@ -31,7 +31,7 @@ namespace Pspkurara.UI.Skinner
 			{
 				//値がないなら何もしない
 				if (property.floatValues.Count < FloatLength) return;
-				activeAlpha = property.floatValues[FloatIndex];
+				activeAlpha = property.floatValues[AlphaIndex];
 				base.SetValues(property);
 			}
 
@@ -51,9 +51,9 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(IEnumerable<CanvasGroup> canvasGroups, float alpha)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetFloat(parts.property.floatValues, FloatLength);
+			SkinnerUtility.ResetList(parts.property.floatValues, FloatLength);
 			parts.property.objectReferenceValues.AddRange(canvasGroups.Cast<Object>());
-			parts.property.floatValues[FloatIndex] = alpha;
+			parts.property.floatValues[AlphaIndex] = alpha;
 			return parts;
 		}
 

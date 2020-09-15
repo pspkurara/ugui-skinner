@@ -10,8 +10,8 @@ namespace Pspkurara.UI.Skinner
 	public static class BaseMeshEffectEnable
 	{
 
-		public const int BoolIndex = 0;
-		public const int BoolLength = BoolIndex + 1;
+		public const int FlagIndex = 0;
+		public const int FloatLength = FlagIndex + 1;
 
 		/// <summary>
 		/// 適応ロジック
@@ -31,8 +31,8 @@ namespace Pspkurara.UI.Skinner
 			public override void SetValues(SkinPartsPropertry property)
 			{
 				//値がないなら何もしない
-				if (property.boolValues.Count < BoolLength) return;
-				activeFlag = property.boolValues[BoolIndex];
+				if (property.floatValues.Count < FloatLength) return;
+				activeFlag = property.floatValues[FlagIndex].ToBool();
 				base.SetValues(property);
 			}
 
@@ -52,9 +52,9 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(IEnumerable<BaseMeshEffect> baseMeshEffects, bool enabled)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetBoolean(parts.property.boolValues, BoolLength);
+			SkinnerUtility.ResetList(parts.property.floatValues, FloatLength);
 			parts.property.objectReferenceValues.AddRange(baseMeshEffects.Cast<Object>());
-			parts.property.boolValues[BoolIndex] = enabled;
+			parts.property.floatValues[FlagIndex] = enabled.ToFloat();
 			return parts;
 		}
 

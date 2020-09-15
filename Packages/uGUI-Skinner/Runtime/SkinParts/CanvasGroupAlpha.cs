@@ -51,7 +51,7 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(IEnumerable<CanvasGroup> canvasGroups, float alpha)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetFloat(parts.property.floatValues, FloatLength);
+			SkinnerUtility.ResetList(parts.property.floatValues, FloatLength);
 			parts.property.objectReferenceValues.AddRange(canvasGroups.Cast<Object>());
 			parts.property.floatValues[FloatIndex] = alpha;
 			return parts;

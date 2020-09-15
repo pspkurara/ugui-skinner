@@ -148,7 +148,9 @@ namespace Pspkurara.UI
 								m_SkinPartsProperty.MapProperties(skinPartsElementProperty.FindPropertyRelative(FieldName.Property));
 
 								EditorGUI.BeginChangeCheck();
+								bool showMixedValue = EditorGUI.showMixedValue;
 								inspector.DrawInspector(m_SkinPartsProperty);
+								EditorGUI.showMixedValue = showMixedValue;
 								if (EditorGUI.EndChangeCheck())
 								{
 									if (skinStylesIndex == m_StyleIndex.intValue)

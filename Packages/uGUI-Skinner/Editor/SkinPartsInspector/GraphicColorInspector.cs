@@ -11,21 +11,21 @@ namespace Pspkurara.UI.Skinner
 		protected override void CleanupFieldsOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)
 		{
 			SkinnerEditorUtility.CleanArray(property.boolValues);
-			SkinnerEditorUtility.CleanArray(property.colorValues, GraphicColor.ColorLength);
 			SkinnerEditorUtility.CleanArray(property.floatValues);
 			SkinnerEditorUtility.CleanArray(property.intValues);
-			SkinnerEditorUtility.CleanArray(property.vector4Values);
+			SkinnerEditorUtility.CleanArray(property.vector4Values, GraphicColor.VectorLength, SkinDefaultValue.Color);
 			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}
 
 		protected override void ResetArrayOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)
 		{
-			SkinnerEditorUtility.ResetArray(property.colorValues, GraphicColor.ColorLength);
+			SkinnerEditorUtility.ResetArray(property.vector4Values, GraphicColor.VectorLength, true, SkinDefaultValue.Color);
 		}
 
 		protected override void DrawOptionProperty(EditorSkinPartsPropertry property)
 		{
-			EditorGUILayout.PropertyField(property.colorValues.GetArrayElementAtIndex(GraphicColor.ColorIndex), SkinContent.Color);
+			var colorProperty = property.vector4Values.GetArrayElementAtIndex(GraphicColor.VectorIndex);
+			SkinnerEditorGUILayout.ColorField(SkinContent.Color, colorProperty);
 		}
 
 	}

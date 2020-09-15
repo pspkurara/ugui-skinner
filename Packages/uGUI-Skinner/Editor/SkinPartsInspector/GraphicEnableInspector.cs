@@ -10,9 +10,9 @@ namespace Pspkurara.UI.Skinner
 
 		protected override void CleanupFieldsOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)
 		{
-			SkinnerEditorUtility.CleanArray(property.boolValues, GraphicEnable.BoolLength);
+			SkinnerEditorUtility.CleanArray(property.boolValues);
 			SkinnerEditorUtility.CleanArray(property.colorValues);
-			SkinnerEditorUtility.CleanArray(property.floatValues);
+			SkinnerEditorUtility.CleanArray(property.floatValues, GraphicEnable.FloatLength, SkinDefaultValue.Boolean);
 			SkinnerEditorUtility.CleanArray(property.intValues);
 			SkinnerEditorUtility.CleanArray(property.vector4Values);
 			SkinnerEditorUtility.CleanArray(property.stringValues);
@@ -20,12 +20,12 @@ namespace Pspkurara.UI.Skinner
 
 		protected override void ResetArrayOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)
 		{
-			SkinnerEditorUtility.ResetArray(property.boolValues, GraphicEnable.BoolLength);
+			SkinnerEditorUtility.ResetArray(property.floatValues, GraphicEnable.FloatLength, SkinDefaultValue.Boolean);
 		}
 
 		protected override void DrawOptionProperty(EditorSkinPartsPropertry property)
 		{
-			EditorGUILayout.PropertyField(property.boolValues.GetArrayElementAtIndex(GraphicEnable.BoolIndex), SkinContent.Enabled);
+			SkinnerEditorGUILayout.Toggle(SkinContent.Enabled, property.floatValues.GetArrayElementAtIndex(GraphicEnable.FlagIndex));
 		}
 
 	}

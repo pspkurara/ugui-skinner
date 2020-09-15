@@ -55,7 +55,7 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(Graphic graphic, Material material)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetObjectReference(parts.property.objectReferenceValues, ObjectLength);
+			SkinnerUtility.ResetList(parts.property.objectReferenceValues, ObjectLength);
 			parts.property.objectReferenceValues[GraphicIndex] = graphic;
 			parts.property.objectReferenceValues[MaterialIndex] = material;
 			return parts;

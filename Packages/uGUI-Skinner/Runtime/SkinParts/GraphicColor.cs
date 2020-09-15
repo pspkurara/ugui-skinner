@@ -11,8 +11,8 @@ namespace Pspkurara.UI.Skinner
 	public static class GraphicColor
 	{
 
-		public const int ColorIndex = 0;
-		public const int ColorLength = ColorIndex + 1;
+		public const int VectorIndex = 0;
+		public const int VectorLength = VectorIndex + 1;
 
 		/// <summary>
 		/// 適応ロジック
@@ -32,8 +32,8 @@ namespace Pspkurara.UI.Skinner
 			public override void SetValues(SkinPartsPropertry property)
 			{
 				//値がないなら何もしない
-				if (property.colorValues.Count < ColorLength) return;
-				activeColor = property.colorValues[ColorIndex];
+				if (property.vector4Values.Count < VectorLength) return;
+				activeColor = property.vector4Values[VectorIndex].ToColor();
 				base.SetValues(property);
 			}
 
@@ -53,9 +53,9 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(IEnumerable<Graphic> graphics, Color color)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetColor(parts.property.colorValues, ColorLength);
+			SkinnerUtility.ResetList(parts.property.vector4Values, VectorLength);
 			parts.property.objectReferenceValues.AddRange(graphics.Cast<Object>());
-			parts.property.colorValues[ColorIndex] = color;
+			parts.property.vector4Values[VectorIndex] = color.ToVector();
 			return parts;
 		}
 

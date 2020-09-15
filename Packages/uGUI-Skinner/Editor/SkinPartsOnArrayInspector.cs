@@ -74,7 +74,9 @@ namespace Pspkurara.UI.Skinner
 			}
 			EditorGUILayout.BeginHorizontal();
 
+			bool showMixedValue = EditorGUI.showMixedValue;
 			DrawOptionProperty(property);
+			EditorGUI.showMixedValue = showMixedValue;
 
 			m_AddFieldButtonTitle.text = string.Format(EditorConst.AddFieldButtonTitle, SkinnerEditorUtility.GetEditorName(typeof(T).Name));
 

@@ -51,7 +51,7 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(IEnumerable<Transform> transforms, Vector3 localScale)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetVector4(parts.property.vector4Values, VectorLength);
+			SkinnerUtility.ResetList(parts.property.vector4Values, VectorLength);
 			parts.property.objectReferenceValues.AddRange(transforms.Cast<Object>());
 			parts.property.vector4Values[VectorIndex] = localScale;
 			return parts;

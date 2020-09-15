@@ -52,7 +52,7 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(UserLogic userLogic, SkinPartsPropertry property)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetObjectReference(parts.property.objectReferenceValues, RequiredObjectLength);
+			SkinnerUtility.ResetList(parts.property.objectReferenceValues, RequiredObjectLength);
 			parts.property.objectReferenceValues[LogicIndex] = userLogic;
 			parts.property.objectReferenceValues.AddRange(property.objectReferenceValues);
 			parts.property.boolValues.AddRange(property.boolValues);

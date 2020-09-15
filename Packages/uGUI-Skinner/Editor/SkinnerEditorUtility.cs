@@ -52,13 +52,30 @@ namespace Pspkurara.UI.Skinner
 						}
 						if (type == typeof(Color32))
 						{
-							convertedColor = (Color)(Color32)defaultValue;
+							convertedColor = (Color32)defaultValue;
 						}
 					}
 					arrayObj.colorValue = convertedColor;
 					break;
 				case SerializedPropertyType.Float:
-					arrayObj.floatValue = hasDefaultValue ? (float)defaultValue : SkinDefaultValue.Float;
+					float convertedFloat = SkinDefaultValue.Float;
+					if (hasDefaultValue)
+					{
+						var type = defaultValue.GetType();
+						if (type == typeof(float))
+						{
+							convertedFloat = (float)defaultValue;
+						}
+						if (type == typeof(int))
+						{
+							convertedFloat = (int)defaultValue;
+						}
+						if (type == typeof(bool))
+						{
+							convertedFloat = ((bool)defaultValue).ToFloat();
+						}
+					}
+					arrayObj.floatValue = convertedFloat;
 					break;
 				case SerializedPropertyType.Integer:
 					arrayObj.intValue = hasDefaultValue ? (int)defaultValue : SkinDefaultValue.Integer;
@@ -71,13 +88,21 @@ namespace Pspkurara.UI.Skinner
 					if (hasDefaultValue)
 					{
 						var type = defaultValue.GetType();
+						if (type == typeof(Color))
+						{
+							convertedVector4 = ((Color)defaultValue).ToVector();
+						}
+						if (type == typeof(Color32))
+						{
+							convertedVector4 = ((Color32)defaultValue).ToVector();
+						}
 						if (type == typeof(Vector2))
 						{
-							convertedVector4 = (Vector4)(Vector2)defaultValue;
+							convertedVector4 = (Vector2)defaultValue;
 						}
 						if (type == typeof(Vector3))
 						{
-							convertedVector4 = (Vector4)(Vector3)defaultValue;
+							convertedVector4 = (Vector3)defaultValue;
 						}
 						if (type == typeof(Vector4))
 						{
@@ -120,6 +145,11 @@ namespace Pspkurara.UI.Skinner
 					FieldClean(arrayObj, defaultValue);
 				}
 			}
+		}
+
+		public static void ResetArray(SerializedProperty prop, int arraySize, object defaultValue)
+		{
+			ResetArray(prop, arraySize, true, defaultValue);
 		}
 
 

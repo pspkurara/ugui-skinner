@@ -10,9 +10,9 @@ namespace Pspkurara.UI.Skinner
 
 		protected override void CleanupFieldsOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)
 		{
-			SkinnerEditorUtility.CleanArray(property.boolValues, BaseMeshEffectEnable.BoolLength);
+			SkinnerEditorUtility.CleanArray(property.boolValues, BaseMeshEffectEnable.FloatLength);
 			SkinnerEditorUtility.CleanArray(property.colorValues);
-			SkinnerEditorUtility.CleanArray(property.floatValues);
+			SkinnerEditorUtility.CleanArray(property.floatValues, BaseMeshEffectEnable.FloatLength, SkinDefaultValue.Boolean);
 			SkinnerEditorUtility.CleanArray(property.intValues);
 			SkinnerEditorUtility.CleanArray(property.vector4Values);
 			SkinnerEditorUtility.CleanArray(property.stringValues);
@@ -20,12 +20,12 @@ namespace Pspkurara.UI.Skinner
 
 		protected override void ResetArrayOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)
 		{
-			SkinnerEditorUtility.ResetArray(property.boolValues, BaseMeshEffectEnable.BoolLength);
+			SkinnerEditorUtility.ResetArray(property.floatValues, BaseMeshEffectEnable.FloatLength, SkinDefaultValue.Boolean);
 		}
 
 		protected override void DrawOptionProperty(EditorSkinPartsPropertry property)
 		{
-			EditorGUILayout.PropertyField(property.boolValues.GetArrayElementAtIndex(BaseMeshEffectEnable.BoolIndex), SkinContent.Enabled);
+			SkinnerEditorGUILayout.Toggle(SkinContent.Enabled, property.floatValues.GetArrayElementAtIndex(BaseMeshEffectEnable.FlagIndex));
 		}
 
 	}

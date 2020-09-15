@@ -24,7 +24,7 @@ namespace Pspkurara.UI.Skinner
 
 		protected override void DrawOptionProperty(EditorSkinPartsPropertry property)
 		{
-			var colorProperty = property.vector4Values.GetArrayElementAtIndex(GraphicColor.VectorIndex);
+			var colorProperty = property.vector4Values.GetArrayElementAtIndex(GraphicColor.ColorIndex);
 			SkinnerEditorGUILayout.ColorField(SkinContent.Color, colorProperty);
 		}
 

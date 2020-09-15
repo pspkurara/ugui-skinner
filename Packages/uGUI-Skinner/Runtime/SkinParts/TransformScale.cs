@@ -9,8 +9,8 @@ namespace Pspkurara.UI.Skinner
 	public static class TransformScale
 	{
 
-		public const int VectorIndex = 0;
-		public const int VectorLength = VectorIndex + 1;
+		public const int ScaleIndex = 0;
+		public const int VectorLength = ScaleIndex + 1;
 
 		/// <summary>
 		/// 適応ロジック
@@ -31,7 +31,7 @@ namespace Pspkurara.UI.Skinner
 			{
 				//値がないなら何もしない
 				if (property.vector4Values.Count < VectorLength) return;
-				activeScale = property.vector4Values[VectorIndex];
+				activeScale = property.vector4Values[ScaleIndex];
 				base.SetValues(property);
 			}
 
@@ -53,7 +53,7 @@ namespace Pspkurara.UI.Skinner
 			var parts = new SkinParts();
 			SkinnerUtility.ResetList(parts.property.vector4Values, VectorLength);
 			parts.property.objectReferenceValues.AddRange(transforms.Cast<Object>());
-			parts.property.vector4Values[VectorIndex] = localScale;
+			parts.property.vector4Values[ScaleIndex] = localScale;
 			return parts;
 		}
 	}

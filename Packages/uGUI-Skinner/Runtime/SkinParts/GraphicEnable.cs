@@ -54,7 +54,7 @@ namespace Pspkurara.UI.Skinner
 			var parts = new SkinParts();
 			SkinnerUtility.ResetList(parts.property.floatValues, FloatLength);
 			parts.property.objectReferenceValues.AddRange(graphics.Cast<Object>());
-			parts.property.boolValues[FlagIndex] = enabled;
+			parts.property.floatValues[FlagIndex] = enabled.ToFloat();
 			return parts;
 		}
 

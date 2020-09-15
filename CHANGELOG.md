@@ -1,3 +1,17 @@
+# [1.6.0](https://github.com/pspkurara/ugui-skinner/compare/v1.5.0...v1.6.0) (2020-09-15)
+
+
+### Bug Fixes
+
+* charがリセットされた際にはcharが消えないように修正 ([c1b1454](https://github.com/pspkurara/ugui-skinner/commit/c1b1454f41bff2b8f4a6ce03f977a90c1cb31092))
+* ScriptableLogic インスペクターでロジック差し替え時に発生するエラーを修正 ([b1f0919](https://github.com/pspkurara/ugui-skinner/commit/b1f09190f565b01b941be454c81c7f7934ab4c0e))
+* 配列サイズの違うSkinnerを複数選択した際に出るエラーを抑制 ([c0182bc](https://github.com/pspkurara/ugui-skinner/commit/c0182bc0b7da40d4eb1da79107c842556bb569c4))
+
+
+### Features
+
+* SkinPartsAttribute ルートタイプの指定を不要にした ([b7226c3](https://github.com/pspkurara/ugui-skinner/commit/b7226c33b0c9774aba57e29163947d00f3266047))
+
 # [1.5.0](https://github.com/pspkurara/ugui-skinner/compare/v1.4.0...v1.5.0) (2020-09-09)
 
 

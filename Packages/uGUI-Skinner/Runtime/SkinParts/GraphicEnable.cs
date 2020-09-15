@@ -6,12 +6,12 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.GraphicEnable, typeof(GraphicEnable), typeof(Logic))]
+	[SkinParts(SkinPartsType.GraphicEnable, typeof(Logic))]
 	public static class GraphicEnable
 	{
 
-		public const int BoolIndex = 0;
-		public const int BoolLength = BoolIndex + 1;
+		public const int FlagIndex = 0;
+		public const int FloatLength = FlagIndex + 1;
 
 		/// <summary>
 		/// 適応ロジック
@@ -31,8 +31,8 @@ namespace Pspkurara.UI.Skinner
 			public override void SetValues(SkinPartsPropertry property)
 			{
 				//値がないなら何もしない
-				if (property.boolValues.Count < BoolLength) return;
-				activeFlag = property.boolValues[BoolIndex];
+				if (property.floatValues.Count < FloatLength) return;
+				activeFlag = property.floatValues[FlagIndex].ToBool();
 				base.SetValues(property);
 			}
 
@@ -52,9 +52,9 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(IEnumerable<Graphic> graphics, bool enabled)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetBoolean(parts.property.boolValues, BoolLength);
+			SkinnerUtility.ResetList(parts.property.floatValues, FloatLength);
 			parts.property.objectReferenceValues.AddRange(graphics.Cast<Object>());
-			parts.property.boolValues[BoolIndex] = enabled;
+			parts.property.floatValues[FlagIndex] = enabled.ToFloat();
 			return parts;
 		}
 

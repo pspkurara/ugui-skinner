@@ -1,13 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using System.Linq;
-using System;
-
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.ScriptableLogic, typeof(ScriptableLogic), typeof(Logic))]
+	[SkinParts(SkinPartsType.ScriptableLogic, typeof(Logic))]
 	public static class ScriptableLogic
 	{
 
@@ -58,11 +52,9 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(UserLogic userLogic, SkinPartsPropertry property)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetObjectReference(parts.property.objectReferenceValues, RequiredObjectLength);
+			SkinnerUtility.ResetList(parts.property.objectReferenceValues, RequiredObjectLength);
 			parts.property.objectReferenceValues[LogicIndex] = userLogic;
 			parts.property.objectReferenceValues.AddRange(property.objectReferenceValues);
-			parts.property.boolValues.AddRange(property.boolValues);
-			parts.property.intValues.AddRange(property.intValues);
 			parts.property.floatValues.AddRange(property.floatValues);
 			parts.property.vector4Values.AddRange(property.vector4Values);
 			return parts;

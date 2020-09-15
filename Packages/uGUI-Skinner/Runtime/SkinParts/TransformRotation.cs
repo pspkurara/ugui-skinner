@@ -5,12 +5,12 @@ using System.Linq;
 namespace Pspkurara.UI.Skinner
 {
 
-	[SkinParts(SkinPartsType.TransformRotation, typeof(TransformRotation), typeof(Logic))]
+	[SkinParts(SkinPartsType.TransformRotation, typeof(Logic))]
 	public static class TransformRotation
 	{
 
-		public const int VectorIndex = 0;
-		public const int VectorLength = VectorIndex + 1;
+		public const int RotationIndex = 0;
+		public const int VectorLength = RotationIndex + 1;
 
 		/// <summary>
 		/// 適応ロジック
@@ -31,7 +31,7 @@ namespace Pspkurara.UI.Skinner
 			{
 				//値がないなら何もしない
 				if (property.vector4Values.Count < VectorLength) return;
-				activeRotation = Quaternion.Euler(property.vector4Values[VectorIndex]);
+				activeRotation = Quaternion.Euler(property.vector4Values[RotationIndex]);
 				base.SetValues(property);
 			}
 
@@ -51,9 +51,9 @@ namespace Pspkurara.UI.Skinner
 		public static SkinParts CreateSkinParts(IEnumerable<Transform> transforms, Quaternion localRotation)
 		{
 			var parts = new SkinParts();
-			SkinnerUtility.ResetVector4(parts.property.vector4Values, VectorLength);
+			SkinnerUtility.ResetList(parts.property.vector4Values, VectorLength);
 			parts.property.objectReferenceValues.AddRange(transforms.Cast<Object>());
-			parts.property.vector4Values[VectorIndex] = localRotation.eulerAngles;
+			parts.property.vector4Values[RotationIndex] = localRotation.eulerAngles;
 			return parts;
 		}
 	}

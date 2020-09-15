@@ -12,10 +12,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.CleanArray(property.objectReferenceValues, AnimationSample.ObjectLength);
 			SkinnerEditorUtility.CleanObject<GameObject>(property.objectReferenceValues, AnimationSample.GameObjectIndex);
 			SkinnerEditorUtility.CleanObject<AnimationClip>(property.objectReferenceValues, AnimationSample.AnimationClipIndex);
-			SkinnerEditorUtility.CleanArray(property.boolValues);
-			SkinnerEditorUtility.CleanArray(property.colorValues);
 			SkinnerEditorUtility.CleanArray(property.floatValues, AnimationSample.FloatLength);
-			SkinnerEditorUtility.CleanArray(property.intValues);
 			SkinnerEditorUtility.CleanArray(property.vector4Values);
 			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}
@@ -27,8 +24,8 @@ namespace Pspkurara.UI.Skinner
 			var gameObjectProperty = property.objectReferenceValues.GetArrayElementAtIndex(AnimationSample.GameObjectIndex);
 			var animationClipProperty = property.objectReferenceValues.GetArrayElementAtIndex(AnimationSample.AnimationClipIndex);
 			var timeProperty = property.floatValues.GetArrayElementAtIndex(AnimationSample.TimeIndex);
-			gameObjectProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.RootGameObject, gameObjectProperty.objectReferenceValue, typeof(GameObject), true);
-			animationClipProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.AnimationClip, animationClipProperty.objectReferenceValue, typeof(AnimationClip), false);
+			SkinnerEditorGUILayout.ObjectField(SkinContent.RootGameObject, gameObjectProperty, typeof(GameObject));
+			SkinnerEditorGUILayout.ObjectField(SkinContent.AnimationClip, animationClipProperty, typeof(AnimationClip));
 			if (!animationClipProperty.hasMultipleDifferentValues && animationClipProperty.objectReferenceValue is AnimationClip)
 			{
 				var clip = animationClipProperty.objectReferenceValue as AnimationClip;
@@ -36,13 +33,7 @@ namespace Pspkurara.UI.Skinner
 			}
 			else
 			{
-				bool showMixedValue = EditorGUI.showMixedValue;
-				if (timeProperty.hasMultipleDifferentValues)
-				{
-					EditorGUI.showMixedValue = true;
-				}
-				timeProperty.floatValue = EditorGUILayout.FloatField(SkinContent.SampleTime, timeProperty.floatValue);
-				EditorGUI.showMixedValue = showMixedValue;
+				SkinnerEditorGUILayout.FloatField(SkinContent.SampleTime, timeProperty);
 			}
 		}
 

@@ -13,10 +13,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.CleanArray(property.objectReferenceValues, GraphicMaterial.ObjectLength);
 			SkinnerEditorUtility.CleanObject<Graphic>(property.objectReferenceValues, GraphicMaterial.GraphicIndex);
 			SkinnerEditorUtility.CleanObject<Material>(property.objectReferenceValues, GraphicMaterial.MaterialIndex);
-			SkinnerEditorUtility.CleanArray(property.boolValues);
-			SkinnerEditorUtility.CleanArray(property.colorValues);
 			SkinnerEditorUtility.CleanArray(property.floatValues);
-			SkinnerEditorUtility.CleanArray(property.intValues);
 			SkinnerEditorUtility.CleanArray(property.vector4Values);
 			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}
@@ -26,8 +23,8 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, GraphicMaterial.ObjectLength);
 			var graphicProperty = property.objectReferenceValues.GetArrayElementAtIndex(GraphicMaterial.GraphicIndex);
 			var materialProperty = property.objectReferenceValues.GetArrayElementAtIndex(GraphicMaterial.MaterialIndex);
-			graphicProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.Graphic, graphicProperty.objectReferenceValue, typeof(Graphic), true);
-			materialProperty.objectReferenceValue = EditorGUILayout.ObjectField(SkinContent.Material, materialProperty.objectReferenceValue, typeof(Material), false);
+			SkinnerEditorGUILayout.ObjectField(SkinContent.Graphic, graphicProperty, typeof(Graphic));
+			SkinnerEditorGUILayout.ObjectField(SkinContent.Material, materialProperty, typeof(Material));
 		}
 
 	}

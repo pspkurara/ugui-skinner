@@ -5,6 +5,7 @@ using System;
 using Object = UnityEngine.Object;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Linq;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -41,43 +42,46 @@ namespace Pspkurara.UI.Skinner
 			bool hasDefaultValue = defaultValue != null;
 			switch (arrayObj.propertyType)
 			{
-				case SerializedPropertyType.Color:
-					Color convertedColor = SkinDefaultValue.Color;
+				case SerializedPropertyType.Float:
+					float convertedFloat = SkinDefaultValue.Float;
 					if (hasDefaultValue)
 					{
 						var type = defaultValue.GetType();
-						if (type == typeof(Color))
+						if (type == typeof(float))
 						{
-							convertedColor = (Color)defaultValue;
+							convertedFloat = (float)defaultValue;
 						}
-						if (type == typeof(Color32))
+						if (type == typeof(int))
 						{
-							convertedColor = (Color)(Color32)defaultValue;
+							convertedFloat = (int)defaultValue;
+						}
+						if (type == typeof(bool))
+						{
+							convertedFloat = ((bool)defaultValue).ToFloat();
 						}
 					}
-					arrayObj.colorValue = convertedColor;
-					break;
-				case SerializedPropertyType.Float:
-					arrayObj.floatValue = hasDefaultValue ? (float)defaultValue : SkinDefaultValue.Float;
-					break;
-				case SerializedPropertyType.Integer:
-					arrayObj.intValue = hasDefaultValue ? (int)defaultValue : SkinDefaultValue.Integer;
-					break;
-				case SerializedPropertyType.Boolean:
-					arrayObj.boolValue = hasDefaultValue ? (bool)defaultValue : SkinDefaultValue.Boolean;
+					arrayObj.floatValue = convertedFloat;
 					break;
 				case SerializedPropertyType.Vector4:
 					Vector4 convertedVector4 = SkinDefaultValue.Vector4;
 					if (hasDefaultValue)
 					{
 						var type = defaultValue.GetType();
+						if (type == typeof(Color))
+						{
+							convertedVector4 = ((Color)defaultValue).ToVector();
+						}
+						if (type == typeof(Color32))
+						{
+							convertedVector4 = ((Color32)defaultValue).ToVector();
+						}
 						if (type == typeof(Vector2))
 						{
-							convertedVector4 = (Vector4)(Vector2)defaultValue;
+							convertedVector4 = (Vector2)defaultValue;
 						}
 						if (type == typeof(Vector3))
 						{
-							convertedVector4 = (Vector4)(Vector3)defaultValue;
+							convertedVector4 = (Vector3)defaultValue;
 						}
 						if (type == typeof(Vector4))
 						{
@@ -120,6 +124,11 @@ namespace Pspkurara.UI.Skinner
 					FieldClean(arrayObj, defaultValue);
 				}
 			}
+		}
+
+		public static void ResetArray(SerializedProperty prop, int arraySize, object defaultValue)
+		{
+			ResetArray(prop, arraySize, true, defaultValue);
 		}
 
 
@@ -285,6 +294,18 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
+		/// <see cref="EditorGUI.IntPopup"/>等で使う表示名や値をEnumから取得する
+		/// </summary>
+		/// <param name="enumType">Enumの型</param>
+		/// <param name="displayOptions">表示名配列</param>
+		/// <param name="optionValues">値配列</param>
+		public static void GetPopupOptionsFromEnum(Type enumType, out GUIContent[] displayOptions, out int[] optionValues)
+		{
+			displayOptions = enumType.GetEnumNames().Select(n => new GUIContent(GetEditorName(n))).ToArray();
+			optionValues = enumType.GetEnumValues().Cast<int>().ToArray();
+		}
+
+		/// <summary>
 		/// <see cref="EditorSkinPartsPropertry">を<see cref="SkinPartsPropertry"/>にマップする
 		/// </summary>
 		/// <param name="mapTarget">マップ対象となるオブジェクト</param>
@@ -293,10 +314,7 @@ namespace Pspkurara.UI.Skinner
 		{
 			mapTarget.Clear();
 			MapRuntimeFromEditorSingleProperty(mapTarget.objectReferenceValues, mapSource.objectReferenceValues, (p) => p.objectReferenceValue);
-			MapRuntimeFromEditorSingleProperty(mapTarget.boolValues, mapSource.boolValues, (p) => p.boolValue);
-			MapRuntimeFromEditorSingleProperty(mapTarget.colorValues, mapSource.colorValues, (p) => p.colorValue);
 			MapRuntimeFromEditorSingleProperty(mapTarget.floatValues, mapSource.floatValues, (p) => p.floatValue);
-			MapRuntimeFromEditorSingleProperty(mapTarget.intValues, mapSource.intValues, (p) => p.intValue);
 			MapRuntimeFromEditorSingleProperty(mapTarget.vector4Values, mapSource.vector4Values, (p) => p.vector4Value);
 			MapRuntimeFromEditorSingleProperty(mapTarget.stringValues, mapSource.stringValues, (p) => p.stringValue);
 		}
@@ -309,10 +327,7 @@ namespace Pspkurara.UI.Skinner
 		public static void MapRuntimePropertyFromEditorProperty(EditorSkinPartsPropertry mapTarget, SkinPartsPropertry mapSource)
 		{
 			MapEditorFromRuntimeSingleProperty(mapTarget.objectReferenceValues, mapSource.objectReferenceValues, (v, p) => p.objectReferenceValue = v);
-			MapEditorFromRuntimeSingleProperty(mapTarget.boolValues, mapSource.boolValues, (v, p) => p.boolValue = v);
-			MapEditorFromRuntimeSingleProperty(mapTarget.colorValues, mapSource.colorValues, (v, p) => p.colorValue = v);
 			MapEditorFromRuntimeSingleProperty(mapTarget.floatValues, mapSource.floatValues, (v, p) => p.floatValue = v);
-			MapEditorFromRuntimeSingleProperty(mapTarget.intValues, mapSource.intValues, (v, p) => p.intValue = v);
 			MapEditorFromRuntimeSingleProperty(mapTarget.vector4Values, mapSource.vector4Values, (v, p) => p.vector4Value = v);
 			MapEditorFromRuntimeSingleProperty(mapTarget.stringValues, mapSource.stringValues, (v, p) => p.stringValue = v);
 		}

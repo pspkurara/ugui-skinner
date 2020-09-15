@@ -16,8 +16,11 @@ namespace Pspkurara.UI.Skinner
 
 		/// <summary>
 		/// スキンパーツのIDとクラスを紐付ける一覧
+		/// キー: スキンパーツID ( <see cref="SkinPartsType"/>が使われる )
+		/// 値 (キー) : 親の型 ( ルートタイプ )
+		/// 値 (値) : ルートタイプのクラスに紐付けられた<see cref="SkinPartsAttribute"/>属性
 		/// </summary>
-		private static readonly Dictionary<int, SkinPartsAttribute> m_SkinParts = CreateSkinPartsList();
+		private static readonly Dictionary<int, KeyValuePair<Type, SkinPartsAttribute>> m_SkinParts = CreateSkinPartsList();
 
 		/// <summary>
 		/// スキンパーツIDがおかしいときに返すダミー処理
@@ -31,12 +34,12 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// 該当属性を持つスキンパーツクラスを全取得してリストアップ
 		/// </summary>
-		private static Dictionary<int, SkinPartsAttribute> CreateSkinPartsList()
+		private static Dictionary<int, KeyValuePair<Type, SkinPartsAttribute>> CreateSkinPartsList()
 		{
 			return typeof(SkinPartsAccess).Assembly.GetTypes()
 				.Where(t => t.GetCustomAttribute<SkinPartsAttribute>() != null)
-				.Select(t => t.GetCustomAttribute<SkinPartsAttribute>())
-				.ToDictionary(a => a.Id, a => a);
+				.Select(t => new KeyValuePair<Type, SkinPartsAttribute>(t, t.GetCustomAttribute<SkinPartsAttribute>()))
+				.ToDictionary(a => a.Value.Id, a => a);
 		}
 
 		/// <summary>
@@ -51,7 +54,7 @@ namespace Pspkurara.UI.Skinner
 			{
 				return m_DoNothingLogic;
 			}
-			return (ISkinLogic)Activator.CreateInstance(m_SkinParts[id].LogicType);
+			return (ISkinLogic)Activator.CreateInstance(m_SkinParts[id].Value.LogicType);
 		}
 
 		/// <summary>
@@ -70,7 +73,7 @@ namespace Pspkurara.UI.Skinner
 		/// <returns>スキンパーツクラスの型</returns>
 		public static Type GetSkinPartsRootType(int id)
 		{
-			return m_SkinParts[id].RootType;
+			return m_SkinParts[id].Key;
 		}
 
 		/// <summary>

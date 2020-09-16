@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/pspkurara/ugui-skinner/compare/v1.6.0...v1.6.1) (2020-09-16)
+
+
+### Performance Improvements
+
+* UserLogicでエラーが起こった際にそれ以降の処理をスキップさせるようにした ([f98ecd3](https://github.com/pspkurara/ugui-skinner/commit/f98ecd35f1427b51cede35c26e1dafe450eeaa9c))
+
 # [1.6.0](https://github.com/pspkurara/ugui-skinner/compare/v1.5.0...v1.6.0) (2020-09-15)
 
 

@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/pspkurara/ugui-skinner/compare/v1.6.1...v1.6.2) (2020-09-27)
+
+
+### Bug Fixes
+
+* ビルド後にシリアライズフィールドが破損する問題を修正 ([7ce7f44](https://github.com/pspkurara/ugui-skinner/commit/7ce7f446b2fa9fef883e9fcee5f995acb30f711d))
+
 ## [1.6.1](https://github.com/pspkurara/ugui-skinner/compare/v1.6.0...v1.6.1) (2020-09-16)
 
 

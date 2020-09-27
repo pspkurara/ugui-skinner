@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Pspkurara.UI.Skinner;
 
 namespace Pspkurara.UI
@@ -7,7 +8,7 @@ namespace Pspkurara.UI
 
 	[DisallowMultipleComponent]
 	[AddComponentMenu("UI/Skinner")]
-	public partial class UISkinner
+	public partial class UISkinner : UIBehaviour
 	{
 
 		[SerializeField] private int m_StyleIndex = 0;

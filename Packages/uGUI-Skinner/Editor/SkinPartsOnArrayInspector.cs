@@ -65,7 +65,7 @@ namespace Pspkurara.UI.Skinner
 					}
 					GUI.enabled = guiEnabled;
 				}
-				if (SkinnerEditorUtility.DrawAddButton(EditorConst.RemoveFieldButtonTitle, () => {
+				if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemoveFieldButtonTitle, () => {
 					property.objectReferenceValues.GetArrayElementAtIndex(iz).objectReferenceValue = null;
 					property.objectReferenceValues.DeleteArrayElementAtIndex(iz);
 					property.objectReferenceValues.serializedObject.ApplyModifiedProperties();

@@ -17,7 +17,7 @@ namespace Pspkurara.UI
 		/// <summary>
 		/// 全てのスキン
 		/// </summary>
-		public List<SkinStyle> styles { get { return m_Styles; } }
+		public IReadOnlyList<SkinStyle> styles { get { return m_Styles; } }
 
 		/// <summary>
 		/// 現在のスキンのスタイル番号

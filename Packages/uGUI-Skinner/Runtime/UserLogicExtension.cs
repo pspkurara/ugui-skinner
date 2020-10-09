@@ -57,11 +57,11 @@ namespace Pspkurara.UI.Skinner
 		#region 取得系関数
 
 		/// <summary>
-		/// <see cref="SkinPartsPropertry.objectReferenceValues">を型変換して取得する
+		/// <see cref="SkinLogicProperty.objectReferenceValues">を型変換して取得する
 		/// </summary>
 		/// <typeparam name="T">変換する型</typeparam>
 		/// <param name="variable">ユーザー変数</param>
-		public static T GetObjectReference<T>(this SkinPartsPropertry property, UserLogicVariable variable) where T : Object
+		public static T GetObjectReference<T>(this ISkinPartsProperty property, UserLogicVariable variable) where T : Object
 		{
 			int valueIndex;
 			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
@@ -72,10 +72,10 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
-		/// <see cref="SkinPartsPropertryWithoutObjectReference.floatValues">を取得する
+		/// <see cref="SkinLogicProperty.floatValues">を取得する
 		/// </summary>
 		/// <param name="variable">ユーザー変数</param>
-		public static float GetFloat(this SkinPartsPropertry property, UserLogicVariable variable)
+		public static float GetFloat(this ISkinPartsProperty property, UserLogicVariable variable)
 		{
 			int valueIndex;
 			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
@@ -86,10 +86,10 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
-		/// <see cref="SkinPartsPropertryWithoutObjectReference.vector4Values">を取得する
+		/// <see cref="SkinLogicProperty.vector4Values">を取得する
 		/// </summary>
 		/// <param name="variable">ユーザー変数</param>
-		public static Vector4 GetVector4(this SkinPartsPropertry property, UserLogicVariable variable)
+		public static Vector4 GetVector4(this ISkinPartsProperty property, UserLogicVariable variable)
 		{
 			int valueIndex;
 			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
@@ -100,10 +100,10 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
-		/// <see cref="SkinPartsPropertryWithoutObjectReference.stringValues">を取得する
+		/// <see cref="SkinLogicProperty.stringValues">を取得する
 		/// </summary>
 		/// <param name="variable">ユーザー変数</param>
-		public static string GetString(this SkinPartsPropertry property, UserLogicVariable variable)
+		public static string GetString(this ISkinPartsProperty property, UserLogicVariable variable)
 		{
 			int valueIndex;
 			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
@@ -118,11 +118,11 @@ namespace Pspkurara.UI.Skinner
 		#region セット系関数
 
 		/// <summary>
-		/// <see cref="SkinPartsPropertry.objectReferenceValues">に値をセットする
+		/// <see cref="SkinLogicProperty.objectReferenceValues">に値をセットする
 		/// </summary>
 		/// <typeparam name="T">変換する型</typeparam>
 		/// <param name="variable">ユーザー変数</param>
-		public static void SetObjectReference(this SkinPartsPropertry property, UserLogicVariable variable, Object value)
+		public static void SetObjectReference(this ISkinPartsProperty property, UserLogicVariable variable, Object value)
 		{
 			int valueIndex;
 			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
@@ -132,10 +132,10 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
-		/// <see cref="SkinPartsPropertryWithoutObjectReference.floatValues">に値をセットする
+		/// <see cref="SkinLogicProperty.floatValues">に値をセットする
 		/// </summary>
 		/// <param name="variable">ユーザー変数</param>
-		public static void SetFloat(this SkinPartsPropertry property, UserLogicVariable variable, float value)
+		public static void SetFloat(this ISkinPartsProperty property, UserLogicVariable variable, float value)
 		{
 			int valueIndex;
 			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
@@ -145,10 +145,10 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
-		/// <see cref="SkinPartsPropertryWithoutObjectReference.vector4Values">に値をセットする
+		/// <see cref="SkinLogicProperty.vector4Values">に値をセットする
 		/// </summary>
 		/// <param name="variable">ユーザー変数</param>
-		public static void SetVector4(this SkinPartsPropertry property, UserLogicVariable variable, Vector4 value)
+		public static void SetVector4(this ISkinPartsProperty property, UserLogicVariable variable, Vector4 value)
 		{
 			int valueIndex;
 			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))
@@ -158,10 +158,10 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
-		/// <see cref="SkinPartsPropertryWithoutObjectReference.stringValues">に値をセットする
+		/// <see cref="SkinLogicProperty.stringValues">に値をセットする
 		/// </summary>
 		/// <param name="variable">ユーザー変数</param>
-		public static void SetString(this SkinPartsPropertry property, UserLogicVariable variable, string value)
+		public static void SetString(this ISkinPartsProperty property, UserLogicVariable variable, string value)
 		{
 			int valueIndex;
 			if (m_ActiveUserLogic.TryGetValueIndex(variable.VariableId, out valueIndex))

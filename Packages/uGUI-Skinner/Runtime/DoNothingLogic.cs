@@ -6,7 +6,7 @@ namespace Pspkurara.UI.Skinner
 	/// </summary>
 	internal sealed class DoNothingLogic : ISkinLogic
 	{
-		public void SetValues(SkinPartsPropertry property) { }
+		public void SetValues(SkinLogicProperty property) { }
 
 	}
 

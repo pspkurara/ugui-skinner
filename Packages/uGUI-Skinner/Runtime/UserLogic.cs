@@ -51,7 +51,7 @@ namespace Pspkurara.UI.Skinner
 		/// <seealso cref="ISkinLogic.SetValues(SkinPartsPropertry)"/>から呼び出される
 		/// </summary>
 		/// <param name="property">プロパティ (ユーザーロジックの参照は持たない)</param>
-		public abstract void SetValues(SkinPartsPropertry property);
+		public abstract void SetValues(SkinLogicProperty property);
 
 		/// <summary>
 		/// 変数の値の制限を行う

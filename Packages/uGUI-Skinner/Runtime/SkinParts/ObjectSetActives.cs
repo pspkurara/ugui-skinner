@@ -24,7 +24,7 @@ namespace Pspkurara.UI.Skinner
 			/// </summary>
 			private bool activeFlag = false;
 
-			public override void SetValues(SkinPartsPropertry property)
+			public override void SetValues(SkinLogicProperty property)
 			{
 				//値がないなら何もしない
 				if (property.floatValues.Count < FloatLength) return;

@@ -8,7 +8,7 @@ namespace Pspkurara.UI.Skinner
 	/// プロパティパック
 	/// </summary>
 	[System.Serializable]
-	public sealed class SkinPartsPropertry : SkinPartsPropertryWithoutObjectReference
+	public sealed class SkinPartsPropertry : SkinPartsPropertryWithoutObjectReference, ISkinPartsProperty
 	{
 
 		#region 変数

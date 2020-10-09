@@ -17,6 +17,8 @@ namespace Pspkurara.UI.Skinner
 		[SerializeField] private string m_StyleKey = string.Empty;
 		[SerializeField] private List<SkinParts> m_Parts;
 
+		private ISkinStyleParent m_StyleParent;
+
 		#endregion
 
 		#region プロパティ
@@ -30,6 +32,17 @@ namespace Pspkurara.UI.Skinner
 		/// スタイルの文字列キー
 		/// </summary>
 		public string styleKey { get { return m_StyleKey; } }
+
+		/// <summary>
+		/// 親を基にしたスタイルのインデックス
+		/// 親がないときまたは親に存在しないときは -1 を返す
+		/// </summary>
+		public int styleIndex {
+			get {
+				if (m_StyleParent == null) return -1;
+				return m_StyleParent.GetStyleIndexInParent(this);
+			}
+		}
 
 		#endregion
 
@@ -61,13 +74,22 @@ namespace Pspkurara.UI.Skinner
 		#region メソッド
 
 		/// <summary>
+		/// スキンスタイルの親を設定する
+		/// </summary>
+		/// <param name="styleParent">親</param>
+		internal void SetStyleParent(ISkinStyleParent styleParent)
+		{
+			m_StyleParent = styleParent;
+		}
+
+		/// <summary>
 		/// 見た目を反映
 		/// </summary>
 		public void Apply()
 		{
 			foreach (SkinParts cParts in m_Parts)
 			{
-				cParts.Apply();
+				cParts.Apply(this);
 			}
 		}
 

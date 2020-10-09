@@ -17,14 +17,14 @@ namespace Pspkurara.UI.Skinner
 		{
 
 			UserLogic userLogic;
-			SkinPartsPropertry ignoredLogicProperty;
+			SkinLogicProperty ? ignoredLogicProperty;
 			bool catchedError;
 
 			/// <summary>
 			/// 値をオブジェクトに反映させる
 			/// </summary>
 			/// <param name="property">プロパティ</param>
-			public void SetValues(SkinPartsPropertry property)
+			public void SetValues(SkinLogicProperty property)
 			{
 				// エラー出るようなら何もしてほしくない
 				if (catchedError) return;
@@ -36,16 +36,16 @@ namespace Pspkurara.UI.Skinner
 					//空か型違いのため処理終了
 					if (!userLogic) return;
 				}
-				if (ignoredLogicProperty == null)
+				if (!ignoredLogicProperty.HasValue)
 				{
-					ignoredLogicProperty = new SkinPartsPropertry(property);
-					ignoredLogicProperty.objectReferenceValues.Remove(userLogic);
+					ignoredLogicProperty = new SkinLogicProperty(property);
+					ignoredLogicProperty.Value.objectReferenceValues.Remove(userLogic);
 				}
 				UserLogicExtension.SetActiveUserLogic(userLogic);
 				// 自由に処理をかけるのでエラー回避を入れておく
 				try
 				{
-					userLogic.SetValues(ignoredLogicProperty);
+					userLogic.SetValues(ignoredLogicProperty.Value);
 				}
 				// エラーが起こっても何もせず終わる
 				catch (Exception)

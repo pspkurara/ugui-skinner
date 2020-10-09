@@ -20,7 +20,7 @@ namespace Pspkurara.UI.Skinner
 		/// 値をオブジェクトに反映させる
 		/// </summary>
 		/// <param name="property">プロパティ</param>
-		public virtual void SetValues(SkinPartsPropertry property)
+		public virtual void SetValues(SkinLogicProperty property)
 		{
 			//空っぽなら何もしない
 			if (property.objectReferenceValues.Count <= 0) return;

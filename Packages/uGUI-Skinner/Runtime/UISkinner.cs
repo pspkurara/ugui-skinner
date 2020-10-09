@@ -8,7 +8,7 @@ namespace Pspkurara.UI
 
 	[DisallowMultipleComponent]
 	[AddComponentMenu("UI/Skinner")]
-	public partial class UISkinner : UIBehaviour
+	public partial class UISkinner : UIBehaviour, ISkinStyleParent, ISerializationCallbackReceiver
 	{
 
 		[SerializeField] private int m_StyleIndex = 0;
@@ -50,6 +50,34 @@ namespace Pspkurara.UI
 		/// </summary>
 		public int Length {
 			get { return m_Styles.Count; }
+		}
+
+		/// <summary>
+		/// 自身の全てのスキンスタイルの「親」を更新
+		/// </summary>
+		internal void SyncStyleParentWithLinkedSkinStyles()
+		{
+			foreach (var style in m_Styles)
+			{
+				style.SetStyleParent(this);
+			}
+		}
+
+		/// <summary>
+		/// スキンスタイルのインデックスを親のリストを元に取得する
+		/// </summary>
+		/// <param name="style">対象のスキンスタイル</param>
+		/// <returns>インデックス</returns>
+		int ISkinStyleParent.GetStyleIndexInParent(SkinStyle style)
+		{
+			return m_Styles.IndexOf(style);
+		}
+
+		void ISerializationCallbackReceiver.OnBeforeSerialize() { }
+
+		void ISerializationCallbackReceiver.OnAfterDeserialize()
+		{
+			SyncStyleParentWithLinkedSkinStyles();
 		}
 
 	}

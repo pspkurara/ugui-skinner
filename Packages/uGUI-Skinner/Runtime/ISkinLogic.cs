@@ -15,7 +15,7 @@ namespace Pspkurara.UI.Skinner
 		/// 値をオブジェクトに反映させる
 		/// </summary>
 		/// <param name="property">プロパティ</param>
-		void SetValues(SkinPartsPropertry property);
+		void SetValues(SkinLogicProperty property);
 
 	}
 

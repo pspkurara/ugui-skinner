@@ -84,7 +84,21 @@ namespace Pspkurara.UI.Skinner
 				applySkinFunction = SkinPartsAccess.CreateSkinLogicInstance(type);
 			}
 			//値を適応する
-			applySkinFunction.SetValues(property);
+			applySkinFunction.SetValues(new SkinLogicProperty(this));
+		}
+
+		/// <summary>
+		/// 見た目を反映する
+		/// </summary>
+		internal void Apply(SkinStyle parentStyle)
+		{
+			//初回はタイプによって状態を変える
+			if (applySkinFunction == null)
+			{
+				applySkinFunction = SkinPartsAccess.CreateSkinLogicInstance(type);
+			}
+			//値を適応する
+			applySkinFunction.SetValues(new SkinLogicProperty(this, parentStyle));
 		}
 
 		/// <summary>

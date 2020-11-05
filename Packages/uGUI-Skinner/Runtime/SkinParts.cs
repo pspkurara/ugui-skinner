@@ -56,10 +56,11 @@ namespace Pspkurara.UI.Skinner
 		/// <see cref="SkinParts"/>を初期化して生成
 		/// </summary>
 		/// <param name="base">複製対象となるデータ</param>
-		public SkinParts(SkinParts @base) : this()
+		public SkinParts(SkinParts @base)
 		{
 			m_Type = @base.m_Type;
 			m_Property = new SkinPartsPropertry(@base.m_Property);
+			applySkinFunction = null;
 		}
 
 		#endregion

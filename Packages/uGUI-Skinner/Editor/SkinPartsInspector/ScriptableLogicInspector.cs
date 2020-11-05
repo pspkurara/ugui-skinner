@@ -78,19 +78,11 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength, false);
 
 			var logicProperty = property.objectReferenceValues.GetArrayElementAtIndex(ScriptableLogic.LogicIndex);
-			var preSelectLogic = logicProperty.objectReferenceValue as UserLogic;
-			SkinnerEditorGUILayout.ObjectField(SkinContent.Logic, logicProperty, typeof(UserLogic));
-			// このタイミングで参照対象が変わるとエラーが起こる
-			if (preSelectLogic != logicProperty.objectReferenceValue)
-			{
-				// クリーンアップしてインスペクターは次に描画させる
-				CleanupFields(property);
-				return;
-			}
+			SkinnerEditorGUILayout.ObjectField(SkinContent.Logic, logicProperty, typeof(UserLogic)); ;
 
 			if (logicProperty.hasMultipleDifferentValues) return;
 
-			var userLogic = property.objectReferenceValues.GetArrayElementAtIndex(ScriptableLogic.LogicIndex).objectReferenceValue as UserLogic;
+			var userLogic = logicProperty.objectReferenceValue as UserLogic;
 			bool isCorrect = CreateDisplayData(userLogic);
 			if (isCorrect)
 			{
@@ -173,12 +165,11 @@ namespace Pspkurara.UI.Skinner
 				}
 
 				SkinnerEditorUtility.MapRuntimePropertyFromEditorProperty(validateProperty, property);
-				var logic = validateProperty.objectReferenceValues[ScriptableLogic.LogicIndex] as UserLogic;
-				validateProperty.objectReferenceValues.Remove(logic);
-				UserLogicExtension.SetActiveUserLogic(logic);
+				validateProperty.objectReferenceValues.RemoveAt(ScriptableLogic.LogicIndex);
+				UserLogicExtension.SetActiveUserLogic(userLogic);
 				userLogic.ValidateProperty(validateProperty);
 				UserLogicExtension.ReleaseActiveUserLogic();
-				validateProperty.objectReferenceValues.Insert(ScriptableLogic.LogicIndex, logic);
+				validateProperty.objectReferenceValues.Insert(ScriptableLogic.LogicIndex, userLogic);
 				SkinnerEditorUtility.MapRuntimePropertyFromEditorProperty(property, validateProperty);
 			}
 		}

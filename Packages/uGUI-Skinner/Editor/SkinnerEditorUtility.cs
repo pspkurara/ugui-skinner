@@ -343,7 +343,12 @@ namespace Pspkurara.UI.Skinner
 
 		private static void MapEditorFromRuntimeSingleProperty<T>(SerializedProperty mapTarget, List<T> mapSource, Action<T, SerializedProperty> mapFunction)
 		{
-			for (int i = 0; i < Mathf.Min(mapTarget.arraySize, mapSource.Count); i++)
+			int mapTargetArraySize = mapTarget.arraySize;
+			for (int i = mapTargetArraySize; i < mapSource.Count; i++)
+			{
+				mapTarget.InsertArrayElementAtIndex(mapTarget.arraySize);
+			}
+			for (int i = 0; i < mapSource.Count; i++)
 			{
 				var element = mapTarget.GetArrayElementAtIndex(i);
 				mapFunction(mapSource[i], element);

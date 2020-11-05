@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -38,7 +39,7 @@ namespace Pspkurara.UI.Skinner
 				}
 				if (!ignoredLogicProperty.HasValue)
 				{
-					ignoredLogicProperty = new SkinLogicProperty(property);
+					ignoredLogicProperty = SkinLogicProperty.GetCopyWithUniqueSkinPartsProperty(property);
 					ignoredLogicProperty.Value.objectReferenceValues.Remove(userLogic);
 				}
 				UserLogicExtension.SetActiveUserLogic(userLogic);

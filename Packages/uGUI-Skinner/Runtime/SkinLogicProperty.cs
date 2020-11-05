@@ -102,6 +102,21 @@ namespace Pspkurara.UI.Skinner
 
 		#endregion
 
+		#region メソッド
+
+		/// <summary>
+		/// 内部の<see cref="SkinPartsPropertry"/>を元の参照から切り離したものを取得する
+		/// </summary>
+		/// <param name="base">自身</param>
+		/// <returns>独立した参照を持つバージョン</returns>
+		internal static SkinLogicProperty GetCopyWithUniqueSkinPartsProperty(SkinLogicProperty @base)
+		{
+			var clone = new SkinLogicProperty(@base);
+			clone.m_SkinPartsProperty = new SkinPartsPropertry(clone.m_SkinPartsProperty);
+			return clone;
+		}
+
+		#endregion
 
 	}
 

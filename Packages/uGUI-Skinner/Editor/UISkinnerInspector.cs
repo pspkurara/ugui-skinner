@@ -269,11 +269,13 @@ namespace Pspkurara.UI
 		/// </summary>
 		private void ApplySkin()
 		{
+			serializedObject.ApplyModifiedProperties();
 			foreach (Object t in serializedObject.targetObjects)
 			{
 				UISkinner skinner = t as UISkinner;
 				skinner.SetSkin(Mathf.Clamp(currentStyleIndex, 0, skinLength - 1));
 			}
+			serializedObject.Update();
 		}
 		
 		private void Cleanup()

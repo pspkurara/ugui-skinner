@@ -40,6 +40,7 @@ namespace Pspkurara.UI.Skinner
 				{
 					material = property.objectReferenceValues[MaterialIndex] as Material;
 				}
+				SkinnerRuntimeEditorUtility.RecordObject(graphic);
 				graphic.material = material;
 				SkinnerUtility.ReloadGameObject(graphic);
 			}

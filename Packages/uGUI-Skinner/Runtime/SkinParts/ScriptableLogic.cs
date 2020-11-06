@@ -46,6 +46,7 @@ namespace Pspkurara.UI.Skinner
 				// 自由に処理をかけるのでエラー回避を入れておく
 				try
 				{
+					SkinnerRuntimeEditorUtility.RecordObjects(ignoredLogicProperty.Value.objectReferenceValues);
 					userLogic.SetValues(ignoredLogicProperty.Value);
 				}
 				// エラーが起こっても何もせず終わる

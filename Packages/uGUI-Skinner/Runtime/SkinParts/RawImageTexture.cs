@@ -39,6 +39,7 @@ namespace Pspkurara.UI.Skinner
 				{
 					texture2D = property.objectReferenceValues[Texture2DIndex] as Texture2D;
 				}
+				SkinnerRuntimeEditorUtility.RecordObject(rawImage);
 				rawImage.texture = texture2D;
 				SkinnerUtility.ReloadGameObject(rawImage);
 			}

@@ -46,6 +46,7 @@ namespace Pspkurara.UI.Skinner
 				//値がないなら何もしない
 				if (property.floatValues.Count < FloatLength) return;
 				activeTime = property.floatValues[TimeIndex];
+				SkinnerRuntimeEditorUtility.DeepRecordObject(rootGameObject);
 				animationClip.SampleAnimation(rootGameObject, activeTime);
 			}
 

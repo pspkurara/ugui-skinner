@@ -40,6 +40,7 @@ namespace Pspkurara.UI.Skinner
 				{
 					sprite = property.objectReferenceValues[SpriteIndex] as Sprite;
 				}
+				SkinnerRuntimeEditorUtility.RecordObject(image);
 				image.sprite = sprite;
 				SkinnerUtility.ReloadGameObject(image);
 			}

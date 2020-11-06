@@ -307,9 +307,9 @@ namespace Pspkurara.UI.Skinner
 			if (castedProperty != -1)
 			{
 				displayValue = 0;
-				for (var i = 0; i < optionValues.Length; ++i)
+				for (var i = 0; i < optionValues.Length; i++)
 				{
-					if (0 < (castedProperty & (1 << optionValues[i])))
+					if (0 < (castedProperty & optionValues[i]))
 						displayValue |= 1 << i;
 				}
 			}
@@ -320,10 +320,10 @@ namespace Pspkurara.UI.Skinner
 			if (displayResult != -1)
 			{
 				result = 0;
-				for (var i = 0; i < optionValues.Length; ++i)
+				for (var i = 0; i < optionValues.Length; i++)
 				{
 					if (0 < (displayResult & (1 << i)))
-						result |= 1 << optionValues[i];
+						result |= optionValues[i];
 				}
 			}
 

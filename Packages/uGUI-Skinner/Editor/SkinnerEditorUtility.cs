@@ -331,13 +331,12 @@ namespace Pspkurara.UI.Skinner
 
 		public static string GetEditorName(string name)
 		{
-			return name;
-			var m = Regex.Matches(name, "[\\x41-\\x5a]+[\\x61-\\x7a]*");
+			var m = Regex.Matches(name, "[\\x41-\\x5a]+[\\x61-\\x7a]*|[\\d]+");
 			StringBuilder builder = new StringBuilder();
 			for (int i = 0; i < m.Count; i++)
 			{
-				builder.Append(m[i].Value);
-				builder.Append(" ");
+				builder.Append(name.Substring(m[i].Index, m[i].Length));
+				if (m.Count - 1 != i) builder.Append(" ");
 			}
 			return builder.ToString();
 		}

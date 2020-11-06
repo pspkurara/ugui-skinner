@@ -19,7 +19,7 @@ namespace Pspkurara.UI.Skinner
 
 		#endregion
 
-		#region Integer
+		#region Float
 
 		public static bool IsBoolean(Type type)
 		{
@@ -35,10 +35,6 @@ namespace Pspkurara.UI.Skinner
 		{
 			return type.IsEnum;
 		}
-
-		#endregion
-
-		#region Float
 
 		public static bool IsFloat(Type type)
 		{

@@ -1,6 +1,7 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Array = System.Array;
+using System.Collections.Generic;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -52,14 +53,18 @@ namespace Pspkurara.UI.Skinner
 				// 1度キャストして本当にコンポーネントがアタッチされているか検証
 				Component castedResult = result as Component;
 				int componentIndex = -1;
-				Component[] componentList = null;
+				List<Component> componentList = null;
 				// null以外 & 指定された型の継承クラスかを調べる
 				if (result != null && (result.GetType() == type || type.IsSubclassOf(result.GetType())))
 				{
 					// 同じオブジェクトから全ての同一の型のコンポーネントを取得
-					componentList = (castedResult as Component).gameObject.GetComponents(type);
+					var castedResultGameObject = (castedResult as Component).gameObject;
+					componentList = castedResultGameObject
+						.GetComponentsInChildren(type, true)
+						.Where(component => component.gameObject == castedResultGameObject)
+						.ToList();
 					// 順番を取得 (アタッチされた順番が配列の順番となる)
-					componentIndex = Array.IndexOf(componentList, castedResult);
+					componentIndex = componentList.IndexOf(castedResult);
 				}
 
 				bool guiEnabled = GUI.enabled;
@@ -80,7 +85,7 @@ namespace Pspkurara.UI.Skinner
 				if (editIndex != componentIndex)
 				{
 					// 設定された数字を切り替えたら同一オブジェクトのコンポーネントに差し替える
-					editIndex = Mathf.Clamp(editIndex, 0, componentList.Length - 1);
+					editIndex = Mathf.Clamp(editIndex, 0, componentList.Count - 1);
 					result = componentList[editIndex];
 				}
 

@@ -138,7 +138,9 @@ namespace Pspkurara.UI.Skinner
 		{
 			Color guiColor = GUI.color;
 			GUI.color = EditorConst.AddButtonColor;
-			if (GUILayout.Button(title, EditorConst.SkinAddOrRemoveButtonMaxWidth))
+			var rect = EditorGUILayout.GetControlRect(EditorConst.SkinAddOrRemoveButtonMaxWidth);
+			rect = EditorGUI.IndentedRect(rect);
+			if (GUI.Button(rect, title, EditorStyles.miniButton))
 			{
 				function();
 				return true;
@@ -151,7 +153,9 @@ namespace Pspkurara.UI.Skinner
 		{
 			Color guiColor = GUI.color;
 			GUI.color = EditorConst.RemoveButtonColor;
-			if (GUILayout.Button(title, EditorConst.SkinAddOrRemoveButtonMaxWidth))
+			var rect = EditorGUILayout.GetControlRect(EditorConst.SkinAddOrRemoveButtonMaxWidth);
+			rect = EditorGUI.IndentedRect(rect);
+			if (GUI.Button(rect, title, EditorStyles.miniButton))
 			{
 				function();
 				return true;
@@ -164,7 +168,9 @@ namespace Pspkurara.UI.Skinner
 		{
 			Color guiColor = GUI.color;
 			GUI.color = EditorConst.CleanupButtonColor;
-			if (GUILayout.Button(title, EditorConst.SkinAddOrRemoveButtonMaxWidth))
+			var rect = EditorGUILayout.GetControlRect(EditorConst.SkinAddOrRemoveButtonMaxWidth);
+			rect = EditorGUI.IndentedRect(rect);
+			if (GUI.Button(rect, title, EditorStyles.miniButton))
 			{
 				function();
 				return true;

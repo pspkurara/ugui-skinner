@@ -120,9 +120,14 @@ namespace Pspkurara.UI
 
 				if (skinStyleElementProperty.isExpanded)
 				{
+
 					EditorGUILayout.EndHorizontal();
 
+					EditorGUI.indentLevel += EditorConst.SkinStyleChildIndent;
+
 					EditorGUILayout.PropertyField(styleKey, EditorConst.SkinnerStyleKeyFieldTitle);
+
+					EditorGUI.indentLevel -= EditorConst.SkinStyleChildIndent;
 
 					for (int skinPartsIndex = 0; skinPartsIndex < skinPartsProperty.arraySize; skinPartsIndex++)
 					{
@@ -135,6 +140,10 @@ namespace Pspkurara.UI
 							SerializedProperty skinPartsTypeProperty = skinPartsElementProperty.FindPropertyRelative(FieldName.Type);
 							int skinPartsType = skinPartsTypeProperty.intValue;
 
+							EditorGUILayout.BeginHorizontal();
+
+							skinPartsElementProperty.isExpanded = EditorGUILayout.Toggle(GUIContent.none, skinPartsElementProperty.isExpanded, EditorStyles.foldout, GUILayout.Width(12));
+
 							int skinPartsTypeEditted = EditorGUILayout.IntPopup(skinPartsType, m_SkinnerPartsDisplayNames, m_SkinnerPartsOptionValues);
 							if (skinPartsTypeEditted != skinPartsType)
 							{
@@ -142,60 +151,75 @@ namespace Pspkurara.UI
 								serializedObject.ApplyModifiedProperties();
 								return;
 							}
+							EditorGUILayout.EndHorizontal();
 
-							EditorGUI.indentLevel++;
-
-							// タイプの登録を確認
-							if (SkinPartsAccess.IsCorrectSkinPartsId(skinPartsType))
+							if (skinPartsElementProperty.isExpanded)
 							{
-								var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
 
-								// インスペクターの登録を確認
-								if (SkinPartsInspectorAccess.IsRegistedInspector(rootType))
+								EditorGUI.indentLevel += EditorConst.SkinPartsChildIndent;
+
+								// タイプの登録を確認
+								if (SkinPartsAccess.IsCorrectSkinPartsId(skinPartsType))
 								{
-									var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
+									var rootType = SkinPartsAccess.GetSkinPartsRootType(skinPartsType);
 
-									m_SkinPartsProperty.MapProperties(skinPartsElementProperty.FindPropertyRelative(FieldName.Property));
-
-									EditorGUI.BeginChangeCheck();
-									bool showMixedValue = EditorGUI.showMixedValue;
-									inspector.DrawInspector(m_SkinPartsProperty);
-									EditorGUI.showMixedValue = showMixedValue;
-									if (EditorGUI.EndChangeCheck())
+									// インスペクターの登録を確認
+									if (SkinPartsInspectorAccess.IsRegistedInspector(rootType))
 									{
-										if (skinStylesIndex == m_StyleIndex.intValue)
+										var inspector = SkinPartsInspectorAccess.GetSkinInspector(rootType);
+
+										m_SkinPartsProperty.MapProperties(skinPartsElementProperty.FindPropertyRelative(FieldName.Property));
+
+										EditorGUI.BeginChangeCheck();
+										bool showMixedValue = EditorGUI.showMixedValue;
+										inspector.DrawInspector(m_SkinPartsProperty);
+										EditorGUI.showMixedValue = showMixedValue;
+										if (EditorGUI.EndChangeCheck())
 										{
-											ApplySkin();
+											if (skinStylesIndex == m_StyleIndex.intValue)
+											{
+												ApplySkin();
+												if (skinPartsType == 100) inspector.DrawInspector(m_SkinPartsProperty);
+											}
 										}
+
+									}
+									else
+									{
+										// 該当インスペクターが存在しない場合は何もしない
+										var skinPartsTypeName = SkinnerEditorUtility.GetEditorName(rootType.Name);
+										EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsInspectorTypeMessage, skinPartsTypeName), EditorConst.MissingSkinPartsInspectorTypeMessageType);
 									}
 
 								}
 								else
 								{
-									// 該当インスペクターが存在しない場合は何もしない
-									var skinPartsTypeName = SkinnerEditorUtility.GetEditorName(rootType.Name);
-									EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsInspectorTypeMessage, skinPartsTypeName), EditorConst.MissingSkinPartsInspectorTypeMessageType);
+									// 該当IDが存在しない場合は警告を出す
+									EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsTypeMessage, skinPartsType), EditorConst.MissingSkinPartsTypeMessageType);
 								}
 
-							}
-							else
-							{
-								// 該当IDが存在しない場合は警告を出す
-								EditorGUILayout.HelpBox(string.Format(EditorConst.MissingSkinPartsTypeMessage, skinPartsType), EditorConst.MissingSkinPartsTypeMessageType);
-							}
+								EditorGUI.indentLevel -= EditorConst.SkinPartsChildIndent;
 
-							EditorGUI.indentLevel--;
+								EditorGUI.indentLevel += EditorConst.SkinStyleChildIndent;
 
-							if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemovePartsButtonTitle, () => {
-								skinPartsProperty.DeleteArrayElementAtIndex(skinPartsIndex);
-								serializedObject.ApplyModifiedProperties();
-							})) return;
+								if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemovePartsButtonTitle, () =>
+								{
+									skinPartsProperty.DeleteArrayElementAtIndex(skinPartsIndex);
+									serializedObject.ApplyModifiedProperties();
+								})) return;
+
+								EditorGUI.indentLevel -= EditorConst.SkinStyleChildIndent;
+
+								EditorGUILayout.Space();
+
+							}
 
 						}
 						catch (InvalidOperationException) { }
 					}
 
-					EditorGUILayout.Space();
+					EditorGUI.indentLevel += EditorConst.SkinStyleChildIndent;
+
 					EditorGUILayout.BeginHorizontal();
 					if (SkinnerEditorUtility.DrawAddButton(EditorConst.AddPartsButtonTitle, () => {
 						skinPartsProperty.InsertArrayElementAtIndex(skinPartsProperty.arraySize);
@@ -203,6 +227,9 @@ namespace Pspkurara.UI
 					})) return;
 
 					EditorGUILayout.Space();
+
+					EditorGUI.indentLevel -= EditorConst.SkinStyleChildIndent;
+
 				}
 
 				if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemoveSkinButtonTitle, () => {

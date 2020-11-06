@@ -54,6 +54,8 @@ namespace Pspkurara.UI.Skinner
 
 		public static readonly GUILayoutOption[] LineBoxStyle = new GUILayoutOption[] { GUILayout.Height(1), GUILayout.ExpandWidth(true) };
 
+		public const int SkinStyleChildIndent = 1;
+		public const int SkinPartsChildIndent = 2;
 
 		private static GUIStyle CreateNormalFoldoutStyle()
 		{

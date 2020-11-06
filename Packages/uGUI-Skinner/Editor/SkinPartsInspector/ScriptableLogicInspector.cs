@@ -79,6 +79,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength, false);
 
 			var logicProperty = property.objectReferenceValues.GetArrayElementAtIndex(ScriptableLogic.LogicIndex);
+			var preSelectLogic = logicProperty.objectReferenceValue as UserLogic;
 			SkinnerEditorGUILayout.ObjectField(SkinContent.Logic, logicProperty, typeof(UserLogic)); ;
 
 			if (logicProperty.hasMultipleDifferentValues) return;
@@ -91,6 +92,14 @@ namespace Pspkurara.UI.Skinner
 				SkinnerEditorUtility.ResetArray(property.floatValues, current.FloatArrayCount);
 				SkinnerEditorUtility.ResetArray(property.vector4Values, current.Vector4ArrayCount);
 				SkinnerEditorUtility.ResetArray(property.stringValues, current.StringArrayCount);
+
+				logicProperty.objectReferenceValue = userLogic;
+
+				if (preSelectLogic != userLogic)
+				{
+					InitializeFields(property);
+				}
+
 				for (int i = 0; i < current.VariableDisplayDatas.Count; i++)
 				{
 					var v = current.VariableDisplayDatas[i];
@@ -228,6 +237,57 @@ namespace Pspkurara.UI.Skinner
 				UserLogicExtension.ReleaseActiveUserLogic();
 				validateProperty.objectReferenceValues.Insert(ScriptableLogic.LogicIndex, userLogic);
 				SkinnerEditorUtility.MapRuntimePropertyFromEditorProperty(property, validateProperty);
+			}
+		}
+
+		/// <summary>
+		/// 表示データを元にフィールドを全て初期化する
+		/// </summary>
+		/// <param name="property">property</param>
+		private void InitializeFields(EditorSkinPartsPropertry property)
+		{
+			for (int i = 0; i < current.VariableDisplayDatas.Count; i++)
+			{
+				var v = current.VariableDisplayDatas[i];
+
+				SerializedProperty element = null;
+				switch (v.PropertyType)
+				{
+					case SerializedPropertyType.ObjectReference:
+						{
+							element = property.objectReferenceValues.GetArrayElementAtIndex(v.FieldIndex + ScriptableLogic.RequiredObjectLength);
+						}
+						break;
+					case SerializedPropertyType.Float:
+					case SerializedPropertyType.Boolean:
+					case SerializedPropertyType.Integer:
+					case SerializedPropertyType.LayerMask:
+					case SerializedPropertyType.Enum:
+						{
+							element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
+						}
+						break;
+					case SerializedPropertyType.Vector2:
+					case SerializedPropertyType.Vector3:
+					case SerializedPropertyType.Vector4:
+					case SerializedPropertyType.Color:
+					case SerializedPropertyType.Rect:
+						{
+							element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
+						}
+						break;
+					case SerializedPropertyType.Character:
+					case SerializedPropertyType.String:
+						{
+							element = property.stringValues.GetArrayElementAtIndex(v.FieldIndex);
+						}
+						break;
+				}
+
+				if (element != null)
+				{
+					SkinnerEditorUtility.FieldClean(element, v.VariableData.DefaultValue);
+				}
 			}
 		}
 

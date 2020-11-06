@@ -79,7 +79,7 @@ namespace Pspkurara.UI.Skinner
 
 		#endregion
 
-		private static void FieldClean(SerializedProperty arrayObj, object defaultValue)
+		public static void FieldClean(SerializedProperty arrayObj, object defaultValue)
 		{
 			bool hasDefaultValue = defaultValue != null;
 			switch (arrayObj.propertyType)

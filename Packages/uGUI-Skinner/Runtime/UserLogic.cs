@@ -112,6 +112,11 @@ namespace Pspkurara.UI.Skinner
 		public string FieldDisplayName;
 
 		/// <summary>
+		/// 初期値
+		/// </summary>
+		public object DefaultValue;
+
+		/// <summary>
 		/// カスタムプロパティ
 		/// </summary>
 		public PropertyAttribute[] PropertyAttributes;

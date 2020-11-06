@@ -349,7 +349,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="optionValues">値配列</param>
 		public static void GetPopupOptionsFromEnum(Type enumType, out string[] displayOptions, out int[] optionValues)
 		{
-			displayOptions = enumType.GetEnumNames();
+			displayOptions = enumType.GetEnumNames().Select(name => GetEditorName(name)).ToArray();
 			optionValues = enumType.GetEnumValues().Cast<int>().ToArray();
 		}
 

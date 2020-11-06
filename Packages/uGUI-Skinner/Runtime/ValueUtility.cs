@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Enum = System.Enum;
+using Convert = System.Convert;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -23,6 +23,11 @@ namespace Pspkurara.UI.Skinner
 		public static Vector4 ToVector(this Rect rect)
 		{
 			return new Vector4(rect.x, rect.y, rect.width, rect.height);
+		}
+
+		public static float ToFloat<T>(this T self) where T : Enum
+		{
+			return Convert.ToInt32(self);
 		}
 
 		public static float ToFloat(this bool self)
@@ -48,9 +53,15 @@ namespace Pspkurara.UI.Skinner
 		{
 			return new Rect(self.x, self.y, self.z, self.w);
 		}
+
 		public static int ToInt(this float self)
 		{
 			return Mathf.RoundToInt(self);
+		}
+
+		public static T ToEnum<T>(this float self) where T : Enum
+		{
+			return (T)Enum.ToObject(typeof(T), self.ToInt());
 		}
 
 		public static bool ToBool(this float self)

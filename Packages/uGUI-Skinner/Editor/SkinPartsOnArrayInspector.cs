@@ -33,8 +33,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, DefaultArrayLength, false);
 			ResetArrayOtherThanObjectReference(property);
 
-			var componentInfo = SkinnerEditorUtility.GetComponentInfos(typeof(T));
-
+			int indent = EditorGUI.indentLevel;
 
 			for (int iz = 0; iz < property.objectReferenceValues.arraySize; iz++)
 			{
@@ -42,36 +41,14 @@ namespace Pspkurara.UI.Skinner
 				SerializedProperty gameObjectProperty = property.objectReferenceValues.GetArrayElementAtIndex(iz);
 				m_FieldNumberTitle.text = string.Format(EditorConst.FieldNumberTitle, iz);
 				SkinnerEditorGUILayout.ObjectField(m_FieldNumberTitle, gameObjectProperty, typeof(T));
-				if (componentInfo.isComponent && componentInfo.allowMultiplyComponent)
-				{
-					T c = gameObjectProperty.objectReferenceValue as T;
-					int componentIndex = -1;
-					List<T> componentList = null;
-					if (c)
-					{
-						componentList = (c as Component).gameObject.GetComponents<T>().ToList();
-						componentIndex = componentList.IndexOf(c);
-					}
-					bool guiEnabled = GUI.enabled;
-					if (componentIndex < 0)
-					{
-						componentIndex = 0;
-						GUI.enabled = false;
-					}
-					int editIndex = EditorGUILayout.IntField(GUIContent.none, componentIndex, EditorConst.ComponentIndexFieldMaxWidth);
-					if (editIndex != componentIndex)
-					{
-						editIndex = Mathf.Clamp(editIndex, 0, componentList.Count - 1);
-						gameObjectProperty.objectReferenceValue = componentList[editIndex];
-						gameObjectProperty.serializedObject.ApplyModifiedProperties();
-					}
-					GUI.enabled = guiEnabled;
-				}
+
+				EditorGUI.indentLevel = 0;
 				if (SkinnerEditorUtility.DrawRemoveButton(EditorConst.RemoveFieldButtonTitle, () => {
 					property.objectReferenceValues.GetArrayElementAtIndex(iz).objectReferenceValue = null;
 					property.objectReferenceValues.DeleteArrayElementAtIndex(iz);
 					property.objectReferenceValues.serializedObject.ApplyModifiedProperties();
 				})) return;
+				EditorGUI.indentLevel = indent;
 				EditorGUILayout.EndHorizontal();
 			}
 			EditorGUILayout.BeginHorizontal();
@@ -82,10 +59,12 @@ namespace Pspkurara.UI.Skinner
 
 			m_AddFieldButtonTitle.text = string.Format(EditorConst.AddFieldButtonTitle, displayObjectTypeName);
 
+			EditorGUI.indentLevel = 0;
 			bool isClicked = SkinnerEditorUtility.DrawAddButton(m_AddFieldButtonTitle, () => {
 				property.objectReferenceValues.InsertArrayElementAtIndex(property.objectReferenceValues.arraySize);
 				property.objectReferenceValues.serializedObject.ApplyModifiedProperties();
 			});
+			EditorGUI.indentLevel = indent;
 
 			if (isClicked) return;
 			EditorGUILayout.EndHorizontal();

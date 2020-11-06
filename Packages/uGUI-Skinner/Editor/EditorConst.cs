@@ -50,7 +50,7 @@ namespace Pspkurara.UI.Skinner
 		public static readonly GUILayoutOption SkinSelectArrowMaxWidth = GUILayout.MaxWidth(50);
 		public static readonly GUILayoutOption SkinAddOrRemoveButtonMaxWidth = GUILayout.MaxWidth(150);
 
-		public static readonly GUILayoutOption ComponentIndexFieldMaxWidth = GUILayout.MaxWidth(50);
+		public const float ComponentIndexFieldWidth = 50;
 
 		public static readonly GUILayoutOption[] LineBoxStyle = new GUILayoutOption[] { GUILayout.Height(1), GUILayout.ExpandWidth(true) };
 

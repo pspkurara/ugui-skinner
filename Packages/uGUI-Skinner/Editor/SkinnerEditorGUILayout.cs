@@ -1,5 +1,7 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
+using Array = System.Array;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -14,6 +16,7 @@ namespace Pspkurara.UI.Skinner
 
 		/// <summary>
 		/// <see cref="EditorGUILayout.ObjectField"/>を表示
+		/// 重複アタッチ可能なコンポーネントの場合はアタッチ順を元に切り替え可能な<see cref="EditorGUILayout.IntField"/>を併せて描画
 		/// </summary>
 		/// <param name="label">ラベル</param>
 		/// <param name="property">プロパティ</param>
@@ -26,9 +29,67 @@ namespace Pspkurara.UI.Skinner
 			{
 				EditorGUI.showMixedValue = true;
 			}
-			bool isComponent = type == typeof(Component) || type.IsSubclassOf(typeof(Component));
+
+			// コンポーネントの情報を確認し、複数アタッチできるかチェック
 			bool isGameObject = type == typeof(GameObject);
-			var result = EditorGUILayout.ObjectField(label, property.objectReferenceValue, type, isComponent || isGameObject, options);
+			var componentInfo = SkinnerEditorUtility.GetComponentInfos(type);
+			bool showComponentIndex = componentInfo.isComponent && componentInfo.allowMultiplyComponent;
+
+			var rect = EditorGUILayout.GetControlRect(options);
+
+			var objectFieldRect = rect;
+
+			// コンポーネントインデックス表示の場合はオブジェクトフィールドがその分縮む
+			if (showComponentIndex)
+			{
+				objectFieldRect.width -= EditorConst.ComponentIndexFieldWidth + EditorGUIUtility.standardVerticalSpacing;
+			} 
+
+			var result = EditorGUI.ObjectField(objectFieldRect, label, property.objectReferenceValue, type, componentInfo.isComponent || isGameObject);
+
+			// コンポーネントインデックス表示が有効
+			if (showComponentIndex)
+			{
+				// 1度キャストして本当にコンポーネントがアタッチされているか検証
+				Component castedResult = result as Component;
+				int componentIndex = -1;
+				Component[] componentList = null;
+				// null以外 & 指定された型の継承クラスかを調べる
+				if (result != null && (result.GetType() == type || type.IsSubclassOf(result.GetType())))
+				{
+					// 同じオブジェクトから全ての同一の型のコンポーネントを取得
+					componentList = (castedResult as Component).gameObject.GetComponents(type);
+					// 順番を取得 (アタッチされた順番が配列の順番となる)
+					componentIndex = Array.IndexOf(componentList, castedResult);
+				}
+
+				bool guiEnabled = GUI.enabled;
+
+				// 不正なアタッチ (見つからない場合) だったらフィールドは非アクティブ
+				if (componentIndex < 0)
+				{
+					componentIndex = 0;
+					GUI.enabled = false;
+				}
+
+				int indent = EditorGUI.indentLevel;
+				EditorGUI.indentLevel = 0;
+
+				var indexRect = new Rect(rect.xMax - EditorConst.ComponentIndexFieldWidth, rect.y, EditorConst.ComponentIndexFieldWidth, rect.height);
+
+				int editIndex = EditorGUI.IntField(indexRect, GUIContent.none, componentIndex);
+				if (editIndex != componentIndex)
+				{
+					// 設定された数字を切り替えたら同一オブジェクトのコンポーネントに差し替える
+					editIndex = Mathf.Clamp(editIndex, 0, componentList.Length - 1);
+					result = componentList[editIndex];
+				}
+
+				EditorGUI.indentLevel = indent;
+
+				GUI.enabled = guiEnabled;
+			}
+
 			if (result != property.objectReferenceValue)
 			{
 				property.objectReferenceValue = result;

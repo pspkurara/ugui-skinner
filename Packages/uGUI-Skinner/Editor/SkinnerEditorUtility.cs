@@ -6,6 +6,8 @@ using Object = UnityEngine.Object;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Linq;
+using UnityEngine.UI;
+using System.Reflection;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -14,6 +16,17 @@ namespace Pspkurara.UI.Skinner
 	{
 
 		#region TempField
+
+		/// <summary>
+		/// 複数アタッチ不可能なコンポーネント類
+		/// </summary>
+		private static readonly List<Type> specificSingleComponents = new List<Type>(new Type[]
+		{
+			typeof(Transform),
+			typeof(CanvasGroup),
+			typeof(CanvasRenderer),
+			typeof(Canvas),
+		});
 
 		public static readonly Dictionary<Type, ComponentInfos> componentInfos = new Dictionary<Type, ComponentInfos>();
 
@@ -28,11 +41,41 @@ namespace Pspkurara.UI.Skinner
 			if (!componentInfos.ContainsKey(type))
 			{
 				ComponentInfos cInfo = new ComponentInfos();
-				cInfo.isComponent = type.IsSubclassOf(typeof(Component));
-				if (cInfo.isComponent) { cInfo.allowMultiplyComponent = !System.Attribute.IsDefined(type, typeof(DisallowMultipleComponent), true); }
+				cInfo.isComponent = type == typeof(Component) || type.IsSubclassOf(typeof(Component));
+				if (cInfo.isComponent)
+				{
+					// 複数不可能なコンポーネントはあらかじめ指定されている
+					if (specificSingleComponents.Exists(t => { return t == type || type.IsSubclassOf(t); }))
+					{
+						cInfo.allowMultiplyComponent = false;
+					}
+					else
+					{
+						cInfo.allowMultiplyComponent = IsDefinedDisallowMultiplyComponent(type);
+					}
+				}
 				componentInfos.Add(type, cInfo);
 			}
 			return componentInfos[type];
+		}
+
+		/// <summary>
+		/// 指定したコンポーネントタイプが<see cref="DisallowMultipleComponent"/>属性を持つか取得する
+		/// </summary>
+		/// <param name="type">調べたいコンポーネントの型</param>
+		/// <returns>
+		/// 自身か何らかの親クラスに属性を持つ場合は真
+		/// </returns>
+		private static bool IsDefinedDisallowMultiplyComponent(Type type)
+		{
+			if (type == null) return false;
+
+			if (type.IsDefined(typeof(DisallowMultipleComponent)))
+			{
+				return true;
+			}
+
+			return IsDefinedDisallowMultiplyComponent(type.BaseType);
 		}
 
 		#endregion

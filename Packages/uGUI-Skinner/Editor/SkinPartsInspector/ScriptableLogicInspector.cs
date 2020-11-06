@@ -25,22 +25,18 @@ namespace Pspkurara.UI.Skinner
 
 		private sealed class UserLogicVariableRootData
 		{
-			public int objectReferenceArrayCount;
-			public int floatArrayCount;
-			public int vector4ArrayCount;
-			public int stringArrayCount;
+			public int ObjectReferenceArrayCount;
+			public int FloatArrayCount;
+			public int Vector4ArrayCount;
+			public int StringArrayCount;
 
 			public List<UserLogicVariableDisplayData> VariableDisplayDatas;
 		}
 
 		private static Dictionary<Type, UserLogicVariableRootData> m_CachedVariableDisplayDatas = new Dictionary<Type, UserLogicVariableRootData>();
 
-		private List<UserLogicVariableDisplayData> userLogicVariableDisplayDatas = new List<UserLogicVariableDisplayData>();
 		private UserLogic currentUserLogic;
-		private int objectReferenceArrayCount = 0;
-		private int floatArrayCount = 0;
-		private int vector4ArrayCount = 0;
-		private int stringArrayCount = 0;
+		private UserLogicVariableRootData current = null;
 		private SkinPartsPropertry validateProperty = new SkinPartsPropertry();
 
 		public void CleanupFields(EditorSkinPartsPropertry property)
@@ -51,18 +47,18 @@ namespace Pspkurara.UI.Skinner
 			bool isCorrect = CreateDisplayData(userLogic);
 			if (isCorrect)
 			{
-				SkinnerEditorUtility.StripArray<Object>(property.objectReferenceValues, objectReferenceArrayCount + ScriptableLogic.RequiredObjectLength);
+				SkinnerEditorUtility.StripArray<Object>(property.objectReferenceValues, current.ObjectReferenceArrayCount + ScriptableLogic.RequiredObjectLength);
 				int objectReferenceCount = 0;
-				for (int i = 0; i < userLogicVariableDisplayDatas.Count; i++)
+				for (int i = 0; i < current.VariableDisplayDatas.Count; i++)
 				{
-					var v = userLogicVariableDisplayDatas[i];
+					var v = current.VariableDisplayDatas[i];
 					if (!SkinnerSystemType.IsObjectReferenceValue(v.VariableData.FieldType)) continue;
 					SkinnerEditorUtility.CleanObject(property.objectReferenceValues, v.VariableData.FieldType, objectReferenceCount + ScriptableLogic.RequiredObjectLength);
 					objectReferenceCount++;
 				}
-				SkinnerEditorUtility.CleanArray(property.floatValues, floatArrayCount);
-				SkinnerEditorUtility.CleanArray(property.vector4Values, vector4ArrayCount);
-				SkinnerEditorUtility.CleanArray(property.stringValues, stringArrayCount);
+				SkinnerEditorUtility.CleanArray(property.floatValues, current.FloatArrayCount);
+				SkinnerEditorUtility.CleanArray(property.vector4Values, current.Vector4ArrayCount);
+				SkinnerEditorUtility.CleanArray(property.stringValues, current.StringArrayCount);
 			}
 			else
 			{
@@ -86,13 +82,13 @@ namespace Pspkurara.UI.Skinner
 			bool isCorrect = CreateDisplayData(userLogic);
 			if (isCorrect)
 			{
-				SkinnerEditorUtility.ResetArray(property.objectReferenceValues, objectReferenceArrayCount + ScriptableLogic.RequiredObjectLength, false);
-				SkinnerEditorUtility.ResetArray(property.floatValues, floatArrayCount);
-				SkinnerEditorUtility.ResetArray(property.vector4Values, vector4ArrayCount);
-				SkinnerEditorUtility.ResetArray(property.stringValues, stringArrayCount);
-				for (int i = 0; i < userLogicVariableDisplayDatas.Count; i++)
+				SkinnerEditorUtility.ResetArray(property.objectReferenceValues, current.ObjectReferenceArrayCount + ScriptableLogic.RequiredObjectLength, false);
+				SkinnerEditorUtility.ResetArray(property.floatValues, current.FloatArrayCount);
+				SkinnerEditorUtility.ResetArray(property.vector4Values, current.Vector4ArrayCount);
+				SkinnerEditorUtility.ResetArray(property.stringValues, current.StringArrayCount);
+				for (int i = 0; i < current.VariableDisplayDatas.Count; i++)
 				{
-					var v = userLogicVariableDisplayDatas[i];
+					var v = current.VariableDisplayDatas[i];
 					switch (v.PropertyType)
 					{
 						case SerializedPropertyType.ObjectReference:
@@ -200,22 +196,17 @@ namespace Pspkurara.UI.Skinner
 			var userLogicType = userLogic.GetType();
 			if (m_CachedVariableDisplayDatas.ContainsKey(userLogicType))
 			{
-				var data = m_CachedVariableDisplayDatas[userLogicType];
-				userLogicVariableDisplayDatas = data.VariableDisplayDatas;
-				objectReferenceArrayCount = data.objectReferenceArrayCount;
-				floatArrayCount = data.floatArrayCount;
-				vector4ArrayCount = data.vector4ArrayCount;
-				stringArrayCount = data.stringArrayCount;
+				current = m_CachedVariableDisplayDatas[userLogicType];
 				return true;
 			}
 
 			# endif
 
-			userLogicVariableDisplayDatas = new List<UserLogicVariableDisplayData>();
-			objectReferenceArrayCount = 0;
-			floatArrayCount = 0;
-			vector4ArrayCount = 0;
-			stringArrayCount = 0;
+			var userLogicVariableDisplayDatas = new List<UserLogicVariableDisplayData>();
+			var objectReferenceArrayCount = 0;
+			var floatArrayCount = 0;
+			var vector4ArrayCount = 0;
+			var stringArrayCount = 0;
 			foreach (var v in userLogic.variables)
 			{
 				bool isUnCorrect = false;
@@ -306,16 +297,18 @@ namespace Pspkurara.UI.Skinner
 				}
 			}
 
-			#if !SKIP_LOGIC_CACHE
-
-			m_CachedVariableDisplayDatas.Add(userLogicType, new UserLogicVariableRootData()
+			current = new UserLogicVariableRootData()
 			{
 				VariableDisplayDatas = userLogicVariableDisplayDatas,
-				objectReferenceArrayCount = objectReferenceArrayCount,
-				floatArrayCount = floatArrayCount,
-				vector4ArrayCount = vector4ArrayCount,
-				stringArrayCount = stringArrayCount,
-			});
+				ObjectReferenceArrayCount = objectReferenceArrayCount,
+				FloatArrayCount = floatArrayCount,
+				Vector4ArrayCount = vector4ArrayCount,
+				StringArrayCount = stringArrayCount,
+			};
+
+			#if !SKIP_LOGIC_CACHE
+
+			m_CachedVariableDisplayDatas.Add(userLogicType, current);
 
 			#endif
 

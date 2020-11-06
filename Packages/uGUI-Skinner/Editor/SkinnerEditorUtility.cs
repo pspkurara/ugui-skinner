@@ -6,7 +6,6 @@ using Object = UnityEngine.Object;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Linq;
-using UnityEngine.UI;
 using System.Reflection;
 
 namespace Pspkurara.UI.Skinner

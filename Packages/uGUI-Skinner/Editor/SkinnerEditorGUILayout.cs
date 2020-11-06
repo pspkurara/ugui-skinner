@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
 using Array = System.Array;
 
 namespace Pspkurara.UI.Skinner

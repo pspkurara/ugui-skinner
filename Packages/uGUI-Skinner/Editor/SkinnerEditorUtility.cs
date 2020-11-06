@@ -331,6 +331,7 @@ namespace Pspkurara.UI.Skinner
 
 		public static string GetEditorName(string name)
 		{
+			return name;
 			var m = Regex.Matches(name, "[\\x41-\\x5a]+[\\x61-\\x7a]*");
 			StringBuilder builder = new StringBuilder();
 			for (int i = 0; i < m.Count; i++)
@@ -347,9 +348,9 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="enumType">Enumの型</param>
 		/// <param name="displayOptions">表示名配列</param>
 		/// <param name="optionValues">値配列</param>
-		public static void GetPopupOptionsFromEnum(Type enumType, out GUIContent[] displayOptions, out int[] optionValues)
+		public static void GetPopupOptionsFromEnum(Type enumType, out string[] displayOptions, out int[] optionValues)
 		{
-			displayOptions = enumType.GetEnumNames().Select(n => new GUIContent(GetEditorName(n))).ToArray();
+			displayOptions = enumType.GetEnumNames();
 			optionValues = enumType.GetEnumValues().Cast<int>().ToArray();
 		}
 

@@ -177,7 +177,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="options">レイアウト設定</param>
 		public static void EnumPopup(GUIContent label, SerializedProperty property, System.Type enumType, params GUILayoutOption[] options)
 		{
-			GUIContent[] popupDisplayName;
+			string[] popupDisplayName;
 			int[] popupValue;
 			SkinnerEditorUtility.GetPopupOptionsFromEnum(enumType, out popupDisplayName, out popupValue);
 			IntPopup(label, property, popupDisplayName, popupValue, options);
@@ -189,14 +189,36 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="label">ラベル</param>
 		/// <param name="property">プロパティ</param>
 		/// <param name="options">レイアウト設定</param>
-		public static void IntPopup(GUIContent label, SerializedProperty property, GUIContent[] displayOptions, int[] optionValues, params GUILayoutOption[] options)
+		public static void IntPopup(GUIContent label, SerializedProperty property, string[] displayOptions, int[] optionValues, params GUILayoutOption[] options)
 		{
 			bool showMixedValue = EditorGUI.showMixedValue;
 			if (property.hasMultipleDifferentValues)
 			{
 				EditorGUI.showMixedValue = true;
 			}
-			var result = EditorGUILayout.IntPopup(label, property.floatValue.ToInt(), displayOptions, optionValues, options);
+			var result = EditorGUILayout.IntPopup(label.text, property.floatValue.ToInt(), displayOptions, optionValues, options);
+			if (!Mathf.Approximately(result, property.floatValue))
+			{
+				property.floatValue = result;
+			}
+			EditorGUI.showMixedValue = showMixedValue;
+		}
+
+		/// <summary>
+		/// <see cref="EditorGUILayout.MaskField"/>を表示
+		/// </summary>
+		/// <param name="label">ラベル</param>
+		/// <param name="property">プロパティ</param>
+		/// <param name="displayOptions">表示するテキスト類</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void MaskField(GUIContent label, SerializedProperty property, string[] displayOptions, params GUILayoutOption[] options)
+		{
+			bool showMixedValue = EditorGUI.showMixedValue;
+			if (property.hasMultipleDifferentValues)
+			{
+				EditorGUI.showMixedValue = true;
+			}
+			var result = EditorGUILayout.MaskField(label, property.floatValue.ToInt(), displayOptions, options);
 			if (!Mathf.Approximately(result, property.floatValue))
 			{
 				property.floatValue = result;

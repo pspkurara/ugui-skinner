@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using Type = System.Type;
+using Attribute = System.Attribute;
+using System.Linq;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -18,7 +20,9 @@ namespace Pspkurara.UI.Skinner
 			public SerializedPropertyType PropertyType;
 			public UserLogicVariable VariableData;
 			public int FieldIndex;
-			public GUIContent[] PopupDisplayName;
+			public string[] PopupDisplayName;
+			public List<Type> PropertyTypeDefinedAttributes;
+			public List<Attribute> PropertyTypeAttributes;
 			public int[] PopupValue;
 
 		}
@@ -124,7 +128,14 @@ namespace Pspkurara.UI.Skinner
 						case SerializedPropertyType.Enum:
 							{
 								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
-								SkinnerEditorGUILayout.IntPopup(v.DisplayName, element, v.PopupDisplayName, v.PopupValue);
+								if (v.PropertyTypeDefinedAttributes.Contains(typeof(System.FlagsAttribute)))
+								{
+									SkinnerEditorGUILayout.MaskField(v.DisplayName, element, v.PopupDisplayName);
+								}
+								else
+								{
+									SkinnerEditorGUILayout.IntPopup(v.DisplayName, element, v.PopupDisplayName, v.PopupValue);
+								}
 							}
 							break;
 						case SerializedPropertyType.Vector2:
@@ -293,6 +304,8 @@ namespace Pspkurara.UI.Skinner
 					var displayName = v.FieldDisplayName == null ? SkinnerEditorUtility.GetEditorName(v.FieldType.Name) : v.FieldDisplayName;
 					data.DisplayName = new GUIContent(displayName);
 					data.VariableData = v;
+					data.PropertyTypeAttributes = v.FieldType.GetCustomAttributesWithBaseType().ToList();
+					data.PropertyTypeDefinedAttributes = data.PropertyTypeAttributes.Select(a => a.GetType()).ToList();
 					userLogicVariableDisplayDatas.Add(data);
 				}
 			}

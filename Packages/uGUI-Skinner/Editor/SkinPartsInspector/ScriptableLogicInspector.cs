@@ -151,6 +151,12 @@ namespace Pspkurara.UI.Skinner
 								}
 							}
 							break;
+						case SerializedPropertyType.LayerMask:
+							{
+								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
+								SkinnerEditorGUILayout.LayerMaskField(v.DisplayName, element);
+							}
+							break;
 						case SerializedPropertyType.Enum:
 							{
 								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
@@ -180,6 +186,12 @@ namespace Pspkurara.UI.Skinner
 							{
 								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
 								SkinnerEditorGUILayout.Vector4Field(v.DisplayName, element);
+							}
+							break;
+						case SerializedPropertyType.Rect:
+							{
+								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
+								SkinnerEditorGUILayout.RectField(v.DisplayName, element);
 							}
 							break;
 						case SerializedPropertyType.Character:
@@ -296,6 +308,12 @@ namespace Pspkurara.UI.Skinner
 					data.FieldIndex = floatArrayCount;
 					floatArrayCount++;
 				}
+				else if (SkinnerSystemType.IsLayerMask(v.FieldType))
+				{
+					data.PropertyType = SerializedPropertyType.LayerMask;
+					data.FieldIndex = floatArrayCount;
+					floatArrayCount++;
+				}
 				else if (SkinnerSystemType.IsEnum(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Enum;
@@ -318,6 +336,12 @@ namespace Pspkurara.UI.Skinner
 				else if (SkinnerSystemType.IsVector4(v.FieldType))
 				{
 					data.PropertyType = SerializedPropertyType.Vector4;
+					data.FieldIndex = vector4ArrayCount;
+					vector4ArrayCount++;
+				}
+				else if (SkinnerSystemType.IsRect(v.FieldType))
+				{
+					data.PropertyType = SerializedPropertyType.Rect;
 					data.FieldIndex = vector4ArrayCount;
 					vector4ArrayCount++;
 				}

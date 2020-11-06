@@ -26,7 +26,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="type">型</param>
 		public static bool IsFloatValue(Type type)
 		{
-			return IsFloat(type) || IsInteger(type) || IsEnum(type) || IsBoolean(type);
+			return IsFloat(type) || IsInteger(type) || IsLayerMask(type) || IsEnum(type) || IsBoolean(type);
 		}
 
 		/// <summary>
@@ -35,7 +35,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="type">型</param>
 		public static bool IsVector4Value(Type type)
 		{
-			return IsVector2(type) || IsVector3(type) || IsVector4(type) || IsColor(type);
+			return IsVector2(type) || IsVector3(type) || IsVector4(type) || IsColor(type) || IsRect(type);
 		}
 
 		/// <summary>

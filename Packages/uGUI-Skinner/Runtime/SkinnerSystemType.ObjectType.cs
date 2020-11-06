@@ -31,6 +31,11 @@ namespace Pspkurara.UI.Skinner
 			return type == typeof(int);
 		}
 
+		public static bool IsLayerMask(Type type)
+		{
+			return type == typeof(LayerMask);
+		}
+
 		public static bool IsEnum(Type type)
 		{
 			return type.IsEnum;
@@ -63,6 +68,11 @@ namespace Pspkurara.UI.Skinner
 		public static bool IsVector4(Type type)
 		{
 			return type == typeof(Vector4);
+		}
+
+		public static bool IsRect(Type type)
+		{
+			return type == typeof(Rect);
 		}
 
 		#endregion

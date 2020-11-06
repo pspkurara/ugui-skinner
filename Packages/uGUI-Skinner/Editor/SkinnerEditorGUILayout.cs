@@ -234,6 +234,8 @@ namespace Pspkurara.UI.Skinner
 		/// </summary>
 		/// <param name="label">ラベル</param>
 		/// <param name="property">プロパティ</param>
+		/// <param name="displayOptions">表示するテキスト類</param>
+		/// <param name="optionValues">表示要素に対する値</param>
 		/// <param name="options">レイアウト設定</param>
 		public static void IntPopup(GUIContent label, SerializedProperty property, string[] displayOptions, int[] optionValues, params GUILayoutOption[] options)
 		{
@@ -251,6 +253,27 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
+		/// <see cref="EditorGUILayout.LayerField"/>を表示
+		/// </summary>
+		/// <param name="label">ラベル</param>
+		/// <param name="property">プロパティ</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void LayerField(GUIContent label, SerializedProperty property, params GUILayoutOption[] options)
+		{
+			bool showMixedValue = EditorGUI.showMixedValue;
+			if (property.hasMultipleDifferentValues)
+			{
+				EditorGUI.showMixedValue = true;
+			}
+			var result = EditorGUILayout.LayerField(label, property.floatValue.ToInt(), options);
+			if (!Mathf.Approximately(result, property.floatValue))
+			{
+				property.floatValue = result;
+			}
+			EditorGUI.showMixedValue = showMixedValue;
+		}
+
+		/// <summary>
 		/// <see cref="EditorGUILayout.MaskField"/>を表示
 		/// </summary>
 		/// <param name="label">ラベル</param>
@@ -259,17 +282,70 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="options">レイアウト設定</param>
 		public static void MaskField(GUIContent label, SerializedProperty property, string[] displayOptions, params GUILayoutOption[] options)
 		{
+			var optionValues = displayOptions.Select((_, index) => 1 << index).ToArray();
+			MaskField(label, property, displayOptions, optionValues, options);
+		}
+
+		/// <summary>
+		/// <see cref="EditorGUILayout.MaskField"/>を表示
+		/// </summary>
+		/// <param name="label">ラベル</param>
+		/// <param name="property">プロパティ</param>
+		/// <param name="displayOptions">表示するテキスト類</param>
+		/// <param name="optionValues">表示要素に対する値</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void MaskField(GUIContent label, SerializedProperty property, string[] displayOptions, int[] optionValues, params GUILayoutOption[] options)
+		{
 			bool showMixedValue = EditorGUI.showMixedValue;
 			if (property.hasMultipleDifferentValues)
 			{
 				EditorGUI.showMixedValue = true;
 			}
-			var result = EditorGUILayout.MaskField(label, property.floatValue.ToInt(), displayOptions, options);
+
+			int displayValue = -1;
+			var castedProperty = property.floatValue.ToInt();
+			if (castedProperty != -1)
+			{
+				displayValue = 0;
+				for (var i = 0; i < optionValues.Length; ++i)
+				{
+					if (0 < (castedProperty & (1 << optionValues[i])))
+						displayValue |= 1 << i;
+				}
+			}
+
+			var displayResult = EditorGUILayout.MaskField(label, displayValue, displayOptions, options);
+
+			int result = -1;
+			if (displayResult != -1)
+			{
+				result = 0;
+				for (var i = 0; i < optionValues.Length; ++i)
+				{
+					if (0 < (displayResult & (1 << i)))
+						result |= 1 << optionValues[i];
+				}
+			}
+
 			if (!Mathf.Approximately(result, property.floatValue))
 			{
 				property.floatValue = result;
 			}
 			EditorGUI.showMixedValue = showMixedValue;
+		}
+
+		/// <summary>
+		/// <see cref="EditorGUILayout.MaskField"/>の<see cref="LayerMask"/>対応バージョンを表示
+		/// </summary>
+		/// <param name="label">ラベル</param>
+		/// <param name="property">プロパティ</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void LayerMaskField(GUIContent label, SerializedProperty property, params GUILayoutOption[] options)
+		{
+			string[] displayOptions;
+			int[] optionValues;
+			SkinnerEditorUtility.GetMaskOptionsWithLayer(out displayOptions, out optionValues);
+			MaskField(label, property, displayOptions, optionValues, options);
 		}
 
 		#endregion
@@ -367,6 +443,27 @@ namespace Pspkurara.UI.Skinner
 				EditorGUI.showMixedValue = true;
 			}
 			Vector4 result = EditorGUILayout.Vector4Field(label, property.vector4Value, options);
+			if (result != property.vector4Value)
+			{
+				property.vector4Value = result;
+			}
+			EditorGUI.showMixedValue = showMixedValue;
+		}
+
+		/// <summary>
+		/// <see cref="EditorGUILayout.RectField"/>を表示
+		/// </summary>
+		/// <param name="label">ラベル</param>
+		/// <param name="property">プロパティ</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void RectField(GUIContent label, SerializedProperty property, params GUILayoutOption[] options)
+		{
+			bool showMixedValue = EditorGUI.showMixedValue;
+			if (property.hasMultipleDifferentValues)
+			{
+				EditorGUI.showMixedValue = true;
+			}
+			Vector4 result = EditorGUILayout.RectField(label, property.vector4Value.ToRect(), options).ToVector();
 			if (result != property.vector4Value)
 			{
 				property.vector4Value = result;

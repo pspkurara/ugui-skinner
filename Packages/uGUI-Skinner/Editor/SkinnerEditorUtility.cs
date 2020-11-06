@@ -97,6 +97,10 @@ namespace Pspkurara.UI.Skinner
 						{
 							convertedFloat = (int)defaultValue;
 						}
+						if (type == typeof(LayerMask))
+						{
+							convertedFloat = ((LayerMask)defaultValue);
+						}
 						if (type == typeof(bool))
 						{
 							convertedFloat = ((bool)defaultValue).ToFloat();
@@ -128,6 +132,10 @@ namespace Pspkurara.UI.Skinner
 						if (type == typeof(Vector4))
 						{
 							convertedVector4 = (Vector4)defaultValue;
+						}
+						if (type == typeof(Rect))
+						{
+							convertedVector4 = ((Rect)defaultValue).ToVector();
 						}
 					}
 					arrayObj.vector4Value = convertedVector4;
@@ -351,6 +359,29 @@ namespace Pspkurara.UI.Skinner
 		{
 			displayOptions = enumType.GetEnumNames().Select(name => GetEditorName(name)).ToArray();
 			optionValues = enumType.GetEnumValues().Cast<int>().ToArray();
+		}
+
+
+		/// <summary>
+		/// <see cref="EditorGUI.MaskField"/>等で使う表示名や値をLayerから取得する
+		/// </summary>
+		/// <param name="displayOptions">表示名配列</param>
+		/// <param name="optionValues">値配列</param>
+		public static void GetMaskOptionsWithLayer(out string[] displayOptions, out int[] optionValues)
+		{
+			var layerOptionValues = new List<int>();
+			var layerDisplayOptions = new List<string>();
+			for (int i = 0; i < 32; i++)
+			{
+				var layerName = LayerMask.LayerToName(i);
+				if (layerName.Length > 0)
+				{
+					layerDisplayOptions.Add(layerName);
+					layerOptionValues.Add(1 << i);
+				}
+			}
+			displayOptions = layerDisplayOptions.ToArray();
+			optionValues = layerOptionValues.ToArray();
 		}
 
 		/// <summary>

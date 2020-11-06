@@ -20,9 +20,19 @@ namespace Pspkurara.UI.Skinner
 			return color.ToVector();
 		}
 
+		public static Vector4 ToVector(this Rect rect)
+		{
+			return new Vector4(rect.x, rect.y, rect.width, rect.height);
+		}
+
 		public static float ToFloat(this bool self)
 		{
 			return self ? 1 : 0;
+		}
+
+		public static float ToFloat(this LayerMask self)
+		{
+			return self.value;
 		}
 
 		#endregion
@@ -34,6 +44,10 @@ namespace Pspkurara.UI.Skinner
 			return new Color(self.x, self.y, self.z, self.w);
 		}
 
+		public static Rect ToRect(this Vector4 self)
+		{
+			return new Rect(self.x, self.y, self.z, self.w);
+		}
 		public static int ToInt(this float self)
 		{
 			return Mathf.RoundToInt(self);
@@ -42,6 +56,11 @@ namespace Pspkurara.UI.Skinner
 		public static bool ToBool(this float self)
 		{
 			return self.ToInt() > 0;
+		}
+
+		public static LayerMask ToLayerMask(this float self)
+		{
+			return new LayerMask() { value = self.ToInt() };
 		}
 
 		#endregion

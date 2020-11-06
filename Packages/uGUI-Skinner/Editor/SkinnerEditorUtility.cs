@@ -105,6 +105,10 @@ namespace Pspkurara.UI.Skinner
 						{
 							convertedFloat = ((bool)defaultValue).ToFloat();
 						}
+						if (type.IsEnum)
+						{
+							convertedFloat = ((Enum)defaultValue).ToFloat();
+						}
 					}
 					arrayObj.floatValue = convertedFloat;
 					break;

@@ -310,7 +310,7 @@ namespace Pspkurara.UI
 			for (int skinStylesIndex = 0; skinStylesIndex < m_SkinStyles.arraySize; skinStylesIndex++)
 			{
 				SerializedProperty skinPartsProperty = m_SkinStyles.GetArrayElementAtIndex(skinStylesIndex).FindPropertyRelative(FieldName.Parts);
-				for (int skinPartsIndex = 0; skinPartsIndex < skinPartsProperty.arraySize; skinPartsIndex++)
+				for (int skinPartsIndex = skinPartsProperty.arraySize-1; skinPartsIndex >= 0; skinPartsIndex--)
 				{
 					SerializedProperty partsProp = skinPartsProperty.GetArrayElementAtIndex(skinPartsIndex);
 					SerializedProperty skinPartsTypeProperty = partsProp.FindPropertyRelative(FieldName.Type);
@@ -319,6 +319,8 @@ namespace Pspkurara.UI
 					// 該当IDが存在しない場合は何もしない
 					if (!SkinPartsAccess.IsCorrectSkinPartsId(skinPartsType))
 					{
+						// ID存在しないなら不正なデータなのでいらないと思う
+						skinPartsProperty.DeleteArrayElementAtIndex(skinPartsIndex);
 						continue;
 					}
 
@@ -327,6 +329,8 @@ namespace Pspkurara.UI
 					// 該当インスペクターが存在しない場合は何もしない
 					if (!SkinPartsInspectorAccess.IsRegistedInspector(rootType))
 					{
+						// インスペクター存在しないなら使えないデータなのでいらないと思う
+						skinPartsProperty.DeleteArrayElementAtIndex(skinPartsIndex);
 						continue;
 					}
 
@@ -335,6 +339,25 @@ namespace Pspkurara.UI
 					m_SkinPartsProperty.MapProperties(partsProp.FindPropertyRelative(FieldName.Property));
 
 					inspector.CleanupFields(m_SkinPartsProperty);
+
+					// オブジェクト参照の数を確認 (全てnullかどうか)
+					bool isExistObject = false;
+					for (int i = 0; i < m_SkinPartsProperty.objectReferenceValues.arraySize; i++)
+					{
+						var objectReferenceProperty = m_SkinPartsProperty.objectReferenceValues.GetArrayElementAtIndex(i);
+						if (objectReferenceProperty.objectReferenceValue != null)
+						{
+							isExistObject = true;
+							break;
+						}
+					}
+
+					// ひとつも参照が設定されていない
+					if (!isExistObject)
+					{
+						// オブジェクト参照がない場合何にも影響しないのでいらないと思う
+						skinPartsProperty.DeleteArrayElementAtIndex(skinPartsIndex);
+					}
 
 				}
 			}

@@ -50,7 +50,7 @@ namespace Pspkurara.UI.Skinner
 					}
 					else
 					{
-						cInfo.allowMultiplyComponent = IsDefinedDisallowMultiplyComponent(type);
+						cInfo.allowMultiplyComponent = !IsDefinedDisallowMultiplyComponent(type);
 					}
 				}
 				componentInfos.Add(type, cInfo);

@@ -20,6 +20,8 @@ namespace Pspkurara.UI.Skinner
 		private GUIContent m_AddFieldButtonTitle = new GUIContent();
 		private GUIContent m_FieldNumberTitle = new GUIContent();
 
+		protected virtual string displayObjectTypeName { get { return SkinnerEditorUtility.GetEditorName(typeof(T).Name); } }
+
 		public void CleanupFields(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.CleanObjectReferenceArrayWithFlexibleSize<T>(property.objectReferenceValues, DefaultArrayLength);
@@ -78,7 +80,7 @@ namespace Pspkurara.UI.Skinner
 			DrawOptionProperty(property);
 			EditorGUI.showMixedValue = showMixedValue;
 
-			m_AddFieldButtonTitle.text = string.Format(EditorConst.AddFieldButtonTitle, SkinnerEditorUtility.GetEditorName(typeof(T).Name));
+			m_AddFieldButtonTitle.text = string.Format(EditorConst.AddFieldButtonTitle, displayObjectTypeName);
 
 			bool isClicked = SkinnerEditorUtility.DrawAddButton(m_AddFieldButtonTitle, () => {
 				property.objectReferenceValues.InsertArrayElementAtIndex(property.objectReferenceValues.arraySize);

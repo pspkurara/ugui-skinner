@@ -8,6 +8,9 @@ namespace Pspkurara.UI.Skinner
 	internal sealed class BaseMeshEffectEnableInspector : SkinPartsOnArrayInspector<BaseMeshEffect>
 	{
 
+		// コンポーネント名が長すぎるので隠れないようにする
+		protected override string displayObjectTypeName { get { return "BM Effect"; } }
+
 		protected override void CleanupFieldsOtherThanObjectReference(EditorSkinPartsPropertryWithoutObjectReference property)
 		{
 			SkinnerEditorUtility.CleanArray(property.floatValues, BaseMeshEffectEnable.FloatLength, SkinDefaultValue.Boolean);

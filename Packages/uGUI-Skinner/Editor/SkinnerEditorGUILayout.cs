@@ -43,7 +43,7 @@ namespace Pspkurara.UI.Skinner
 			if (showComponentIndex)
 			{
 				objectFieldRect.width -= EditorConst.ComponentIndexFieldWidth + EditorGUIUtility.standardVerticalSpacing;
-			} 
+			}
 
 			var result = EditorGUI.ObjectField(objectFieldRect, label, property.objectReferenceValue, type, componentInfo.isComponent || isGameObject);
 
@@ -127,6 +127,29 @@ namespace Pspkurara.UI.Skinner
 		}
 
 		/// <summary>
+		/// <see cref="EditorGUILayout.Slider"/>を表示
+		/// </summary>
+		/// <param name="label">ラベル</param>
+		/// <param name="property">プロパティ</param>
+		/// <param name="leftValue">左の値</param>
+		/// <param name="rightValue">右の値</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void Slider(GUIContent label, SerializedProperty property, float leftValue, float rightValue, params GUILayoutOption[] options)
+		{
+			bool showMixedValue = EditorGUI.showMixedValue;
+			if (property.hasMultipleDifferentValues)
+			{
+				EditorGUI.showMixedValue = true;
+			}
+			var result = EditorGUILayout.Slider(label, property.floatValue, leftValue, rightValue, options);
+			if (!Mathf.Approximately(result, property.floatValue))
+			{
+				property.floatValue = result;
+			}
+			EditorGUI.showMixedValue = showMixedValue;
+		}
+
+		/// <summary>
 		/// <see cref="EditorGUILayout.IntField"/>を表示
 		/// </summary>
 		/// <param name="label">ラベル</param>
@@ -140,6 +163,29 @@ namespace Pspkurara.UI.Skinner
 				EditorGUI.showMixedValue = true;
 			}
 			var result = EditorGUILayout.IntField(label, property.floatValue.ToInt(), options);
+			if (!Mathf.Approximately(result, property.floatValue))
+			{
+				property.floatValue = result;
+			}
+			EditorGUI.showMixedValue = showMixedValue;
+		}
+
+		/// <summary>
+		/// <see cref="EditorGUILayout.IntSlider"/>を表示
+		/// </summary>
+		/// <param name="label">ラベル</param>
+		/// <param name="property">プロパティ</param>
+		/// <param name="leftValue">左の値</param>
+		/// <param name="rightValue">右の値</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void IntSlider(GUIContent label, SerializedProperty property, int leftValue, int rightValue, params GUILayoutOption[] options)
+		{
+			bool showMixedValue = EditorGUI.showMixedValue;
+			if (property.hasMultipleDifferentValues)
+			{
+				EditorGUI.showMixedValue = true;
+			}
+			var result = EditorGUILayout.IntSlider(label, property.floatValue.ToInt(), leftValue, rightValue, options);
 			if (!Mathf.Approximately(result, property.floatValue))
 			{
 				property.floatValue = result;
@@ -238,12 +284,26 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="options">レイアウト設定</param>
 		public static void ColorField(GUIContent label, SerializedProperty property, params GUILayoutOption[] options)
 		{
+			ColorField(label, property, false, true, false, options);
+		}
+
+		/// <summary>
+		/// <see cref="EditorGUILayout.ColorField"/>を表示
+		/// </summary>
+		/// <param name="label">ラベル</param>
+		/// <param name="property">プロパティ</param>
+		/// <param name="showEyedropper">Eyedropperの表示を有効</param>
+		/// <param name="showAlpha">アルファの表示を有効</param>
+		/// <param name="hdr">HDR表示を有効</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void ColorField(GUIContent label, SerializedProperty property, bool showEyedropper, bool showAlpha, bool hdr, params GUILayoutOption[] options)
+		{
 			bool showMixedValue = EditorGUI.showMixedValue;
 			if (property.hasMultipleDifferentValues)
 			{
 				EditorGUI.showMixedValue = true;
 			}
-			Vector4 result = EditorGUILayout.ColorField(label, property.vector4Value.ToColor(), options).ToVector();
+			Vector4 result = EditorGUILayout.ColorField(label, property.vector4Value.ToColor(), showEyedropper, showAlpha, hdr, options).ToVector();
 			if (result != property.vector4Value)
 			{
 				property.vector4Value = result;
@@ -332,6 +392,26 @@ namespace Pspkurara.UI.Skinner
 				EditorGUI.showMixedValue = true;
 			}
 			var result = EditorGUILayout.TextField(label, property.stringValue, options);
+			if (result != property.stringValue)
+			{
+				property.stringValue = result;
+			}
+			EditorGUI.showMixedValue = showMixedValue;
+		}
+
+		/// <summary>
+		/// <see cref="EditorGUILayout.TextArea"/>を表示
+		/// </summary>
+		/// <param name="property">プロパティ</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void TextArea(SerializedProperty property, params GUILayoutOption[] options)
+		{
+			bool showMixedValue = EditorGUI.showMixedValue;
+			if (property.hasMultipleDifferentValues)
+			{
+				EditorGUI.showMixedValue = true;
+			}
+			var result = EditorGUILayout.TextArea(property.stringValue, options);
 			if (result != property.stringValue)
 			{
 				property.stringValue = result;

@@ -21,6 +21,7 @@ namespace Pspkurara.UI.Skinner
 			public UserLogicVariable VariableData;
 			public int FieldIndex;
 			public string[] PopupDisplayName;
+			public Dictionary<Type, PropertyAttribute> FieldDefinedAttributes;
 			public List<Type> PropertyTypeDefinedAttributes;
 			public List<Attribute> PropertyTypeAttributes;
 			public int[] PopupValue;
@@ -111,18 +112,43 @@ namespace Pspkurara.UI.Skinner
 							{
 								var element = property.vector4Values.GetArrayElementAtIndex(v.FieldIndex);
 								SkinnerEditorGUILayout.ColorField(v.DisplayName, element);
+								if (v.FieldDefinedAttributes.ContainsKey(typeof(ColorUsageAttribute)))
+								{
+									var colorUsageData = v.FieldDefinedAttributes[typeof(ColorUsageAttribute)] as ColorUsageAttribute;
+									SkinnerEditorGUILayout.ColorField(v.DisplayName, element, false, colorUsageData.showAlpha, colorUsageData.hdr);
+								}
+								else
+								{
+									SkinnerEditorGUILayout.ColorField(v.DisplayName, element);
+								}
 							}
 							break;
 						case SerializedPropertyType.Float:
 							{
 								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
-								SkinnerEditorGUILayout.FloatField(v.DisplayName, element);
+								if (v.FieldDefinedAttributes.ContainsKey(typeof(RangeAttribute)))
+								{
+									var rangeData = v.FieldDefinedAttributes[typeof(RangeAttribute)] as RangeAttribute;
+									SkinnerEditorGUILayout.Slider(v.DisplayName, element, rangeData.min, rangeData.max);
+								}
+								else
+								{
+									SkinnerEditorGUILayout.FloatField(v.DisplayName, element);
+								}
 							}
 							break;
 						case SerializedPropertyType.Integer:
 							{
 								var element = property.floatValues.GetArrayElementAtIndex(v.FieldIndex);
-								SkinnerEditorGUILayout.IntField(v.DisplayName, element);
+								if (v.FieldDefinedAttributes.ContainsKey(typeof(RangeAttribute)))
+								{
+									var rangeData = v.FieldDefinedAttributes[typeof(RangeAttribute)] as RangeAttribute;
+									SkinnerEditorGUILayout.IntSlider(v.DisplayName, element, rangeData.min.ToInt(), rangeData.max.ToInt());
+								}
+								else
+								{
+									SkinnerEditorGUILayout.IntField(v.DisplayName, element);
+								}
 							}
 							break;
 						case SerializedPropertyType.Enum:
@@ -165,7 +191,19 @@ namespace Pspkurara.UI.Skinner
 						case SerializedPropertyType.String:
 							{
 								var element = property.stringValues.GetArrayElementAtIndex(v.FieldIndex);
-								SkinnerEditorGUILayout.TextField(v.DisplayName, element);
+								if (v.FieldDefinedAttributes.ContainsKey(typeof(TextAreaAttribute)))
+								{
+									var textAreaData = v.FieldDefinedAttributes[typeof(TextAreaAttribute)] as TextAreaAttribute;
+									EditorGUILayout.LabelField(v.DisplayName);
+									int lineCount = element.stringValue.Count(c => c == '\n');
+									lineCount = Mathf.Clamp(lineCount, textAreaData.minLines, textAreaData.maxLines);
+									SkinnerEditorGUILayout.TextArea(element,
+										GUILayout.Height(lineCount * EditorGUIUtility.singleLineHeight));
+								}
+								else
+								{
+									SkinnerEditorGUILayout.TextField(v.DisplayName, element);
+								}
 							}
 							break;
 					}
@@ -218,6 +256,7 @@ namespace Pspkurara.UI.Skinner
 			var floatArrayCount = 0;
 			var vector4ArrayCount = 0;
 			var stringArrayCount = 0;
+			var fieldAttributes = new List<Attribute>();
 			foreach (var v in userLogic.variables)
 			{
 				bool isUnCorrect = false;
@@ -304,6 +343,14 @@ namespace Pspkurara.UI.Skinner
 					var displayName = v.FieldDisplayName == null ? SkinnerEditorUtility.GetEditorName(v.FieldType.Name) : v.FieldDisplayName;
 					data.DisplayName = new GUIContent(displayName);
 					data.VariableData = v;
+					if (v.PropertyAttributes != null)
+					{
+						data.FieldDefinedAttributes = v.PropertyAttributes.ToDictionary(a => a.GetType(), a => a);
+					}
+					else
+					{
+						data.FieldDefinedAttributes = new Dictionary<Type, PropertyAttribute>();
+					}
 					data.PropertyTypeAttributes = v.FieldType.GetCustomAttributesWithBaseType().ToList();
 					data.PropertyTypeDefinedAttributes = data.PropertyTypeAttributes.Select(a => a.GetType()).ToList();
 					userLogicVariableDisplayDatas.Add(data);

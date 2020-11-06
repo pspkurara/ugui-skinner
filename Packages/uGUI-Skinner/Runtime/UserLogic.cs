@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Type = System.Type;
+using Attribute = System.Attribute;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -109,6 +110,11 @@ namespace Pspkurara.UI.Skinner
 		/// 表示名
 		/// </summary>
 		public string FieldDisplayName;
+
+		/// <summary>
+		/// カスタムプロパティ
+		/// </summary>
+		public PropertyAttribute[] PropertyAttributes;
 
 	}
 

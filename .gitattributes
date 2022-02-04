@@ -1,0 +1,141 @@
+# Macro for Unity YAML-based asset files.
+[attr]unityyaml -text merge=unityyamlmerge diff
+
+# Macro for Unity generic text files.
+[attr]unitytext text eol=crlf
+
+# Default to auto-normalized line endings.
+* text=auto eol=crlf
+
+# Code
+*.cs unitytext diff=csharp
+*.shader unitytext
+*.cginc unitytext
+
+# Text
+*.csv unitytext
+*.txt unitytext
+*.html unitytext
+*.htm unitytext
+*.xml unitytext
+*.json unitytext
+*.yaml unitytext
+
+# Unity Text Assets
+*.[mM][eE][tT][aA] unityyaml
+*.unity unityyaml
+*.asset text=auto
+*.prefab unityyaml
+*.mat unityyaml
+*.anim unityyaml
+*.controller unityyaml
+*.override[cC]ontroller unityyaml
+*.physicMaterial unityyaml
+*.physicsMaterial2D unityyaml
+*.playable unityyaml
+*.mask unityyaml
+*.brush unityyaml
+*.flare unityyaml
+*.fontsettings unityyaml
+*.guiskin unityyaml
+*.giparams unityyaml
+*.render[tT]exture unityyaml
+*.spriteatlas unityyaml
+*.terrainlayer unityyaml
+*.mixer unityyaml
+*.shadervariants unityyaml
+*.preset unityyaml
+*.asmdef -text diff
+
+# Unity Binary Assets
+*.cubemap binary
+*.unitypackage binary
+*.bytes binary
+
+# Image
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.apng binary
+*.atsc binary
+*.gif binary
+*.bmp binary
+*.exr binary
+*.tga binary
+*.tiff binary
+*.tif binary
+*.iff binary
+*.pict binary
+*.dds binary
+*.xcf binary
+*.leo binary
+*.kra binary
+*.kpp binary
+*.clip binary
+*.webm binary
+*.webp binary
+*.svg binary
+*.svgz binary
+*.psd binary
+*.afphoto binary
+*.afdesign binary
+
+# Audio
+*.mp3 binary
+*.ogg binary
+*.wav binary
+*.aiff binary
+*.aif binary
+*.mod binary
+*.it binary
+*.s3m binary
+*.xm binary
+
+# Video
+*.mov binary
+*.avi binary
+*.asf binary
+*.mpg binary
+*.mpeg binary
+*.mp4 binary
+*.flv binary
+*.ogv binary
+*.wmv binary
+
+# 3D
+*.[fF][bB][xX] binary
+*.[oO][bB][jJ] binary
+*.max binary
+*.blend binary
+*.blender binary
+*.dae binary
+*.mb binary
+*.ma -text
+*.3ds binary
+*.dfx binary
+*.c4d binary
+*.lwo binary
+*.lwo2 binary
+*.abc binary
+*.3dm binary
+*.bin binary
+*.glb binary
+
+# Font
+*.[tT][tT][fF] binary
+*.otf binary
+*.fnt -text
+
+# Executables
+*.exe binary
+*.dll binary
+*.so binary
+*.pdb binary
+*.mdb binary
+
+# Packaging
+*.zip binary
+*.7z binary
+*.gz binary
+*.rar binary
+*.tar binary

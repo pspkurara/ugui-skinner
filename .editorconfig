@@ -1,0 +1,18 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+end_of_line = crlf
+trim_trailing_whitespace = true
+
+[*.{cs,shader,cginc}]
+charset = utf-8
+indent_style = tab
+indent_size = 4
+
+[*.{meta,asset,prefab,mat,anim,controller,overrideController,physicMaterial,physicsMaterial2D,playable,mask,brush,flare,fontsettings,guiskin,giparams,renderTexture,spriteatlas,terrainlayer,mixer,shadervariants,preset,asmdef}]
+charset = utf-8
+indent_style = space
+indent_size = 2

@@ -1,0 +1,72 @@
+name: CI
+on:
+  push:
+    branches:
+    - master
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Semantic release
+      id: semantic
+      uses: cycjimmy/semantic-release-action@v2
+      with:
+        extra_plugins: |
+          @semantic-release/changelog
+          @semantic-release/git
+        branch: master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create upm branch
+      run: |
+        git branch -d upm &> /dev/null || echo upm branch not found
+        
+        cp "$CHANGELOG" "$CHANGELOG_COPY"
+        cp "$CHANGELOG_META" "$CHANGELOG_META_COPY"
+        cp "$README" "$README_COPY"
+        cp "$README_META" "$README_META_COPY"
+        
+        git subtree split -P "$PKG_ROOT" -b upm
+        git checkout upm
+        
+        mv "$CHANGELOG_COPY" "$CHANGELOG"
+        mv "$CHANGELOG_META_COPY" "$CHANGELOG_META"
+        mv "$README_COPY" "$README"
+        mv "$README_META_COPY" "$README_META"
+        git add "$CHANGELOG"
+        git add "$CHANGELOG_META"
+        git add "$README"
+        git add "$README_META"
+        git config --global user.name 'github-bot'
+        git config --global user.email 'github-bot@users.noreply.github.com'
+        git commit -am "fix: Copy changelog and readme"
+        
+        if [[ -d "Samples" ]]; then
+          git mv Samples Samples~
+          rm -f Samples.meta
+          git config --global user.name 'github-bot'
+          git config --global user.email 'github-bot@users.noreply.github.com'
+          git commit -am "fix: Samples => Samples~"
+        fi
+        git push -f -u origin upm
+      env:
+        PKG_ROOT: Packages/uGUI-Skinner
+        CHANGELOG: CHANGELOG.md 
+        CHANGELOG_META: CHANGELOG.md.meta 
+        CHANGELOG_COPY: cnglg.copy 
+        CHANGELOG_META_COPY: cnglgm.copy 
+        README: README.md 
+        README_META: README.md.meta 
+        README_COPY: rdm.copy 
+        README_META_COPY: rdmmt.copy 
+    - name: Create upm git tag
+      if: steps.semantic.outputs.new_release_published == 'true'
+      run: |
+        git tag $TAG upm
+        git push origin --tags
+      env:
+        TAG: upm/v${{ steps.semantic.outputs.new_release_version }}

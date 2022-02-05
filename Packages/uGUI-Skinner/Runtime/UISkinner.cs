@@ -14,7 +14,7 @@ namespace Pspkurara.UI
 
 		[SerializeField] private int m_StyleIndex = 0;
 		[SerializeField] private List<SkinStyle> m_Styles = null;
-		private Lazy<Stack<UISkinner>> m_ApplyTrace = new Lazy<Stack<UISkinner>>();
+		private Lazy<Stack<ISkinStyleParent>> m_ApplyTrace = new Lazy<Stack<ISkinStyleParent>>();
 
 		/// <summary>
 		/// 全てのスキン
@@ -49,7 +49,7 @@ namespace Pspkurara.UI
 		/// </summary>
 		/// <param name="styleIndex">スキンのスタイル番号</param>
 		/// <param name="applyTrace">呼び出し元のスキナー</param>
-		internal void SetSkin(int styleIndex, Stack<UISkinner> applyTrace)
+		internal void SetSkin(int styleIndex, Stack<ISkinStyleParent> applyTrace)
 		{
 			if (applyTrace.Contains(this)) return;
 			m_StyleIndex = Mathf.Clamp(styleIndex, 0, Length);
@@ -64,7 +64,7 @@ namespace Pspkurara.UI
 		/// </summary>
 		/// <param name="styleKey">スキンのスタイルキー</param>
 		/// <param name="applyTrace">呼び出し元のスキナー</param>
-		internal void SetSkin(string styleKey, Stack<UISkinner> applyTrace)
+		internal void SetSkin(string styleKey, Stack<ISkinStyleParent> applyTrace)
 		{
 			int index = m_Styles.FindIndex(s => s.styleKey == styleKey);
 			if (index != -1)

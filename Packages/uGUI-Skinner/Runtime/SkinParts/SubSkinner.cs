@@ -33,7 +33,7 @@ namespace Pspkurara.UI.Skinner
 			/// <summary>
 			/// 呼び出し元スキナー
 			/// </summary>
-			private Stack<UISkinner> applyTrace = null;
+			private Stack<ISkinStyleParent> applyTrace = null;
 
 			public override void SetValues(SkinLogicProperty property)
 			{

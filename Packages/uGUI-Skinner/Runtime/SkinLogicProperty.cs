@@ -28,7 +28,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="skinPartsProperty">スキンパーツのプロパティ</param>
 		/// <param name="parentSkinStyle">スキンパーツの親</param>
 		/// <param name="applyTrace">呼び出してきたスキナー</param>
-		private SkinLogicProperty(SkinPartsPropertry skinPartsProperty, SkinStyle parentSkinStyle, Stack<UISkinner> applyTrace)
+		private SkinLogicProperty(SkinPartsPropertry skinPartsProperty, SkinStyle parentSkinStyle, Stack<ISkinStyleParent> applyTrace)
 		{
 			m_SkinPartsProperty = skinPartsProperty;
 			this.parentSkinStyle = parentSkinStyle;
@@ -41,7 +41,7 @@ namespace Pspkurara.UI.Skinner
 		/// <param name="skinParts">自身</param>
 		/// <param name="parentSkinStyle">スキンパーツの親</param>
 		/// <param name="applyTrace">呼び出してきたスキナー</param>
-		internal SkinLogicProperty(SkinParts skinParts, SkinStyle parentSkinStyle, Stack<UISkinner> applyTrace) : this(skinParts.property, parentSkinStyle, applyTrace) { }
+		internal SkinLogicProperty(SkinParts skinParts, SkinStyle parentSkinStyle, Stack<ISkinStyleParent> applyTrace) : this(skinParts.property, parentSkinStyle, applyTrace) { }
 
 		/// <summary>
 		/// ロジック用のプロパティ群生成
@@ -106,7 +106,7 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// 呼び出してきたスキナー
 		/// </summary>
-		internal Stack<UISkinner> applyTrace { get; }
+		internal Stack<ISkinStyleParent> applyTrace { get; }
 
 		#endregion
 

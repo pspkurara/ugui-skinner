@@ -93,7 +93,7 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// 見た目を反映する
 		/// </summary>
-		internal void Apply(SkinStyle parentStyle, Stack<UISkinner> applyTrace)
+		internal void Apply(SkinStyle parentStyle, Stack<ISkinStyleParent> applyTrace)
 		{
 			//初回はタイプによって状態を変える
 			if (applySkinFunction == null)

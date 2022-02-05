@@ -96,7 +96,7 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// 見た目を反映
 		/// </summary>
-		internal void Apply(Stack<UISkinner> applyTrace)
+		internal void Apply(Stack<ISkinStyleParent> applyTrace)
 		{
 			foreach (SkinParts cParts in m_Parts)
 			{

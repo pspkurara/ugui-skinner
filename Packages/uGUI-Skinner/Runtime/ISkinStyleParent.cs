@@ -8,7 +8,7 @@ namespace Pspkurara.UI.Skinner
 	/// <summary>
 	/// <see cref="SkinStyle"/>の親として参照される
 	/// </summary>
-	public interface ISkinStyleParent
+	internal interface ISkinStyleParent
 	{
 
 		/// <summary>

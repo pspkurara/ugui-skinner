@@ -1,0 +1,56 @@
+name: Manually triggered workflow
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Documentation Branch'
+        required: true
+        default: 'master'
+      doxyfile:
+        description: 'Doxyfile path'
+        required: true
+        default: '/Doxyfile'
+      working-dir:
+        description: 'Working Directory'
+        required: true
+        default: '.'
+
+jobs:
+  create_document:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: gh-paged ls
+      run: |
+        ls
+    - uses: mattnotmitt/doxygen-action@v1
+      with:
+        working-directory: '${{ github.event.inputs.working-dir }}'
+        doxyfile-path: '.${{ github.event.inputs.doxyfile }}'
+    - name: gh-paged ls 2
+      run: |
+        ls
+    - name: gh-paged commit
+      run: |
+        git branch -d gh-pages &> /dev/null || echo gh-pages branch not found
+        
+        git checkout --orphan gh-pages
+        
+        # docs/と.git等以外を全て削除
+        ls | grep -v -E 'Doxyfile|html' | xargs rm -rf
+        rm -rf .gitignore
+        rm -rf .gitattributes
+        rm -rf .editorconfig
+        
+        git config --global user.name 'github-bot'
+        git config --global user.email 'github-bot@users.noreply.github.com'
+        git commit -am "docs: remove all"
+        cp -rf html docs
+        git add docs/*
+        git commit -m "docs: generate doxygen"
+        
+        git push -f -u origin gh-pages
+      env:
+        PKG_ROOT: Packages/uGUI-Skinner

@@ -1,0 +1,15 @@
+{
+    "name": "Pspkurara.UI.Skinner.Sample",
+    "references": [
+        "GUID:9620c83494056b44ebae43374bb19b7e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

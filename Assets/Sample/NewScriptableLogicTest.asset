@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbca6073822d30444adda599016a4267, type: 3}
   m_Name: NewScriptableLogicTest
   m_EditorClassIdentifier: 
-  m_TestChar: 101
+  m_TestCharLimit: 780079007a00
+  m_TestIntMax: 100
+  m_TestFloatMax: 5

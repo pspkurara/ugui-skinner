@@ -66,6 +66,20 @@ namespace Pspkurara.UI.Skinner
 			}
 		}
 
+		/// <summary>
+		/// パターンに沿った処理を行い結果を反映させる
+		/// </summary>
+		/// <param name="array">配列</param>
+		/// <param name="elementAction">呼び出して結果を返すメソッド</param>
+		public static void ToPatternArray<T>(IList<T> array, System.Func<T, int, T> elementAction)
+		{
+			if (array == null) return;
+			for (int i = 0; i < array.Count; i++)
+			{
+				array[i] = elementAction.Invoke(array[i], i);
+			}
+		}
+
 	}
 
 }

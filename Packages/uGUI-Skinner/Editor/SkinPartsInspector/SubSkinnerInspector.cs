@@ -29,7 +29,26 @@ namespace Pspkurara.UI.Skinner
 
 			var styleIndex = property.floatValues.GetArrayElementAtIndex(SubSkinner.StyleIndex);
 			var styleKey = property.stringValues.GetArrayElementAtIndex(SubSkinner.StyleKeyIndex);
-			SkinnerEditorGUILayout.TextField(SkinContent.StyleKey, styleKey);
+
+			var skinners = property.objectReferenceValues.ArrayToEnumerable()
+				.Select(p => p.objectReferenceValue as UISkinner)
+				.Where(po => po != null);
+
+			var allStyleKeys = skinners
+				.SelectMany(s => s.GetHasStyleKeyStyles())
+				.Select(s => s.Value.styleKey)
+				.Distinct()
+				.ToList();
+
+			var displayOptions = allStyleKeys
+				.InsertThen(0, "* Use Style Index *")
+				.ToArray();
+
+			var optionValues = allStyleKeys
+				.ReplaceThen(0, string.Empty)
+				.ToArray();
+
+			SkinnerEditorGUILayout.StringPopup(SkinContent.StyleKey, styleKey, displayOptions, optionValues);
 
 			bool guiEnabled = GUI.enabled;
 			if (!string.IsNullOrEmpty(styleKey.stringValue))
@@ -38,14 +57,10 @@ namespace Pspkurara.UI.Skinner
 				GUI.enabled = false;
 			}
 
-			var skinners = property.objectReferenceValues.ArrayToEnumerable()
-				.Select(p => p.objectReferenceValue as UISkinner)
-				.Where(po => po != null);
-
 			if (skinners.Count() > 0)
 			{
-				int mostMinStyleCount = skinners.Min(po => po.Length) - 1;
-				SkinnerEditorGUILayout.IntSlider(SkinContent.StyleIndex, styleIndex, 0, mostMinStyleCount);
+				int mostMaxStyleCount = skinners.Max(po => po.Length) - 1;
+				SkinnerEditorGUILayout.IntSlider(SkinContent.StyleIndex, styleIndex, 0, mostMaxStyleCount);
 			}
 			else
 			{

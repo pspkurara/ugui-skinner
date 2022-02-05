@@ -81,6 +81,21 @@ namespace Pspkurara.UI
 		}
 
 		/// <summary>
+		/// スタイルキーを持つスキンスタイルのみを取得する
+		/// </summary>
+		/// <returns>スタイルキー持ちスキンスタイル (Key: <see cref="styles"/>におけるインデックス)</returns>
+		public List<KeyValuePair<int, SkinStyle>> GetHasStyleKeyStyles()
+		{
+			var list = new List<KeyValuePair<int, SkinStyle>>();
+			for (int i = 0; i < m_Styles.Count; i++)
+			{
+				if (string.IsNullOrEmpty(m_Styles[i].styleKey)) continue;
+				list.Add(new KeyValuePair<int, SkinStyle>(i, m_Styles[i]));
+			}
+			return list;
+		}
+
+		/// <summary>
 		/// 自身の全てのスキンスタイルの「親」を更新
 		/// </summary>
 		internal void SyncStyleParentWithLinkedSkinStyles()

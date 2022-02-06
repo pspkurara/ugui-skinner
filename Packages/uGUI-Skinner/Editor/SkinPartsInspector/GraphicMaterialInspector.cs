@@ -6,9 +6,9 @@ namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(GraphicMaterial))]
-	internal sealed class GraphicMaterialInspector : ISkinPartsInspector
+	internal sealed class GraphicMaterialInspector : SkinPartsInspectorBase
 	{
-		public void CleanupFields(EditorSkinPartsPropertry property)
+		public override void CleanupFields(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.CleanArray(property.objectReferenceValues, GraphicMaterial.ObjectLength);
 			SkinnerEditorUtility.CleanObject<Graphic>(property.objectReferenceValues, GraphicMaterial.GraphicIndex);
@@ -18,7 +18,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}
 
-		public void DrawInspector(EditorSkinPartsPropertry property)
+		public override void DrawInspector(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, GraphicMaterial.ObjectLength);
 			var graphicProperty = property.objectReferenceValues.GetArrayElementAtIndex(GraphicMaterial.GraphicIndex);

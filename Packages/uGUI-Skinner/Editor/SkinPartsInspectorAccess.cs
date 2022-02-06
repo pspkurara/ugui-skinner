@@ -19,7 +19,7 @@ namespace Pspkurara.UI.Skinner
 		/// スキンパーツの型とインスペクターを紐付ける一覧
 		/// スキンパーツが増えたら随時追加すること
 		/// </summary>
-		private static readonly Dictionary<Type, ISkinPartsInspector> m_SkinPartsInspectors = CreateSkinPartsInspectorList();
+		private static readonly Dictionary<Type, SkinPartsInspectorBase> m_SkinPartsInspectors = CreateSkinPartsInspectorList();
 
 		#endregion
 
@@ -28,11 +28,11 @@ namespace Pspkurara.UI.Skinner
 		/// <summary>
 		/// 該当属性を持つスキンパーツインスペクタークラスを全取得してリストアップ
 		/// </summary>
-		private static Dictionary<Type, ISkinPartsInspector> CreateSkinPartsInspectorList()
+		private static Dictionary<Type, SkinPartsInspectorBase> CreateSkinPartsInspectorList()
 		{
 			return typeof(SkinPartsInspectorAccess).Assembly.GetTypes()
 				.Where(t => t.GetCustomAttribute<SkinPartsInspectorAttribute>() != null)
-				.ToDictionary(t => t.GetCustomAttribute<SkinPartsInspectorAttribute>().RootType, t => (ISkinPartsInspector)Activator.CreateInstance(t));
+				.ToDictionary(t => t.GetCustomAttribute<SkinPartsInspectorAttribute>().RootType, t => (SkinPartsInspectorBase)Activator.CreateInstance(t));
 		}
 
 		/// <summary>
@@ -40,7 +40,7 @@ namespace Pspkurara.UI.Skinner
 		/// </summary>
 		/// <param name="rootType">スキンパーツクラスの型</param>
 		/// <returns>スキンパーツインスペクター</returns>
-		public static ISkinPartsInspector GetSkinInspector(Type rootType)
+		public static SkinPartsInspectorBase GetSkinInspector(Type rootType)
 		{
 			return m_SkinPartsInspectors[rootType];
 		}

@@ -6,10 +6,10 @@ namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(RawImageTexture))]
-	internal sealed class RawImageTextureInspector : ISkinPartsInspector
+	internal sealed class RawImageTextureInspector : SkinPartsInspectorBase
 	{
 
-		public void CleanupFields(EditorSkinPartsPropertry property)
+		public override void CleanupFields(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.CleanArray(property.objectReferenceValues, RawImageTexture.ObjectLength);
 			SkinnerEditorUtility.CleanObject<RawImage>(property.objectReferenceValues, RawImageTexture.RawImageIndex);
@@ -19,7 +19,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}
 
-		public void DrawInspector(EditorSkinPartsPropertry property)
+		public override void DrawInspector(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, RawImageTexture.ObjectLength);
 			var rawImageProperty = property.objectReferenceValues.GetArrayElementAtIndex(RawImageTexture.RawImageIndex);

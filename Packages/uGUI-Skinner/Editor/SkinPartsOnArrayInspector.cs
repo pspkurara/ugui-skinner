@@ -12,7 +12,7 @@ namespace Pspkurara.UI.Skinner
 	/// </summary>
 	/// <typeparam name="T">配列で表示されるオブジェクトの型</typeparam>
 	/// <seealso cref="SkinLogicOnArray{T}"/>
-	public abstract class SkinPartsOnArrayInspector<T> : ISkinPartsInspector where T : Object
+	public abstract class SkinPartsOnArrayInspector<T> : SkinPartsInspector where T : Object
 	{
 
 		private const int DefaultArrayLength = 1;
@@ -22,13 +22,13 @@ namespace Pspkurara.UI.Skinner
 
 		protected virtual string displayObjectTypeName { get { return SkinnerEditorUtility.GetEditorName(typeof(T).Name); } }
 
-		public void CleanupFields(EditorSkinPartsPropertry property)
+		public override void CleanupFields(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.CleanObjectReferenceArrayWithFlexibleSize<T>(property.objectReferenceValues, DefaultArrayLength);
 			CleanupFieldsOtherThanObjectReference(property);
 		}
 
-		public void DrawInspector(EditorSkinPartsPropertry property)
+		public override void DrawInspector(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, DefaultArrayLength, false);
 			ResetArrayOtherThanObjectReference(property);

@@ -6,7 +6,7 @@ namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(ImageSprite))]
-	internal sealed class ImageSpriteInspector : SkinPartsInspectorBase
+	internal sealed class ImageSpriteInspector : SkinPartsInspector
 	{
 		public override void CleanupFields(EditorSkinPartsPropertry property)
 		{

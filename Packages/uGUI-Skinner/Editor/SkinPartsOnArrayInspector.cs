@@ -12,7 +12,7 @@ namespace Pspkurara.UI.Skinner
 	/// </summary>
 	/// <typeparam name="T">配列で表示されるオブジェクトの型</typeparam>
 	/// <seealso cref="SkinLogicOnArray{T}"/>
-	public abstract class SkinPartsOnArrayInspector<T> : SkinPartsInspectorBase where T : Object
+	public abstract class SkinPartsOnArrayInspector<T> : SkinPartsInspector where T : Object
 	{
 
 		private const int DefaultArrayLength = 1;

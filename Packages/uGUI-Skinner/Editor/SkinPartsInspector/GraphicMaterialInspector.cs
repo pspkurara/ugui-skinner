@@ -6,7 +6,7 @@ namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(GraphicMaterial))]
-	internal sealed class GraphicMaterialInspector : SkinPartsInspectorBase
+	internal sealed class GraphicMaterialInspector : SkinPartsInspector
 	{
 		public override void CleanupFields(EditorSkinPartsPropertry property)
 		{

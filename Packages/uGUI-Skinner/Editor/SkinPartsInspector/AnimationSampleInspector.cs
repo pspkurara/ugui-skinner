@@ -5,7 +5,7 @@ namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(AnimationSample))]
-	internal sealed class AnimationSampleInspector : SkinPartsInspectorBase
+	internal sealed class AnimationSampleInspector : SkinPartsInspector
 	{
 		public override void CleanupFields(EditorSkinPartsPropertry property)
 		{

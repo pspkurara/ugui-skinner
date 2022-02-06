@@ -2,9 +2,9 @@ namespace Pspkurara.UI.Skinner
 {
 
 	/// <summary>
-	/// スキンパーツのインスペクターを描画する大本
+	/// スキンパーツのインスペクターを描画する大元
 	/// </summary>
-	public abstract class SkinPartsInspectorBase
+	public abstract class SkinPartsInspector
 	{
 
 		/// <summary>

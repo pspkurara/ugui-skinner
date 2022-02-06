@@ -10,7 +10,7 @@ namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(ScriptableLogic))]
-	internal sealed class ScriptableLogicInspector : SkinPartsInspectorBase
+	internal sealed class ScriptableLogicInspector : SkinPartsInspector
 	{
 
 		internal sealed class UserLogicVariableDisplayData

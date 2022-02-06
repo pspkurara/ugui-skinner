@@ -10,7 +10,7 @@ namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(ScriptableLogic))]
-	internal sealed class ScriptableLogicInspector : ISkinPartsInspector
+	internal sealed class ScriptableLogicInspector : SkinPartsInspector
 	{
 
 		internal sealed class UserLogicVariableDisplayData
@@ -44,7 +44,7 @@ namespace Pspkurara.UI.Skinner
 		private UserLogicVariableRootData current = null;
 		private SkinPartsPropertry validateProperty = new SkinPartsPropertry();
 
-		public void CleanupFields(EditorSkinPartsPropertry property)
+		public override void CleanupFields(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.CleanObjectReferenceArrayWithFlexibleSize<Object>(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength);
 
@@ -74,7 +74,7 @@ namespace Pspkurara.UI.Skinner
 			}
 		}
 
-		public void DrawInspector(EditorSkinPartsPropertry property)
+		public override void DrawInspector(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength, false);
 

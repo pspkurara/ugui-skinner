@@ -17,7 +17,7 @@ namespace Pspkurara.UI.Skinner
 
 		public static Vector4 ToVector(this Color32 color)
 		{
-			return color.ToVector();
+			return ((Color)color).ToVector();
 		}
 
 		public static Vector4 ToVector(this Rect rect)

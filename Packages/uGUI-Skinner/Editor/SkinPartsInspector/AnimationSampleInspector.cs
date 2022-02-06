@@ -5,9 +5,9 @@ namespace Pspkurara.UI.Skinner
 {
 
 	[SkinPartsInspector(typeof(AnimationSample))]
-	internal sealed class AnimationSampleInspector : ISkinPartsInspector
+	internal sealed class AnimationSampleInspector : SkinPartsInspector
 	{
-		public void CleanupFields(EditorSkinPartsPropertry property)
+		public override void CleanupFields(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.CleanArray(property.objectReferenceValues, AnimationSample.ObjectLength);
 			SkinnerEditorUtility.CleanObject<GameObject>(property.objectReferenceValues, AnimationSample.GameObjectIndex);
@@ -17,7 +17,7 @@ namespace Pspkurara.UI.Skinner
 			SkinnerEditorUtility.CleanArray(property.stringValues);
 		}
 
-		public void DrawInspector(EditorSkinPartsPropertry property)
+		public override void DrawInspector(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.ResetArray(property.objectReferenceValues, AnimationSample.ObjectLength);
 			SkinnerEditorUtility.ResetArray(property.floatValues, AnimationSample.FloatLength);

@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using Array = System.Array;
 
 namespace Pspkurara.UI.Skinner
 {
@@ -551,6 +552,32 @@ namespace Pspkurara.UI.Skinner
 			if (resultStr != property.stringValue)
 			{
 				property.stringValue = resultStr;
+			}
+			EditorGUI.showMixedValue = showMixedValue;
+		}
+
+		/// <summary>
+		/// <see cref="EditorGUILayout.IntPopup"/>を表示
+		/// </summary>
+		/// <param name="label">ラベル</param>
+		/// <param name="property">プロパティ</param>
+		/// <param name="displayOptions">表示するテキスト類</param>
+		/// <param name="optionValues">表示要素に対する値</param>
+		/// <param name="options">レイアウト設定</param>
+		public static void StringPopup(GUIContent label, SerializedProperty property, string[] displayOptions, string[] optionValues, params GUILayoutOption[] options)
+		{
+			bool showMixedValue = EditorGUI.showMixedValue;
+			if (property.hasMultipleDifferentValues)
+			{
+				EditorGUI.showMixedValue = true;
+			}
+			int selectedIndex = Array.IndexOf(optionValues, property.stringValue);
+			var optionValuesInt = new int[optionValues.Length];
+			ArrayHelper.ToPatternArray(optionValuesInt, (before, index) => { return index; });
+			var result = EditorGUILayout.IntPopup(label.text, selectedIndex, displayOptions, optionValuesInt, options);
+			if (selectedIndex != result)
+			{
+				property.stringValue = optionValues[result];
 			}
 			EditorGUI.showMixedValue = showMixedValue;
 		}

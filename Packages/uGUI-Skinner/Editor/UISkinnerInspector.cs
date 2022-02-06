@@ -232,7 +232,7 @@ namespace Pspkurara.UI
 											if (skinStylesIndex == m_StyleIndex.intValue)
 											{
 												ApplySkin();
-												if (skinPartsType == 100) inspector.DrawInspector(m_SkinPartsProperty);
+												if (inspector.allowCallDrawInspectorAfterApplySkin) inspector.DrawInspector(m_SkinPartsProperty);
 											}
 											m_GuiUniqueIdCounter.RecordLastGuiId();
 										}

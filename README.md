@@ -78,6 +78,9 @@ public class SampleScript : MonoBehaviour
 }
 ```
 
+### Full API references
+* https://pspkurara.github.io/ugui-skinner/
+
 ## Installation
 
 ### Using OpenUPM

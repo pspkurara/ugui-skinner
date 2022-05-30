@@ -44,6 +44,8 @@ namespace Pspkurara.UI.Skinner
 		private UserLogicVariableRootData current = null;
 		private SkinPartsPropertry validateProperty = new SkinPartsPropertry();
 
+		public override bool allowCallDrawInspectorAfterApplySkin { get { return true; } }
+
 		public override void CleanupFields(EditorSkinPartsPropertry property)
 		{
 			SkinnerEditorUtility.CleanObjectReferenceArrayWithFlexibleSize<Object>(property.objectReferenceValues, ScriptableLogic.RequiredObjectLength);
